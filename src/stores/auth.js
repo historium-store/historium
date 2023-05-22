@@ -16,17 +16,9 @@ export const useAuthStore = defineStore('auth', {
     async signup(payload) {
       console.log('>>> signup')
 
-      const response = await axios.post('api/signup', { ...payload })
-      const responseData = await response.json()
-
-      if (!response.ok) {
-        const error = new Error(
-          responseData.message || 'Failed to authenticate. Check your login data.'
-        )
-        throw error
-      }
-
-      return true
+      const response = (await axios.post('api/signup', { ...payload })).data
+      console.log(response)
+      return response.status == 'OK'
     },
     async login(payload) {
       console.log('>>> login')
@@ -57,6 +49,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('user', JSON.stringify(this.user))
     },
     logout() {
+      console.log('>>> logout')
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       this.token = null

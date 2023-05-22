@@ -18,34 +18,20 @@ export default {
   },
   methods: {
     async signupSubmit() {
-      const isSignup = await this.authStore.signup({
+      const success = await this.authStore.signup({
         firstName: this.firstName,
         lastName: this.lastName,
         phoneNumber: this.phoneNumber,
         email: this.email,
         password: this.password
       })
-      if (isSignup) {
-        this.$router.push({ path: 'login' })
+      if (success) {
+        console.log('success')
+        await this.authStore.login({ login: this.email, password: this.password })
       } else {
         alert('ERROR')
       }
     }
-    // store.signup()
-    // const response = await fetch('api/signup', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     firstName: this.firstName,
-    //     lastName: this.lastName,
-    //     phoneNumber: this.phoneNumber,
-    //     email: this.email,
-    //     password: this.password
-    //   })
-    // })
-    // return response.ok
   }
 }
 </script>
@@ -86,7 +72,7 @@ export default {
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Введіть ваше прізвище"
               required=""
-              v-model.trim="firstName"
+              v-model.trim="lastName"
             />
           </div>
           <div>

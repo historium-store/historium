@@ -1,31 +1,32 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import TheHeader from './components/layout/TheHeader.vue'
+import TheSidebar from './components/layout/TheSidebar.vue'
 </script>
 
 <template>
   <the-header></the-header>
-  <router-view v-slot="slotProps">
-    <transition name="route" mode="out-in">
+  <div class="">
+    <the-sidebar></the-sidebar>
+    <router-view v-slot="slotProps">
       <component :is="slotProps.Component"></component>
-    </transition>
-  </router-view>
+      <!-- <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition> -->
+    </router-view>
+  </div>
 </template>
 
 <script>
 export default {
   components: {
-    TheHeader
+    TheHeader,
+    TheSidebar
   }
 }
 </script>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
 .logo {
   display: block;
   margin: 0 auto 2rem;
@@ -57,12 +58,6 @@ nav a:first-of-type {
 }
 
 @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
   .logo {
     margin: 0 2rem 0 0;
   }

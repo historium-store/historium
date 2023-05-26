@@ -1,14 +1,15 @@
 <template>
-  <header>
+  <header class="p-0">
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-primary-1000">
       <div class="flex flex-wrap justify-between mx-auto max-w-screen-xl">
         <div class="flex flex-wrap items-center">
-          <button
+          <!-- <button
             data-collapse-toggle="mobile-menu-2"
             type="button"
             class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="mobile-menu-2"
             aria-expanded="false"
+            @click="openSidebar"
           >
             <span class="sr-only">Open main menu</span>
             <svg
@@ -35,7 +36,13 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </button>
+          </button> -->
+          <RouterLink to="/" class="flex items-center ml-3">
+            <img src="src/assets/logo.png" class="ml-3 h-10 sm:h-12" alt="Historium Logo" />
+            <span
+              class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+            ></span>
+          </RouterLink>
         </div>
         <div class="flex flex-wrap items-center">
           <div class="relative flex flex-wrap items-stretch">
@@ -94,6 +101,11 @@ export default {
   setup() {
     const userStore = useAuthStore()
     return { userStore }
+  },
+  methods: {
+    openSidebar() {
+      console.log('open sidebar')
+    }
   }
 }
 </script>

@@ -11,17 +11,27 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/auth/LoginView.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component: () => import('../views/SignUpView.vue')
+      component: () => import('../views/auth/SignUpView.vue')
     },
     {
       path: '/my-account',
       name: 'my-account',
-      component: () => import('../views/MyAccount.vue')
+      component: () => import('../views/auth/MyAccountView.vue')
+    },
+    {
+      path: '/restore',
+      name: 'restore',
+      component: () => import('../views/auth/RestoreView.vue')
+    },
+    {
+      path: '/book',
+      name: 'book',
+      component: () => import('../views/product/ProductPageView.vue')
     }
   ]
 })

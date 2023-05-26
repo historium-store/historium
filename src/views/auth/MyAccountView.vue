@@ -4,9 +4,12 @@
       <h1
         class="text-xl text-center font-sans leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
       >
-        Ваш аккаунт
+        Ваш акаунт
       </h1>
-      <ul class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <ul
+        v-if="userStore.isAuthenticated"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >
         <li
           class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           v-for="field of Object.entries(userStore.user)"

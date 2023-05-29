@@ -1,5 +1,5 @@
 <template>
-  <div class="w-11/12 mx-auto">
+  <div class="w-4/6 mx-auto my-6 p-4">
     <div class="pb-2 px-2 mb-2">
       <h2 class="font-semibold">{{ title }}</h2>
       <span class="font-thin">{{ author }}</span>
@@ -11,27 +11,29 @@
         <sup class="">READ PART</sup>
       </div> -->
       <!-- image viewer component -->
-      <div class="w-3/4 mx-auto">
-        <img class="rounded-lg" :src="currentImage" />
-        <div class="thumb inline-flex">
-          <div class="" v-for="image in images" :key="image.id">
-            <img
-              @click="pickImage"
-              class="h-20 rounded-md m-2"
-              :id="image.id"
-              :src="image.src"
-              :alt="image.id"
-            />
+      <div class="">
+        <div class="w-3/4 max-w-lg mx-auto py-4">
+          <img class="rounded-lg" :src="currentImage" />
+          <div class="thumb flex justify-between">
+            <div class="" v-for="image in images" :key="image.id">
+              <img
+                @click="pickImage"
+                class="h-20 rounded-md my-2 border-primary-100 border-2"
+                :id="image.id"
+                :src="image.src"
+                :alt="image.id"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- <button class="justify-center" @click="next">| > |</button> -->
-    <div>
+    <div class="mt-4">
       <div class="inline-flex">
         <div class="price">
-          <span class="">{{ price }}</span>
-          <span class="">грн</span>
+          <span class="pe-2 text-[32px]">{{ price }}</span>
+          <span class="text-[28px]">грн</span>
         </div>
         <!-- <div class="label-promotion">Акція</div> -->
       </div>

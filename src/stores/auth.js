@@ -13,27 +13,27 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
+    async setToken(token) {
+      console.log('setToken')
+      localStorage.setItem('token', token)
+      await this.getUserData()
+    },
     async signup(payload) {
       console.log('>>> signup')
 
-      const response = (await axios.post('api/signup', { ...payload })).data
+      const response = await axios.post('api/signup', { ...payload })
       console.log(response)
-      return response.status == 'OK'
+      return true
     },
     async login(payload) {
       console.log('>>> login')
 
       const response = await axios.post('api/login', { ...payload }).catch((error) => {
-        console.log(error.response.data.data.error)
+        alert(error.response.data.message)
+        return
       })
 
-      localStorage.setItem('token', response.data.data.token)
-
-      this.token = response.data.data.token
-
-      console.log(this.token)
-
-      await this.getUserData()
+      await this.setToken(response.data.token)
       router.push('/')
     },
     async getUserData() {
@@ -42,11 +42,36 @@ export const useAuthStore = defineStore('auth', {
       const response = await axios
         .get('api/user/account', { headers: { Authorization: 'Bearer ' + this.token } })
         .catch((error) => {
-          console.log(error.response.data.data.error)
+          console.log(error.response.data.message)
         })
 
-      this.user = response.data.data
+      this.user = response.data
       localStorage.setItem('user', JSON.stringify(this.user))
+    },
+    async restorePasswordRequest(payload) {
+      console.log('>>> restorePasswordRequest')
+
+      const response = await axios.post('api/password-restore', { ...payload })
+      console.log(response.status)
+      return true
+    },
+    async restorePasswordConfirm(payload) {
+      console.log('>>> restorePasswordConfirm')
+
+      const response = await axios.post('api/verify-restore', { ...payload })
+      console.log(response.status)
+      return response
+    },
+    async updatePassword(payload) {
+      const response = await axios.patch(
+        `api/user/${payload.userId}`,
+        {
+          password: payload.password
+        },
+        { headers: { Authorization: 'Bearer ' + this.token } }
+      )
+      console.log(response.status)
+      return true
     },
     logout() {
       console.log('>>> logout')

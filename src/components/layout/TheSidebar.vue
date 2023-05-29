@@ -69,33 +69,12 @@
     </div>
     <div class="my-4 bg-gray-600 h-[1px]"></div>
     <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-      @click="dropdown"
-    >
-      <i class="bi bi-chat-left-text-fill">X</i>
-      <div class="flex justify-between w-full items-center">
-        <span class="text-[15px] ml-4 text-gray-200 font-bold">Паперові книги</span>
-        <span class="text-sm rotate-180" id="arrow">
-          <i class="bi bi-chevron-down">X</i>
-        </span>
-      </div>
-    </div>
-    <div class="text-left text-sm mt-2 w-4/5 mx-auto text-gray-200 font-bold" id="submenu">
-      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">1</h1>
-      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">2</h1>
-      <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">3</h1>
-    </div>
-    <div
+      v-for="bookType in types"
+      :key="bookType._id"
       class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
     >
-      <i class="bi bi-bookmark-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Електронні книги</span>
-    </div>
-    <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-bookmark-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Аудіокниги</span>
+      <i class="">•</i>
+      <span class="text-[15px] ml-4 text-gray-200 font-bold">{{ bookType.name }}</span>
     </div>
     <div
       class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
@@ -103,12 +82,6 @@
       <i class="bi bi-bookmark-fill">X</i>
       <span class="text-[15px] ml-4 text-gray-200 font-bold">Інше</span>
     </div>
-    <!-- <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-box-arrow-in-right">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
-    </div> -->
   </div>
 </template>
 
@@ -116,7 +89,21 @@
 export default {
   data: function () {
     return {
-      display: false
+      display: false,
+      types: [
+        {
+          _id: '646622f5eadf03bd22d5e987',
+          name: 'Книга'
+        },
+        {
+          _id: '646756b056db96bcce3c0673',
+          name: 'Електронна книга'
+        },
+        {
+          _id: '646756e756db96bcce3c0684',
+          name: 'Аудіокнига'
+        }
+      ]
     }
   },
   methods: {

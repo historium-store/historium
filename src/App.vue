@@ -2,12 +2,14 @@
 import { RouterView } from 'vue-router'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheSidebar from './components/layout/TheSidebar.vue'
+import TheCategoryMenu from './components/layout/TheCategoryMenu.vue'
 </script>
 
 <template>
   <the-header></the-header>
   <div class="">
     <the-sidebar></the-sidebar>
+    <the-category-menu></the-category-menu>
     <router-view v-slot="slotProps">
       <component :is="slotProps.Component"></component>
       <!-- <transition name="route" mode="out-in">
@@ -21,7 +23,8 @@ import TheSidebar from './components/layout/TheSidebar.vue'
 export default {
   components: {
     TheHeader,
-    TheSidebar
+    TheSidebar,
+    TheCategoryMenu
   }
 }
 </script>

@@ -30,8 +30,18 @@ const router = createRouter({
     },
     {
       path: '/book',
+      name: 'books',
+      component: () => import('../views/product/ProductShowcaseView.vue')
+    },
+    {
+      path: '/book/:id',
       name: 'book',
       component: () => import('../views/product/ProductPageView.vue')
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/admin/AdminPanelView.vue')
     }
   ]
 })

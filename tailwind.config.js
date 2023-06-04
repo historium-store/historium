@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
 export default {
   purge: ['./*.html', './src/**/*.{vue,js,ts,jsx,tsx,css}'],
   darkMode: 'media', // or 'media' or 'class'
@@ -19,6 +20,10 @@ export default {
           1000: '#083344'
         }
       }
+    },
+    screens: {
+      xs: '0px',
+      ...defaultTheme.screens
     },
     fontFamily: {
       body: [
@@ -63,5 +68,9 @@ export default {
   variants: {
     extend: {}
   },
-  plugins: []
+  content: [
+    'node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}',
+    'node_modules/flowbite/**/*.{js,jsx,ts,tsx}'
+  ],
+  plugins: [import('flowbite/plugin')]
 }

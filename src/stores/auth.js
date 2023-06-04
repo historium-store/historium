@@ -1,85 +1,88 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import router from '../router'
+import { useApiStore } from './api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user'))
+    user: JSON.parse(localStorage.getItem('user')),
+    api: useApiStore()
   }),
   getters: {
     isAuthenticated(state) {
-      return !!state.token
+      return !!state.token && !!state.user
+    },
+    getUserFromStorage() {
+      return JSON.parse(localStorage.getItem('user'))
     }
   },
   actions: {
+    // Authorization
+    getAuthToken() {
+      if (!this.token) {
+        throw Error('User is not authenticated!')
+      }
+      return 'Bearer ' + this.token
+    },
     async setToken(token) {
-      console.log('setToken')
       localStorage.setItem('token', token)
-      await this.getUserData()
+      this.token = token
+      console.log('token: ' + token)
+      await this.getUser()
     },
     async signup(payload) {
       console.log('>>> signup')
 
-      const response = await axios.post('api/signup', { ...payload })
-      console.log(response)
+      await this.api.post('signup', payload)
       return true
     },
     async login(payload) {
       console.log('>>> login')
 
-      const response = await axios.post('api/login', { ...payload }).catch((error) => {
-        alert(error.response.data.message)
-        return
-      })
-
+      const response = await this.api.post('login', payload)
       await this.setToken(response.data.token)
+      return true
+    },
+    logout() {
+      console.log('>>> logout')
+
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      this.token = null
+      this.user = null
       router.push('/')
     },
-    async getUserData() {
-      console.log('>>> getUserData')
+    async getUser() {
+      console.log('>>> getUser')
 
-      const response = await axios
-        .get('api/user/account', { headers: { Authorization: 'Bearer ' + this.token } })
-        .catch((error) => {
-          console.log(error.response.data.message)
-        })
-
+      const response = await this.api.get('user/account', true)
       this.user = response.data
-      localStorage.setItem('user', JSON.stringify(this.user))
+      localStorage.setItem('user', JSON.stringify(response.data))
     },
+
+    // Password restoration
+
     async restorePasswordRequest(payload) {
       console.log('>>> restorePasswordRequest')
 
-      const response = await axios.post('api/password-restore', { ...payload })
+      const response = this.api.post('password-restore', payload)
       console.log(response.status)
       return true
     },
     async restorePasswordConfirm(payload) {
       console.log('>>> restorePasswordConfirm')
 
-      const response = await axios.post('api/verify-restore', { ...payload })
+      const response = this.api.post('verify-restore', payload)
       console.log(response.status)
       return response
     },
     async updatePassword(payload) {
-      const response = await axios.patch(
-        `api/user/${payload.userId}`,
-        {
-          password: payload.password
-        },
-        { headers: { Authorization: 'Bearer ' + this.token } }
-      )
+      console.log('>>> updatePassword')
+
+      const { userId, password } = payload
+      const response = this.api.patch(`user/${userId}`, { password })
       console.log(response.status)
       return true
-    },
-    logout() {
-      console.log('>>> logout')
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      this.token = null
-      this.user = null
-      router.push('/')
     }
   }
 })

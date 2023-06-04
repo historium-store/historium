@@ -1,88 +1,56 @@
 <template>
-  <!-- <div class="flex h-screen bg-red-400">
-    <ul>
-      <li class="bg-red-800 mb-3" v-for="x in 10" :key="x">{{ x }}</li>
-    </ul>
-  </div> -->
-
-  <!-- <span class="absolute text-white text-4xl top-5 left-4 cursor-pointer" @click="openSidebar">
-    <i class="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
-  </span> -->
-  <button
-    data-collapse-toggle="mobile-menu-2"
-    type="button"
-    class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-    aria-controls="mobile-menu-2"
-    aria-expanded="false"
-    @click="openSidebar"
+  <aside
+    id="default-sidebar"
+    class="fixed top-0 left-0 z-40 w-full xs:w-64 h-screen transition-transform -translate-x-full xl:translate-x-0"
+    aria-label="Sidebar"
   >
-    <span class="sr-only">Open main menu</span>
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path
-        fill-rule="evenodd"
-        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-        clip-rule="evenodd"
-      ></path>
-    </svg>
-    <svg
-      class="hidden w-6 h-6"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-        clip-rule="evenodd"
-      ></path>
-    </svg>
-  </button>
-  <div
-    v-show="display"
-    class="z-50 sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900"
-  >
-    <div class="text-gray-100 text-xl">
-      <div class="p-2.5 mt-1 flex items-center">
-        <i class="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600">logo</i>
-        <h1 class="font-bold text-gray-200 text-[15px] ml-3">historium</h1>
-        <i class="bi bi-x cursor-pointer ml-28 lg:hidden" @click="openSidebar">O</i>
-      </div>
-      <div class="my-2 bg-gray-600 h-[1px]"></div>
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-primary-950">
+      <button
+        type="button"
+        data-drawer-hide="default-sidebar"
+        aria-controls="default-sidebar"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span class="sr-only">Close menu</span>
+      </button>
+      <ul class="space-y-2 font-medium mt-6">
+        <li>
+          <a
+            @click="openSectionSidebar"
+            data-drawer-target="section-sidebar"
+            data-drawer-toggle="section-sidebar"
+            aria-controls="section-sidebar"
+            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+              <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+            </svg>
+            <span class="ml-3">Категорії</span>
+          </a>
+        </li>
+      </ul>
     </div>
-    <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-house-door-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Категорії книг</span>
-    </div>
-    <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-bookmark-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Кошик</span>
-    </div>
-    <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-bookmark-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">0-800-333-444</span>
-    </div>
-    <div class="my-4 bg-gray-600 h-[1px]"></div>
-    <div
-      v-for="bookType in types"
-      :key="bookType._id"
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="">•</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">{{ bookType.name }}</span>
-    </div>
-    <div
-      class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
-    >
-      <i class="bi bi-bookmark-fill">X</i>
-      <span class="text-[15px] ml-4 text-gray-200 font-bold">Інше</span>
-    </div>
-  </div>
+  </aside>
 </template>
 
 <script>
@@ -112,7 +80,8 @@ export default {
     },
     openSidebar() {
       this.display = !this.display
-    }
+    },
+    openSectionSidebar() {}
   }
 }
 </script>

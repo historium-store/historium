@@ -36,7 +36,20 @@ const router = createRouter({
     {
       path: '/book/:id',
       name: 'book',
-      component: () => import('../views/product/ProductPageView.vue')
+      component: () => import('../views/product/ProductPageView.vue'),
+      props: true
+    },
+    {
+      path: '/:id',
+      name: 'product',
+      component: () => import('../views/product/ProductPageView.vue'),
+      props: true
+    },
+    {
+      path: '/section/:key',
+      name: 'section',
+      component: () => import('../views/product/ProductPageView.vue'),
+      props: true
     },
     {
       path: '/admin',

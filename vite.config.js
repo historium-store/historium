@@ -12,13 +12,21 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+
   server: {
+    host: '0.0.0.0',
+    // base: '',
     proxy: {
-      '/api': {
+      '^/api/.*': {
         target: 'http://localhost:3000/',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        prependPath: false,
+        rewrite: (path) => {
+          path = path.replace('/api', '')
+          console.log('path: ' + path)
+          return path
+        }
       },
       cors: false
     }

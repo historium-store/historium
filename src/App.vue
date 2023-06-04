@@ -1,30 +1,75 @@
-<script setup>
-import { RouterView } from 'vue-router'
-import TheHeader from './components/layout/TheHeader.vue'
-import TheSidebar from './components/layout/TheSidebar.vue'
-import TheCategoryMenu from './components/layout/TheCategoryMenu.vue'
-</script>
-
 <template>
-  <the-header></the-header>
-  <div class="">
-    <the-sidebar></the-sidebar>
-    <the-category-menu></the-category-menu>
+  <the-sidebar></the-sidebar>
+  <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
+  <the-category-menu></the-category-menu>
+  <Modal class="[&>*]:z-50" v-if="isShowModal" @close="closeModal">
+    <template #header></template>
+    <template #body>
+      <LoginView
+        :closeModal="closeModal"
+        :switchModal="switchModalState"
+        v-if="modalState === 'login'"
+      ></LoginView>
+      <SignUpView :switchModal="switchModalState" v-if="modalState === 'signup'"></SignUpView>
+      <RestoreView v-if="modalState === 'restore'"></RestoreView>
+    </template>
+  </Modal>
+  <breadcrumb>
+    <breadcrumb-item home>Home</breadcrumb-item>
+    <breadcrumb-item>Book</breadcrumb-item>
+  </breadcrumb>
+  <Suspense>
     <router-view v-slot="slotProps">
       <component :is="slotProps.Component"></component>
       <!-- <transition name="route" mode="out-in">
       <component :is="slotProps.Component"></component>
     </transition> -->
     </router-view>
-  </div>
+  </Suspense>
 </template>
 
 <script>
+import { Modal, Sidebar, Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
+import { RouterView } from 'vue-router'
+import { ref } from 'vue'
+import TheHeader from './components/layout/TheHeader.vue'
+import TheFooter from './components/layout/TheFooter.vue'
+import TheSidebar from './components/layout/TheSidebar.vue'
+import TheCategoryMenu from './components/layout/TheCategoryMenu.vue'
+import LoginView from './components/auth/LoginView.vue'
+import SignUpView from './components/auth/SignUpView.vue'
+import RestoreView from './components/auth/RestoreView.vue'
 export default {
+  setup() {
+    const authStates = ['login', 'signup', 'restore']
+    const isShowModal = ref(false)
+    const modalState = ref(authStates[0])
+    return { isShowModal, modalState, authStates }
+  },
   components: {
+    TheCategoryMenu,
     TheHeader,
+    TheFooter,
     TheSidebar,
-    TheCategoryMenu
+    Breadcrumb,
+    Modal,
+    LoginView,
+    RouterView,
+    SignUpView,
+    RestoreView,
+    Sidebar,
+    BreadcrumbItem
+  },
+  methods: {
+    openModal() {
+      this.isShowModal = true
+    },
+    closeModal() {
+      this.isShowModal = false
+    },
+    switchModalState(state) {
+      this.modalState = state
+    }
   }
 }
 </script>

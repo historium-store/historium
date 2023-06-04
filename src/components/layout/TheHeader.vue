@@ -1,5 +1,5 @@
 <template>
-  <header class="p-0">
+  <header class="xl:ml-64 p-0">
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-primary-1000">
       <div class="flex flex-wrap justify-between mx-auto max-w-screen-xl">
         <div class="flex flex-wrap items-center">
@@ -37,6 +37,28 @@
               ></path>
             </svg>
           </button> -->
+          <button
+            data-drawer-target="default-sidebar"
+            data-drawer-toggle="default-sidebar"
+            aria-controls="default-sidebar"
+            type="button"
+            class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          >
+            <span class="sr-only">Open sidebar</span>
+            <svg
+              class="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+              ></path>
+            </svg>
+          </button>
           <RouterLink to="/" class="flex items-center ml-3">
             <img src="src/assets/logo.png" class="ml-3 h-10 sm:h-12" alt="Historium Logo" />
             <span
@@ -44,67 +66,59 @@
             ></span>
           </RouterLink>
         </div>
-        <div class="flex flex-wrap items-center">
-          <div class="relative flex flex-wrap items-stretch">
-            <input
-              type="search"
-              class="relative m-0 block w-max min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
-              placeholder="Пошук"
-              aria-label="Пошук"
-              aria-describedby="button-addon2"
-            />
-
-            <!--Search icon-->
-            <span
-              class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
-              id="basic-addon2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="h-5 w-5"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </span>
-          </div>
+        <div class="flex flex-wrap items-center xs:max-sm:hidden">
+          <the-search :query="querySearch"></the-search>
         </div>
         <div class="flex flex-wrap items-center">
-          <div class="flex items-center lg:order-2">
-            <router-link
-              v-if="!userStore.isAuthenticated"
-              to="/login"
-              class="text-black dark:text-white focus:ring-4 hover:bg-primary-200 font-medium rounded-md text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-primary-700"
-              >Увійти</router-link
-            >
-            <router-link
-              v-else
-              to="/my-account"
-              class="text-black dark:text-white focus:ring-4 hover:bg-primary-200 font-medium rounded-md text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-primary-700"
-              >{{ userStore?.user?.firstName }}</router-link
-            >
+          <div class="flex">
+            <div class="hover:cursor-pointer" v-if="!userStore.isAuthenticated" @click="loginClick">
+              (log)
+            </div>
+            <RouterLink v-else to="/my-account">(acc)</RouterLink>
           </div>
+        </div>
+        <div v-show="currentMode === 'sm'" class="flex mt-3 mx-5 w-full items-center">
+          <the-search></the-search>
         </div>
       </div>
     </nav>
   </header>
+  <!-- <login-view :isShowModal="true" :closeModal="closeModal"></login-view> -->
 </template>
 
 <script>
+// import { Modal } from 'flowbite-vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
+import TheSearch from '../layout/TheSearch.vue'
 export default {
+  props: ['openModal', 'switchModal'],
   setup() {
     const userStore = useAuthStore()
-    return { userStore }
+    const screenModes = ['sm', 'ms', 'lg']
+    const currentMode = ref(undefined)
+    const querySearch = ref('')
+    return { userStore, screenModes, currentMode, querySearch }
+  },
+  components: { TheSearch },
+  mounted() {
+    this.onResize()
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize)
+    })
   },
   methods: {
     openSidebar() {
       console.log('open sidebar')
+    },
+    loginClick() {
+      this.switchModal('login')
+      this.openModal()
+    },
+    onResize() {
+      if (window.innerWidth < 640) {
+        this.currentMode = this.screenModes[0]
+      } else this.currentMode = this.screenModes[1]
     }
   }
 }

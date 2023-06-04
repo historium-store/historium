@@ -1,8 +1,13 @@
 <template>
-  <div class="w-4/6 mx-auto my-6 p-4">
-    <div class="pb-2 px-2 mb-2">
-      <h2 class="font-semibold">{{ title }}</h2>
-      <span class="font-thin">{{ author }}</span>
+  <div v-if="product" class="w-11/12 mx-auto my-6 p-4">
+    <div class="pb-2 mb-2">
+      <h2 class="text-[28px]">{{ product.name }}</h2>
+      <span
+        v-for="[i, author] in Object.entries(specificProduct?.authors)"
+        :key="author.id"
+        class="font-thin"
+        >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
+      </span>
     </div>
     <div class="">
       <!-- <div class="">
@@ -11,17 +16,17 @@
         <sup class="">READ PART</sup>
       </div> -->
       <!-- image viewer component -->
-      <div class="">
-        <div class="w-3/4 max-w-lg mx-auto py-4">
-          <img class="rounded-lg" :src="currentImage" />
-          <div class="thumb flex justify-between">
-            <div class="" v-for="image in images" :key="image.id">
+      <div class="mx-auto py-4 sm:w-5/6 md:w-2/5">
+        <div class="">
+          <img class="rounded-lg shadow-lg dark:shadow-black/30 h-[500px]" :src="currentImage" />
+          <div class="thumb flex justify-normal">
+            <div class="px-1" v-for="[i, image] in Object.entries(product.images)" :key="image.id">
               <img
                 @click="pickImage"
                 class="h-20 rounded-md my-2 border-primary-100 border-2"
-                :id="image.id"
-                :src="image.src"
-                :alt="image.id"
+                :id="i"
+                :src="image"
+                :alt="i"
               />
             </div>
           </div>
@@ -32,7 +37,7 @@
     <div class="mt-4">
       <div class="inline-flex">
         <div class="price">
-          <span class="pe-2 text-[32px]">{{ price }}</span>
+          <span class="pe-2 text-[32px]">{{ product.price }}</span>
           <span class="text-[28px]">грн</span>
         </div>
         <!-- <div class="label-promotion">Акція</div> -->
@@ -42,57 +47,62 @@
           availability ? 'В наявності' : 'Немає в наявності'
         }}</span>
         <span class="mx-2">•</span>
-        <span class="font-thin text-sm">{{ type }}</span>
+        <span class="font-thin text-sm">{{ product.type.name }}</span>
       </div>
     </div>
+    <div class="mt-4">Формат</div>
+    <div class="mt-4">Мова</div>
+    <div class="mt-4">Видавництво</div>
+    <div class="mt-4">Рік видання</div>
+    <br />
+    <div class="mt-4">Доставка</div>
+    <div class="mt-4">Про автора</div>
+    <div class="mt-4">
+      <h2 class="text-[24px] text-center">Про книгу</h2>
+      <div>
+        <p>{{ product.description }}</p>
+      </div>
+    </div>
+    <div class="mt-4"></div>
+    <div class="mt-4">{{ specificProduct }}</div>
+    <div class="mt-4">{{ product }}</div>
   </div>
 </template>
 
 <script>
+import { mapWritableState } from 'pinia'
+import { useProductStore } from '../../stores/product'
+
 export default {
+  props: ['id'],
+  setup(state) {
+    const productStore = useProductStore()
+    productStore.useProductMock()
+    return { productStore, state }
+  },
+  async mounted() {
+    await this.productStore.loadProduct(this.state.id)
+  },
   data() {
     return {
-      title: 'Книга Пес Патрон. Маленька історія про велику мрію',
-      author: 'Зоряна Живка',
-      price: 330,
-      images: [
-        {
-          src: 'https://static.yakaboo.ua/media/cloudflare/product/webp/600x840/p/e/pes_patron_malen324-1440x960.jpg',
-          id: 0
-        },
-        {
-          src: 'https://static.yakaboo.ua/media/mediagallery/image/0/1/01_210_14.jpg',
-          id: 1
-        },
-        {
-          src: 'https://static.yakaboo.ua/media/mediagallery/image/0/2/02_212_14.jpg',
-          id: 2
-        },
-        {
-          src: 'https://static.yakaboo.ua/media/mediagallery/image/0/4/04_196_14.jpg',
-          id: 3
-        },
-        {
-          src: 'https://static.yakaboo.ua/media/mediagallery/image/0/5/05_185_14.jpg',
-          id: 4
-        }
-      ],
-      type: 'Паперова книга',
-      quantity: 1,
       imageIndex: 0
     }
   },
   computed: {
+    ...mapWritableState(useProductStore, ['product']),
+    specificProduct() {
+      return this.product?.specificProduct
+    },
     currentImage() {
-      return this.images[this.imageIndex].src
+      return this.product?.images[this.imageIndex]
     },
     availability() {
-      return this.quantity > 0
+      return this.product?.quantity > 0
     }
   },
   methods: {
     pickImage(event) {
-      if (0 <= event.originalTarget.id < this.images.length - 1) {
+      if (event.originalTarget.id < this.product.images.length) {
         this.imageIndex = event.originalTarget.id
       }
     }

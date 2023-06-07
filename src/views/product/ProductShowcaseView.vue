@@ -15,13 +15,12 @@
 <script>
 import { mapWritableState } from 'pinia'
 import { useProductStore } from '../../stores/product'
-import router from '../../router'
+import { mapActions } from 'pinia'
 import TheProductCard from '../../components/product/TheProductCard.vue'
 export default {
   setup() {
     const productStore = useProductStore()
     return { productStore }
-    // console.log(productStore.sections)
   },
   async mounted() {
     await this.productStore.loadSections()
@@ -32,12 +31,7 @@ export default {
   },
   components: { TheProductCard },
   methods: {
-    isAvailable(good) {
-      return good.quantity > 0
-    },
-    async viewProduct(key) {
-      await router.push(`/${key}`)
-    }
+    ...mapActions(useProductStore, ['isAvailable', 'viewProduct'])
   }
 }
 </script>

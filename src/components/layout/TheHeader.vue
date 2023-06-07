@@ -1,6 +1,6 @@
 <template>
   <header class="xl:ml-64 p-0">
-    <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-primary-1000">
+    <nav class="border-gray-200 px-4 lg:px-6 py-2.5">
       <div class="flex flex-wrap justify-between mx-auto max-w-screen-xl">
         <div class="flex flex-wrap items-center">
           <!-- <button
@@ -42,7 +42,7 @@
             data-drawer-toggle="default-sidebar"
             aria-controls="default-sidebar"
             type="button"
-            class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           >
             <span class="sr-only">Open sidebar</span>
             <svg
@@ -59,26 +59,40 @@
               ></path>
             </svg>
           </button>
-          <RouterLink to="/" class="flex items-center ml-3">
-            <img src="src/assets/logo.png" class="ml-3 h-10 sm:h-12" alt="Historium Logo" />
+          <RouterLink to="/" class="flex mx-2 items-center">
+            <img src="src/assets/logo.png" class="h-10 sm:h-12" alt="Historium Logo" />
             <span
               class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
             ></span>
           </RouterLink>
         </div>
-        <div class="flex flex-wrap items-center xs:max-sm:hidden">
+        <div class="flex flex-1 px-6 items-center xs:max-[550px]:hidden">
           <the-search :query="querySearch"></the-search>
         </div>
         <div class="flex flex-wrap items-center">
           <div class="flex">
-            <div class="hover:cursor-pointer" v-if="!userStore.isAuthenticated" @click="loginClick">
-              (log)
+            <div class="bookmark px-2">
+              <font-awesome-icon :icon="['fas', 'bookmark']" style="color: #ffffff" />
             </div>
-            <RouterLink v-else to="/my-account">(acc)</RouterLink>
+            <RouterLink to="/cart" class="px-2">
+              <font-awesome-icon :icon="['fas', 'cart-shopping']" style="color: #ffffff" />
+            </RouterLink>
+            <!-- <div @click="cartClick" class="cart px-2 hover:cursor-pointer">
+              <font-awesome-icon :icon="['fas', 'cart-shopping']" style="color: #ffffff" />
+            </div> -->
+            <div class="user px-2">
+              <div
+                class="hover:cursor-pointer"
+                v-if="!userStore.isAuthenticated"
+                @click="loginClick"
+              >
+                <font-awesome-icon :icon="['fas', 'user']" style="color: #ffffff" />
+              </div>
+              <RouterLink v-else to="/my-account">
+                <font-awesome-icon :icon="['fas', 'user']" style="color: #ffffff" />
+              </RouterLink>
+            </div>
           </div>
-        </div>
-        <div v-show="currentMode === 'sm'" class="flex mt-3 mx-5 w-full items-center">
-          <the-search></the-search>
         </div>
       </div>
     </nav>
@@ -91,22 +105,15 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
 import TheSearch from '../layout/TheSearch.vue'
+import router from '../../router'
 export default {
   props: ['openModal', 'switchModal'],
   setup() {
     const userStore = useAuthStore()
-    const screenModes = ['sm', 'ms', 'lg']
-    const currentMode = ref(undefined)
     const querySearch = ref('')
-    return { userStore, screenModes, currentMode, querySearch }
+    return { userStore, querySearch }
   },
   components: { TheSearch },
-  mounted() {
-    this.onResize()
-    this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize)
-    })
-  },
   methods: {
     openSidebar() {
       console.log('open sidebar')
@@ -115,10 +122,8 @@ export default {
       this.switchModal('login')
       this.openModal()
     },
-    onResize() {
-      if (window.innerWidth < 640) {
-        this.currentMode = this.screenModes[0]
-      } else this.currentMode = this.screenModes[1]
+    async cartClick() {
+      await router.push('/cart')
     }
   }
 }

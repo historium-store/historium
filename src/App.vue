@@ -14,10 +14,10 @@
       <RestoreView v-if="modalState === 'restore'"></RestoreView>
     </template>
   </Modal>
-  <breadcrumb>
+  <!-- <breadcrumb>
     <breadcrumb-item home>Home</breadcrumb-item>
     <breadcrumb-item>Book</breadcrumb-item>
-  </breadcrumb>
+  </breadcrumb> -->
   <Suspense>
     <router-view v-slot="slotProps">
       <component :is="slotProps.Component"></component>
@@ -39,12 +39,22 @@ import TheCategoryMenu from './components/layout/TheCategoryMenu.vue'
 import LoginView from './components/auth/LoginView.vue'
 import SignUpView from './components/auth/SignUpView.vue'
 import RestoreView from './components/auth/RestoreView.vue'
+import { useCartStore } from './stores/cart'
+import { useAuthStore } from './stores/auth'
 export default {
   setup() {
     const authStates = ['login', 'signup', 'restore']
     const isShowModal = ref(false)
     const modalState = ref(authStates[0])
     return { isShowModal, modalState, authStates }
+  },
+  async mounted() {
+    const userStore = useAuthStore()
+    const cartStore = useCartStore()
+    if (userStore.isAuthenticated) {
+      await cartStore.updateCart()
+    }
+    return { cartStore }
   },
   components: {
     TheCategoryMenu,

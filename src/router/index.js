@@ -52,9 +52,19 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/cart',
+      name: 'cart',
+      component: () => import('../components/cart/TheCartPage.vue')
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: () => import('../views/admin/AdminPanelView.vue')
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: () => import('../views/order/CheckoutPageView.vue')
     }
   ]
 })

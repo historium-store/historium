@@ -1,13 +1,23 @@
 import { defineStore } from 'pinia'
 import { useApiStore } from './api'
+import router from '../router'
 export const useProductStore = defineStore('product', {
   state: () => ({
     api: useApiStore(),
     products: undefined,
     product: undefined,
-    sections: undefined
+    sections: undefined,
+    homeSpecialSections: {
+      novelties: undefined
+    }
   }),
   actions: {
+    isAvailable(product) {
+      return product?.quantity > 0
+    },
+    async viewProduct(key) {
+      await router.push(`/${key}`)
+    },
     async loadProducts() {
       console.log('>>> loadProducts')
 
@@ -27,6 +37,27 @@ export const useProductStore = defineStore('product', {
       const response = await this.api.get(`section`)
       this.sections = response.data
     },
+    async loadNovelties() {
+      console.log('>>> loadNovelties')
+
+      const response = await this.api.get(`product`, false, {
+        orderBy: 'createdAt',
+        limit: 12
+      })
+      console.log(response.data)
+      this.homeSpecialSections.novelties = response.data
+    },
+    async loadRecomendations() {
+      console.log('>>> loadRecomendations')
+
+      const response = await this.api.get(`product`, false, {
+        orderBy: 'createdAt',
+        order: 'desc',
+        limit: 12
+      })
+      console.log(response.data)
+      this.homeSpecialSections.recomendations = response.data
+    },
     useProductMock() {
       this.product = {
         _id: 'none',
@@ -42,7 +73,6 @@ export const useProductStore = defineStore('product', {
           }
         ],
         description: 'Опис',
-        reviews: [],
         images: ['https://m.media-amazon.com/images/I/81cxuKpEabL._AC_UF894,1000_QL80_.jpg'],
         createdAt: 1685304891224,
         updatedAt: 1685704864958,
@@ -50,10 +80,10 @@ export const useProductStore = defineStore('product', {
         key: 'novi-temni-viki-kniga-1-koloniya',
         specificProduct: {
           _id: 'none',
-          publisher: { _id: 'none', name: 'Бородатий Тамарин' },
-          languages: ['Українська'],
+          publisher: { _id: 'none', name: 'Автор' },
+          languages: ['Мова'],
           publishedIn: 2023,
-          authors: [{ _id: 'none', fullName: 'Макс Кідрук', pictures: [] }],
+          authors: [{ _id: 'none', fullName: 'Автор' }],
           compilers: [],
           translators: [],
           illustrators: [],

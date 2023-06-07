@@ -50,6 +50,17 @@
         <span class="font-thin text-sm">{{ product.type.name }}</span>
       </div>
     </div>
+    <div class="mt-4">
+      <Button @click="addToCart" class="mr-2 p-2 border border-cyan-500 rounded-md">
+        <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+        <span class="ml-2">До кошика</span>
+      </Button>
+      <Button @click="checkout" class="mr-2 p-2 border border-cyan-500 rounded-md">
+        <font-awesome-icon :icon="['fas', 'bag-shopping']" />
+        <span class="ml-2">Купити зараз</span>
+      </Button>
+    </div>
+    <br />
     <div class="mt-4">Формат</div>
     <div class="mt-4">Мова</div>
     <div class="mt-4">Видавництво</div>
@@ -70,8 +81,9 @@
 </template>
 
 <script>
-import { mapWritableState } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
 import { useProductStore } from '../../stores/product'
+import { useCartStore } from '../../stores/cart'
 
 export default {
   props: ['id'],
@@ -101,10 +113,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useCartStore, ['addItemToCart']),
     pickImage(event) {
       if (event.originalTarget.id < this.product.images.length) {
         this.imageIndex = event.originalTarget.id
       }
+    },
+    async addToCart() {
+      console.log('>>> addToCart')
+      await this.addItemToCart(this.product._id)
     }
   }
 }

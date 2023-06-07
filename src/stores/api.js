@@ -22,17 +22,22 @@ export const useApiStore = defineStore('api', {
       }
     },
     async post(route, body, query, isNeedAuth) {
-      query = new URLSearchParams(query)
       return await axios
-        .post(`${this.API}${route}?${query}`, body, this.getHeader(isNeedAuth))
+        .post(
+          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
+          body,
+          this.getHeader(isNeedAuth)
+        )
         .catch((error) => {
           console.log(error.response.data.message)
         })
     },
     async get(route, isNeedAuth, query) {
-      query = new URLSearchParams(query)
       return await axios
-        .get(`${this.API}${route}${query}`, this.getHeader(isNeedAuth))
+        .get(
+          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
+          this.getHeader(isNeedAuth)
+        )
         .catch((error) => {
           console.log(error)
         })
@@ -40,16 +45,20 @@ export const useApiStore = defineStore('api', {
     async patch(route, body, query) {
       query = new URLSearchParams(query)
       return await axios
-        .patch(`${this.API}${route}?${query}`, body, this.getHeader())
+        .patch(`${this.API}${route}?${query}`, body, this.getHeader(true))
         .catch((error) => {
           console.log(error.response.data.message)
         })
     },
     async delete(route, body, query) {
-      query = new URLSearchParams(query)
-      return await axios.delete(`api/${route}?${query}`, body, this.getHeader()).catch((error) => {
-        console.log(error.response.data.message)
-      })
+      return await axios
+        .delete(
+          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
+          { ...this.getHeader(true), data: body }
+        )
+        .catch((error) => {
+          console.log(error.response.data.message)
+        })
     }
   }
 })

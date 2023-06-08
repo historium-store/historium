@@ -60,7 +60,7 @@
             </svg>
           </button>
           <RouterLink to="/" class="flex mx-2 items-center">
-            <img src="src/assets/logo.png" class="h-10 sm:h-12" alt="Historium Logo" />
+            <img src="/src/assets/logo.png" class="h-10 sm:h-12" alt="Historium Logo" />
             <span
               class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
             ></span>

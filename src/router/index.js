@@ -9,16 +9,6 @@ const router = createRouter({
       component: () => import('../views/GeneralPage.vue')
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/auth/LoginView.vue')
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: () => import('../views/auth/SignUpView.vue')
-    },
-    {
       path: '/my-account',
       name: 'my-account',
       component: () => import('../views/auth/MyAccountView.vue')
@@ -46,9 +36,9 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/section/:key',
+      path: '/section/:sectionId*',
       name: 'section',
-      component: () => import('../views/product/ProductPageView.vue'),
+      component: () => import('../views/section/SectionPageView.vue'),
       props: true
     },
     {

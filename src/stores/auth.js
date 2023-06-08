@@ -17,7 +17,9 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
+    
     // Authorization
+
     getAuthToken() {
       if (!this.token) {
         throw Error('User is not authenticated!')

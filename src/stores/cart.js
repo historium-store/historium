@@ -63,6 +63,12 @@ export const useCartStore = defineStore('cart', {
         this.updateLocalCart()
       }
       return true
+    },
+    async clearCart() {
+      if (this.isAuthenticated) {
+        await this.api.delete('user/basket')
+        this.updateCart()
+      }
     }
   }
 })

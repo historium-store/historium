@@ -54,25 +54,6 @@
 <script>
 import TheSidebarItem from './TheSidebarItem.vue'
 export default {
-  data: function () {
-    return {
-      display: false,
-      types: [
-        {
-          _id: '646622f5eadf03bd22d5e987',
-          name: 'Книга'
-        },
-        {
-          _id: '646756b056db96bcce3c0673',
-          name: 'Електронна книга'
-        },
-        {
-          _id: '646756e756db96bcce3c0684',
-          name: 'Аудіокнига'
-        }
-      ]
-    }
-  },
   components: { TheSidebarItem },
   methods: {
     dropdown() {

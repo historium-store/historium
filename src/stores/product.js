@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
-import { useApiStore } from './api'
 import router from '../router'
+import { useApiStore } from './api'
 export const useProductStore = defineStore('product', {
   state: () => ({
     api: useApiStore(),
     products: undefined,
     product: undefined,
-    sections: undefined,
     homeSpecialSections: {
-      novelties: undefined
+      novelties: undefined,
+      recomendations: undefined
     }
   }),
   actions: {
@@ -22,7 +22,7 @@ export const useProductStore = defineStore('product', {
       console.log('>>> loadProducts')
 
       const response = await this.api.get('product')
-      this.products = response.data
+      this.products = response.data.result
     },
     async loadProduct(key) {
       console.log('>>> loadProduct ' + key)
@@ -31,21 +31,15 @@ export const useProductStore = defineStore('product', {
       this.product = response.data
       console.log(this.product)
     },
-    async loadSections() {
-      console.log('>>> loadSections')
-
-      const response = await this.api.get(`section`)
-      this.sections = response.data
-    },
     async loadNovelties() {
       console.log('>>> loadNovelties')
 
       const response = await this.api.get(`product`, false, {
         orderBy: 'createdAt',
-        limit: 12
+        limit: 6
       })
       console.log(response.data)
-      this.homeSpecialSections.novelties = response.data
+      this.homeSpecialSections.novelties = response.data.result
     },
     async loadRecomendations() {
       console.log('>>> loadRecomendations')
@@ -53,10 +47,10 @@ export const useProductStore = defineStore('product', {
       const response = await this.api.get(`product`, false, {
         orderBy: 'createdAt',
         order: 'desc',
-        limit: 12
+        limit: 6
       })
       console.log(response.data)
-      this.homeSpecialSections.recomendations = response.data
+      this.homeSpecialSections.recomendations = response.data.result
     },
     useProductMock() {
       this.product = {

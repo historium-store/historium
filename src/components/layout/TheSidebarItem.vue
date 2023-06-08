@@ -6,7 +6,7 @@
       aria-controls="section-sidebar"
       class="flex items-center p-2"
     >
-      <font-awesome-icon class="w-6" :icon="['fas', icon]" size="lg" />
+      <font-awesome-icon v-if="icon" class="w-6" :icon="['fas', icon]" size="lg" />
       <div class="grid ml-3">
         <span :class="titleStyle ? titleStyle : 'text-lg'">{{ title }}</span>
         <span v-if="description" class="text-[11px] -mt-1">{{ description }}</span>

@@ -1,12 +1,11 @@
-import { defineStore } from 'pinia'
 import axios from 'axios'
+import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
 
 export const useApiStore = defineStore('api', {
   state: () => ({
     authStore: useAuthStore(),
-    // API: 'http://localhost:3000/'
-    API: 'api/'
+    API: 'http://localhost:3000/'
   }),
   actions: {
     getHeader(isNeedAuth) {

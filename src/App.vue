@@ -1,7 +1,7 @@
 <template>
   <the-sidebar></the-sidebar>
   <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
-  <the-category-menu></the-category-menu>
+  <the-category-menu />
   <Modal class="[&>*]:z-50" v-if="isShowModal" @close="closeModal">
     <template #header></template>
     <template #body>
@@ -35,7 +35,7 @@ import { ref } from 'vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheFooter from './components/layout/TheFooter.vue'
 import TheSidebar from './components/layout/TheSidebar.vue'
-import TheCategoryMenu from './components/layout/TheCategoryMenu.vue'
+import TheCategoryMenu from './components/layout/TheSectionsMenu.vue'
 import LoginView from './components/auth/LoginView.vue'
 import SignUpView from './components/auth/SignUpView.vue'
 import RestoreView from './components/auth/RestoreView.vue'

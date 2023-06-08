@@ -13,7 +13,6 @@
           :key="section.key"
           :title="section.name"
           titleStyle="text-sm"
-          icon="book"
         />
       </ul>
     </div>
@@ -23,18 +22,17 @@
 <script>
 import router from '../../router'
 import { mapWritableState } from 'pinia'
-import { useProductStore } from '../../stores/product'
 import TheSidebarItem from './TheSidebarItem.vue'
+import { useSectionStore } from '../../stores/section'
 export default {
   data() {
     return {
-      isNested: false,
       path: '/section'
     }
   },
   components: { TheSidebarItem },
   computed: {
-    ...mapWritableState(useProductStore, ['sections'])
+    ...mapWritableState(useSectionStore, ['sections'])
   },
   methods: {
     async pickSection(key) {
@@ -46,9 +44,6 @@ export default {
         // console.log(pick.sections)
         this.sections = pick.sections
       } else await router.push(`${this.path}/${pick.key}`)
-    },
-    toogleSidebar() {
-      this.display = !this.display
     }
   }
 }

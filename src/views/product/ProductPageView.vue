@@ -122,6 +122,11 @@ export default {
     async addToCart() {
       console.log('>>> addToCart')
       await this.addItemToCart(this.product._id)
+    },
+    async checkout() {
+      console.log('>>> checkout')
+      await this.addToCart()
+      await this.$router.push('checkout')
     }
   }
 }

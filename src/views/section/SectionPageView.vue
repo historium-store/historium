@@ -11,7 +11,7 @@
     >
   </breadcrumb>
   <div
-    class="xl:ml-64 grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 mx-auto p-6"
+    class="grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 mx-auto p-6"
   >
     <the-product-card v-for="product in sectionProducts" :key="product._id" :good="product" />
   </div>

@@ -27,6 +27,7 @@ export default {
     },
     fontFamily: {
       body: [
+        'Neucha',
         'Inter',
         'ui-sans-serif',
         'system-ui',
@@ -44,6 +45,7 @@ export default {
         'Noto Color Emoji'
       ],
       sans: [
+        'Neucha',
         'Inter',
         'ui-sans-serif',
         'system-ui',

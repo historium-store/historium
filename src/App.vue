@@ -1,8 +1,10 @@
 <template>
-  <the-sidebar></the-sidebar>
-  <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
-  <the-category-menu />
-  <Modal class="[&>*]:z-50" v-if="isShowModal" @close="closeModal">
+  <Modal
+    size="xl"
+    class="[&>*>*>*]:bg-transparent [&>*>*]:border [&>*>*]:w-1/2 [&>*>div]:h-96 [&>*]:flex [&>*>*]:items-center [&>*>*]:justify-center [&>*>*]:h-screen [&>*>*]:rounded-2xl [&>*]:bg-black [&>*]:bg-opacity-50 [&>*]:z-50"
+    v-if="isShowModal"
+    @close="closeModal"
+  >
     <template #header></template>
     <template #body>
       <LoginView
@@ -10,17 +12,29 @@
         :switchModal="switchModalState"
         v-if="modalState === 'login'"
       ></LoginView>
-      <SignUpView :switchModal="switchModalState" v-if="modalState === 'signup'"></SignUpView>
-      <RestoreView v-if="modalState === 'restore'"></RestoreView>
+      <SignUpView
+        :close-modal="closeModal"
+        :switchModal="switchModalState"
+        v-else-if="modalState === 'signup'"
+      ></SignUpView>
+      <RestoreView
+        :close-modal="closeModal"
+        :switchModal="switchModalState"
+        v-else-if="modalState === 'restore'"
+      ></RestoreView>
     </template>
   </Modal>
-  <!-- <breadcrumb>
-    <breadcrumb-item home>Home</breadcrumb-item>
-    <breadcrumb-item>Book</breadcrumb-item>
-  </breadcrumb> -->
+  <main-sidebar></main-sidebar>
+  <sections-sidebar></sections-sidebar>
+  <profile-sidebar></profile-sidebar>
+  <cart-sidebar></cart-sidebar>
+  <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
+
   <Suspense>
     <router-view v-slot="slotProps">
-      <component :is="slotProps.Component"></component>
+      <div class="xl:ml-64">
+        <component :is="slotProps.Component"></component>
+      </div>
       <!-- <transition name="route" mode="out-in">
       <component :is="slotProps.Component"></component>
     </transition> -->
@@ -34,8 +48,10 @@ import { RouterView } from 'vue-router'
 import { ref } from 'vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheFooter from './components/layout/TheFooter.vue'
-import TheSidebar from './components/layout/TheSidebar.vue'
-import TheCategoryMenu from './components/layout/TheSectionsMenu.vue'
+import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
+import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
+import ProfileSidebar from './components/layout/sidebars/ProfileSidebar.vue'
+import CartSidebar from './components/layout/sidebars/CartSidebar.vue'
 import LoginView from './components/auth/LoginView.vue'
 import SignUpView from './components/auth/SignUpView.vue'
 import RestoreView from './components/auth/RestoreView.vue'
@@ -57,17 +73,19 @@ export default {
     return { cartStore }
   },
   components: {
-    TheCategoryMenu,
+    SectionsSidebar,
     TheHeader,
     TheFooter,
-    TheSidebar,
+    Sidebar,
+    MainSidebar,
+    CartSidebar,
+    ProfileSidebar,
     Breadcrumb,
     Modal,
     LoginView,
     RouterView,
     SignUpView,
     RestoreView,
-    Sidebar,
     BreadcrumbItem
   },
   methods: {

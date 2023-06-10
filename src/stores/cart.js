@@ -12,7 +12,7 @@ export const useCartStore = defineStore('cart', {
   },
   actions: {
     async updateCart() {
-      const response = await this.api.get('user/basket', true)
+      const response = await this.api.get('user/cart', true)
       this.cart = response.data
     },
     async loadLocalCart() {
@@ -29,14 +29,14 @@ export const useCartStore = defineStore('cart', {
     updateLocalCart() {
       localStorage.setItem('cart', JSON.stringify(this.localCart))
     },
-    async addItemToCart(itemId) {
+    async addItem(itemId) {
       // const x = this.cart?.items?.find((item) => item.product._id === itemId)
       // console.log(x)
       // x.quantity++
       // console.log(x)
 
       if (this.isAuthenticated) {
-        await this.api.post('user/basket-item', { product: itemId }, null, true)
+        await this.api.post('user/cart-item', { product: itemId }, null, true)
         this.updateCart()
       } else {
         const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
@@ -48,9 +48,9 @@ export const useCartStore = defineStore('cart', {
       }
       return true
     },
-    async removeItemFromCart(itemId) {
+    async removeItem(itemId) {
       if (this.isAuthenticated) {
-        await this.api.delete('user/basket-item', { product: itemId })
+        await this.api.delete('user/cart-item', { product: itemId })
         this.updateCart()
       } else {
         const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
@@ -64,9 +64,25 @@ export const useCartStore = defineStore('cart', {
       }
       return true
     },
+    async changeItemCount(itemId, count) {
+      if (count < 100) {
+        if (this.isAuthenticated) {
+          await this.api.post('user/cart-item', { product: itemId, quantity: count }, null, true)
+          this.updateCart()
+        } else {
+          const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
+          if (index != -1) {
+            this.localCart.items[index].quantity++
+          } else this.localCart.items.push({ quantity: 1, itemId })
+
+          this.updateLocalCart()
+        }
+      } else throw Error('items count is too big')
+      return true
+    },
     async clearCart() {
       if (this.isAuthenticated) {
-        await this.api.delete('user/basket')
+        await this.api.delete('user/cart')
         this.updateCart()
       }
     }

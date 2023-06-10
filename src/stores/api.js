@@ -5,7 +5,7 @@ import { useAuthStore } from './auth'
 export const useApiStore = defineStore('api', {
   state: () => ({
     authStore: useAuthStore(),
-    API: 'http://localhost:3000/'
+    API: 'http://10.10.10.108:3000/'
   }),
   actions: {
     getHeader(isNeedAuth) {

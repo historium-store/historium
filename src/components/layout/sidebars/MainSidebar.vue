@@ -1,16 +1,16 @@
 <template>
   <aside
-    id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-full xs:w-64 h-screen transition-transform -translate-x-full xl:translate-x-0"
-    aria-label="Sidebar"
+    id="main-sidebar"
+    :class="
+      'fixed top-0 left-0 z-30 w-full sm:w-64 h-screen transition-transform xl:translate-x-0 ' +
+      getStyle
+    "
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-900">
       <div class="inline-flex">
         <img src="src/assets/logo.png" class="ps-2 h-10" alt="Historium Logo" />
         <button
-          type="button"
-          data-drawer-hide="default-sidebar"
-          aria-controls="default-sidebar"
+          @click="closeSidebar('main')"
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
         >
           <svg
@@ -30,39 +30,32 @@
         </button>
       </div>
       <ul class="space-y-2 font-medium mt-6">
-        <the-sidebar-item title="Категорії книг" icon="list" />
-        <the-sidebar-item title="Кошик" icon="cart-shopping" />
-        <the-sidebar-item
-          title="0-800-335-400"
-          icon="phone"
-          description="Без вихідних, з 8 до 21"
-        />
+        <sidebar-item @click="openSidebar('sections')" title="Категорії книг" icon="list" />
+        <sidebar-item @click="openSidebar('cart')" title="Кошик" icon="cart-shopping" />
+        <sidebar-item title="0-800-335-400" icon="phone" description="Без вихідних, з 8 до 21" />
         <hr />
-        <the-sidebar-item title="Паперові книги" icon="book" />
-        <the-sidebar-item title="Електронні книги" icon="cloud-arrow-down" />
-        <the-sidebar-item title="Аудіокниги" icon="headphones" />
-        <the-sidebar-item
-          title="Інше"
-          icon="ellipsis"
-          description="Ігри, аксесуари, подарунки тощо"
-        />
+        <sidebar-item title="Паперові книги" icon="book" />
+        <sidebar-item title="Електронні книги" icon="cloud-arrow-down" />
+        <sidebar-item title="Аудіокниги" icon="headphones" />
+        <sidebar-item title="Інше" icon="ellipsis" description="Ігри, аксесуари, подарунки тощо" />
       </ul>
     </div>
   </aside>
 </template>
 
 <script>
-import TheSidebarItem from './TheSidebarItem.vue'
+import { mapActions } from 'pinia'
+import SidebarItem from './SidebarItem.vue'
+import { useSidebarStore } from '../../../stores/sidebar'
 export default {
-  components: { TheSidebarItem },
+  components: { SidebarItem },
   methods: {
-    dropdown() {
-      console.log('x')
-    },
-    openSidebar() {
-      this.display = !this.display
-    },
-    openSectionSidebar() {}
+    ...mapActions(useSidebarStore, ['closeSidebar', 'openSidebar', 'getSidebar'])
+  },
+  computed: {
+    getStyle() {
+      return this.getSidebar('main').style
+    }
   }
 }
 </script>

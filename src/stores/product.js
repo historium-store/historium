@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import router from '../router'
 import { useApiStore } from './api'
+import router from '../router'
 export const useProductStore = defineStore('product', {
   state: () => ({
     api: useApiStore(),
@@ -36,7 +36,7 @@ export const useProductStore = defineStore('product', {
 
       const response = await this.api.get(`product`, false, {
         orderBy: 'createdAt',
-        limit: 6
+        limit: 5
       })
       console.log(response.data)
       this.homeSpecialSections.novelties = response.data.result
@@ -47,7 +47,7 @@ export const useProductStore = defineStore('product', {
       const response = await this.api.get(`product`, false, {
         orderBy: 'createdAt',
         order: 'desc',
-        limit: 6
+        limit: 4
       })
       console.log(response.data)
       this.homeSpecialSections.recomendations = response.data.result

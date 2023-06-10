@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-// import router from '../router'
 import { useApiStore } from './api'
 export const useSectionStore = defineStore('section', {
   state: () => ({

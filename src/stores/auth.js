@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import router from '../router'
 import { useApiStore } from './api'
 
 export const useAuthStore = defineStore('auth', {
@@ -17,7 +16,13 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
-    
+    // User
+    async getUser() {
+      const response = await this.api.get('user/account', true)
+      this.user = response.data
+      localStorage.setItem('user', JSON.stringify(response.data))
+    },
+
     // Authorization
 
     getAuthToken() {
@@ -39,27 +44,15 @@ export const useAuthStore = defineStore('auth', {
       return true
     },
     async login(payload) {
-      console.log('>>> login')
-
       const response = await this.api.post('login', payload)
       await this.setToken(response.data.token)
       return true
     },
     logout() {
-      console.log('>>> logout')
-
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       this.token = null
       this.user = null
-      router.push('/')
-    },
-    async getUser() {
-      console.log('>>> getUser')
-
-      const response = await this.api.get('user/account', true)
-      this.user = response.data
-      localStorage.setItem('user', JSON.stringify(response.data))
     },
 
     // Password restoration

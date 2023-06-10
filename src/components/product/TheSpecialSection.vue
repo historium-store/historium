@@ -1,11 +1,12 @@
 <template>
   <div class="block">
-    <hr />
     <div class="flex justify-items-center">
-      <span class="text-[20px] p-3">{{ title }}</span>
+      <span class="bg-teal-700 mt-4 min-w-[160px] rounded-e-lg text-[20px] ps-8 p-2">{{
+        title
+      }}</span>
     </div>
     <div
-      class="mt-5 xl:ml-64 grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 mx-auto p-6"
+      class="mt-4 grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 mx-auto p-6"
     >
       <the-product-card
         :good="good"
@@ -15,7 +16,6 @@
         @click="viewProduct(good.key)"
       ></the-product-card>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -37,10 +37,10 @@ export default {
     }
     return { productStore }
   },
+  components: { TheProductCard },
   computed: {
     ...mapWritableState(useProductStore, ['homeSpecialSections'])
   },
-  components: { TheProductCard },
   methods: {
     ...mapActions(useProductStore, ['isAvailable', 'viewProduct'])
   }

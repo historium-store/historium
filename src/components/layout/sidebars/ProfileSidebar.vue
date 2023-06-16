@@ -6,9 +6,9 @@
       getStyle
     "
   >
-    <div class="h-full flex flex-col px-3 py-4 bg-gray-50 dark:bg-gray-900">
+    <div class="h-screen space-y-5 flex flex-col px-3 py-4 bg-background">
       <div class="inline-flex">
-        <span><h1 class="text-2xl">Акаунт</h1></span>
+        <span><h1 class="text-2xl">Профіль</h1></span>
         <button
           @click="closeSidebar('profile')"
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -29,20 +29,40 @@
           <span class="sr-only">Close menu</span>
         </button>
       </div>
-      <ul v-if="user" class="space-y-2 mt-6 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        <li
-          class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-for="field of Object.entries(user)"
-          :key="field"
-        >
-          {{ field[0] }}: {{ field[1] }}
-        </li>
+      <div class="inline-flex space-x-8 items-center">
+        <div class="flex items-center bg-slate-600 rounded-full w-10 h-10">
+          <font-awesome-icon
+            size="lg"
+            class="max-sm:text-2xl mx-auto"
+            :icon="['fas', 'user']"
+            style="color: #ffffff"
+          />
+        </div>
+        <div class="tracking-widest">
+          <p>{{ fullName }}</p>
+          <p>{{ user?.phoneNumber }}</p>
+        </div>
+      </div>
+      <hr class="" />
+      <div>
+        <ul class="space-y-2">
+          <li class="p-3"><p>Замовлення</p></li>
+          <li class="p-3"><p>Моя бібліотека</p></li>
+          <li class="p-3"><p>Бажані книги</p></li>
+          <li class="p-3"><p>Товари в очікуванні</p></li>
+          <li class="p-3"><p>Бонуси</p></li>
+        </ul>
+      </div>
+      <hr class="" />
+      <ul class="">
+        <li class="p-3"><p>Налаштування</p></li>
       </ul>
+      <hr class="" />
       <button
-        class="p-2 ml-1 w-max text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        class="p-2 w-full rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         @click="logout"
       >
-        logout
+        Вихід
       </button>
     </div>
   </aside>
@@ -63,7 +83,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(useAuthStore, ['user', 'isAuthenticated']),
+    ...mapState(useAuthStore, ['user', 'isAuthenticated', 'fullName']),
     getStyle() {
       return this.getSidebar('profile').style
     }

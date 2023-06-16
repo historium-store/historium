@@ -18,7 +18,13 @@ export default {
           900: '#064e3b',
           950: '#083644',
           1000: '#083344'
-        }
+        },
+        cart: {
+          dark: '#0E6060',
+          light: '#209393',
+          lighter: '#E1FFFE'
+        },
+        background: '#031425'
       }
     },
     screens: {

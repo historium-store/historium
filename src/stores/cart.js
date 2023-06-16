@@ -1,9 +1,18 @@
-import { defineStore } from 'pinia'
+import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
+import { CookieStorage } from 'cookie-storage'
+
+const cookieStorage = new CookieStorage()
+
+const cartTemplate = {
+  items: [],
+  totalPrice: 0,
+  totalQuantity: 0
+}
 
 export const useCartStore = defineStore('cart', {
-  state: () => ({ api: useApiStore(), cart: undefined, localCart: { items: [] } }),
+  state: () => ({ cart: cartTemplate }),
   getters: {
     isAuthenticated() {
       const auth = useAuthStore()
@@ -11,80 +20,172 @@ export const useCartStore = defineStore('cart', {
     }
   },
   actions: {
+    ...mapActions(useApiStore, ['post', 'get', 'patch', 'delete']),
+    async synchronizeCarts() {
+      if (this.isAuthenticated && this.cart.totalQuantity > 0) {
+        let items = []
+        this.cart.items.map((item) =>
+          items.push({ quantity: item.quantity, product: item.product._id })
+        )
+        const response = await this.patch('user/cart', { items })
+        this.cart = response.data
+      }
+    },
     async updateCart() {
-      const response = await this.api.get('user/cart', true)
+      console.log('updateCart')
+
+      if (!this.isAuthenticated) {
+        // this.saveCartToLS()
+        await this.loadCartFromLS()
+        return
+      }
+      const response = await this.get('user/cart', true)
       this.cart = response.data
     },
-    async loadLocalCart() {
-      this.localCart = JSON.parse(localStorage.getItem('cart'))
-      let items = []
-      this.localCart.items.forEach(async (item) => {
-        if (!item?.product) {
-          const response = await this.api.get(`product/${item.itemId}`)
-          items.push(response.data)
-        } else items.push(item)
-      })
-      this.localCart.items = items
+    async loadCartFromLS() {
+      console.log('loadCartFromLS')
+
+      // collect local cart and get items
+      const localCart = JSON.parse(cookieStorage.getItem('cart')) || cartTemplate
+
+      // let items = []
+      // if (localCart?.totalQuantity > 0 && this.cart.totalQuantity === 0) {
+      this.cart = { ...localCart }
+      // }
+      //   localCart.items.forEach(async (item) => {
+      //     if (!item.product) {
+      //       const response = await this.api.get(`product/${item.product._id}`, { preview: true })
+      //       items.push(response.data)
+      //     } else {
+      //       items.push(item)
+      //     }
+      //   })
+      // } else {
+      //   localCart.items = items
+      // }
+
+      // if (localCart.items.length > 0) {
+      //   if (this.cart.totalQuantity === 0) {
+      //     this.cart = { ...localCart }
+      //   } else {
+      //     console.log()
+      //   }
+      //   console.log()
+      // }
+
+      //   this.cart = { ...cart }
+      // } else {
+      //   let resultCart = cartTemplate
+      //   cart.items.forEach((local) => {
+      //     const match = this.cart.items.find((old) => old.product._id === local.product._id)
+      //     if (!match) resultCart.items.push(local)
+
+      //     match.quantity = Math.max(local.quantity, match.quantity)
+      //     resultCart.items.push(match)
+      //   })
+
+      //   resultCart.totalPrice = resultCart.items.reduce(
+      //     (count, item) => (count += item.product.price * item.quantity),
+      //     0
+      //   )
+      //   resultCart.totalQuantity = resultCart.items.reduce(
+      //     (count, item) => (count += item.quantity),
+      //     0
+      //   )
+
+      //   this.cart = { ...resultCart }
+      // }
     },
-    updateLocalCart() {
-      localStorage.setItem('cart', JSON.stringify(this.localCart))
+    saveCartToLS() {
+      console.log('saveCartToLS')
+      cookieStorage.setItem('cart', JSON.stringify(this.cart))
     },
     async addItem(itemId) {
-      // const x = this.cart?.items?.find((item) => item.product._id === itemId)
-      // console.log(x)
-      // x.quantity++
-      // console.log(x)
-
+      console.log('addItem')
       if (this.isAuthenticated) {
-        await this.api.post('user/cart-item', { product: itemId }, null, true)
-        this.updateCart()
+        await this.post('user/cart-item', { product: itemId }, null, true)
       } else {
-        const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
+        const index = this.cart.items.findIndex((item) => item.product._id === itemId)
         if (index != -1) {
-          this.localCart.items[index].quantity++
-        } else this.localCart.items.push({ quantity: 1, itemId })
-
-        this.updateLocalCart()
+          this.cart.items[index].quantity++
+        } else {
+          const response = await this.get(`product/${itemId}`, false, { preview: true })
+          this.cart.items.push({
+            product: response.data,
+            quantity: 1,
+            createdAt: Date.now()
+          })
+        }
+        this.cart.totalQuantity++
+        this.countPrice()
+        this.saveCartToLS()
       }
+      await this.updateCart()
       return true
     },
     async removeItem(itemId) {
       if (this.isAuthenticated) {
-        await this.api.delete('user/cart-item', { product: itemId })
-        this.updateCart()
+        await this.delete('user/cart-item', { product: itemId, quantity: Number.MAX_SAFE_INTEGER })
       } else {
-        const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
+        const index = this.cart.items.findIndex((item) => item.product._id === itemId)
         if (index != -1) {
-          if (this.localCart.items[index].quantity === 1) {
-            delete this.localCart.items[index]
-          } else this.localCart.items[index].quantity--
-        } else this.localCart.items.push({ quantity: 1, itemId })
-
-        this.updateLocalCart()
+          this.cart.totalQuantity -= this.cart.items[index].quantity
+          this.cart.items.splice(index, 1)
+          this.countPrice()
+          this.saveCartToLS()
+        }
       }
+      await this.updateCart()
       return true
     },
-    async changeItemCount(itemId, count) {
-      if (count < 100) {
-        if (this.isAuthenticated) {
-          await this.api.post('user/cart-item', { product: itemId, quantity: count }, null, true)
-          this.updateCart()
-        } else {
-          const index = this.localCart.items.findIndex((item) => item.itemId === itemId)
-          if (index != -1) {
-            this.localCart.items[index].quantity++
-          } else this.localCart.items.push({ quantity: 1, itemId })
-
-          this.updateLocalCart()
+    async decreaseItem(itemId) {
+      if (this.isAuthenticated) {
+        await this.delete('user/cart-item', { product: itemId })
+      } else {
+        const index = this.cart.items.findIndex((item) => item.product._id === itemId)
+        if (index != -1 && this.cart.items[index].quantity > 1) {
+          this.cart.items[index].quantity--
+          this.cart.totalQuantity--
+          this.countPrice()
+          this.saveCartToLS()
         }
-      } else throw Error('items count is too big')
+      }
+      await this.updateCart()
+      return true
+    },
+    async changeItemCount(itemId, quantity) {
+      if (quantity < 100) {
+        if (this.isAuthenticated) {
+          await this.api.post('user/cart-item', { product: itemId, quantity }, null, true)
+        } else {
+          const index = this.cart.items.findIndex((item) => item.product._id === itemId)
+          this.cart.items[index].quantity = +quantity
+          this.countTotalQuantity()
+          this.countPrice()
+          this.saveCartToLS()
+        }
+        await this.updateCart()
+      } else throw Error('items quantity is too big')
       return true
     },
     async clearCart() {
       if (this.isAuthenticated) {
-        await this.api.delete('user/cart')
-        this.updateCart()
+        await this.delete('user/cart')
+      } else {
+        cookieStorage.removeItem('cart')
       }
+      this.cart = cartTemplate
+      this.saveCartToLS()
+      await this.updateCart()
+    },
+    countPrice() {
+      this.cart.totalPrice = this.cart.items.reduce(
+        (count, item) => (count += item.product.price * item.quantity),
+        0
+      )
+    },
+    countTotalQuantity() {
+      this.cart.totalQuantity = this.cart.items.reduce((count, item) => (count += item.quantity), 0)
     }
   }
 })

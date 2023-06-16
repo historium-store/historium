@@ -3,7 +3,7 @@
     id="section-sidebar"
     :class="'fixed top-0 left-0 z-30 w-full sm:w-96 h-screen transition-transform ' + getStyle"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-background">
       <span><h1 class="text-xl px-5">Категорії</h1></span>
       <button
         @click="closeSidebar('sections')"
@@ -25,13 +25,24 @@
         <span class="sr-only">Close menu</span>
       </button>
       <ul class="space-y-2 font-medium mt-6">
-        <!--  -->
+        <sidebar-item
+          v-if="sections !== currentSections"
+          @click="back"
+          title="<-- Назад"
+          titleStyle="text-md"
+        />
+        <sidebar-item
+          v-if="sections !== currentSections"
+          @click="showAll"
+          title="Показати всі"
+          titleStyle="text-md"
+        />
         <sidebar-item
           @click="pickSection(section.key)"
-          v-for="section in sections"
+          v-for="section in currentSections"
           :key="section.key"
           :title="section.name"
-          titleStyle="text-sm"
+          titleStyle="text-md"
         />
       </ul>
     </div>
@@ -44,33 +55,19 @@ import SidebarItem from './SidebarItem.vue'
 import { useSectionStore } from '../../../stores/section'
 import { useSidebarStore } from '../../../stores/sidebar'
 export default {
-  data() {
-    return {
-      path: '/section'
-    }
+  async mounted() {
+    await this.loadSectionNames()
   },
   components: { SidebarItem },
   computed: {
-    ...mapWritableState(useSectionStore, ['sections']),
+    ...mapWritableState(useSectionStore, ['sections', 'rootPath', 'currentSections']),
     getStyle() {
       return this.getSidebar('sections').style
     }
   },
   methods: {
-    ...mapActions(useSidebarStore, ['getSidebar', 'closeSidebar', 'closeSidebars']),
-    async pickSection(key) {
-      console.log(key)
-      const pick = this.sections.find((section) => section.key === key)
-      if (pick?.sections?.length) {
-        this.isNested = true
-        this.path += `/${pick.key}`
-        // console.log(pick.sections)
-        this.sections = pick.sections
-      } else {
-        this.closeSidebars()
-        await this.$router.push(`${this.path}/${pick.key}`)
-      }
-    }
+    ...mapActions(useSectionStore, ['loadSectionNames', 'back', 'pickSection', 'showAll']),
+    ...mapActions(useSidebarStore, ['getSidebar', 'closeSidebar', 'closeSidebars'])
   }
 }
 </script>

@@ -1,52 +1,46 @@
 import { defineStore } from 'pinia'
 
-// const openedSidebarStyle = 'transform-none'
-// const closedLeftSidebarClass = '-translate-x-full'
-// const closedRightSidebarClass = 'translate-x-full'
 const overflow = document.createElement('div')
 
-overflow.className = 'bg-gray-900 bg-opacity-50 dark:bg-opacity-70 fixed inset-0 z-20'
+overflow.className = 'bg-gray-900 bg-opacity-70 dark:bg-opacity-80 fixed inset-0 z-40'
+
+const modals = ['login', 'signup', 'restore', 'search']
 
 export const useModalStore = defineStore('modal', {
   state: () => ({
-    modals: [
-      { name: 'login', isOpen: false, style: '' },
-      { name: 'signup', isOpen: false, style: '' },
-      { name: 'restore', isOpen: false, style: '' }
-    ]
+    modals: modals,
+    currentModal: modals[0],
+    isActive: false
   }),
   actions: {
     getModal(modalName) {
-      return this.modals.find((e) => e.name === modalName)
+      return this.modals.find((m) => m === modalName)
     },
     showModal(modalName) {
       const modal = this.getModal(modalName)
       if (modal) {
-        modal.isOpen = true
-        // modal.style = this.openedSidebarClass
-
+        this.currentModal = modal
+        document.getElementById('modal').classList.remove('hidden')
         if (!document.body.classList.contains('overflow-hidden')) {
           document.body.classList.add('overflow-hidden')
         }
 
         overflow.onclick = this.hideModals
-        overflow.id = modal.name
+        overflow.id = modal
         document.body.appendChild(overflow)
       }
     },
     hideModal(modalName) {
-      console.log('hideModal: ' + modalName)
-
       const modal = this.getModal(modalName)
       if (modal) {
-        modal.isOpen = false
-        // modal.style =
+        document.getElementById('modal').classList.add('hidden')
+        this.isActive = false
         document.body.classList.remove('overflow-hidden')
         document.body.removeChild(overflow)
       }
     },
     hideModals() {
-      console.log('hideModals')
+      document.getElementById('modal').classList.add('hidden')
       document.body.classList.remove('overflow-hidden')
       document.body.removeChild(overflow)
     }

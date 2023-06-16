@@ -1,91 +1,96 @@
 <template>
-  <h1
-    class="text-xl text-center font-sans leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-6"
-  >
-    Увійдіть в свій акаунт
+  <h1 class="text-3xl text-center font-sans leading-tight tracking-tight md:text-2xl">
+    Вхід до акаунту
   </h1>
-  <form class="space-y-4 md:space-y-6" @submit.prevent="loginSubmit">
+  <form class="space-y-6 mt-12 [&>div>input]:pl-5" @submit.prevent="loginSubmit">
     <div>
-      <label for="text" class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Номер телефону або електронна пошта <sup>*</sup></label
-      >
       <input
+        @change="login.handleChange"
         type="text"
         name="login"
         id="login"
-        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-slate-950 dark:bg-opacity-30 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500"
+        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         placeholder="Введіть номер або email"
-        required=""
-        v-model.trim="login"
+        v-model.trim="login.value"
       />
+      <span>{{ login.errorMessage }}</span>
     </div>
     <div>
-      <div class="flex justify-between">
-        <label for="password" class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >Пароль <sup>*</sup></label
-        >
-        <p
-          @click="switchModal('restore')"
-          to="restore"
-          class="text-sm font-medium text-primary-600 hover:underline hover:cursor-pointer dark:text-primary-500"
-        >
-          Забули пароль?
-        </p>
-      </div>
       <input
         type="password"
         name="password"
         id="password"
         placeholder="Введіть пароль"
-        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-slate-950 dark:bg-opacity-30 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500"
+        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         required=""
         v-model.trim="password"
       />
     </div>
-    <!-- <div class="flex justify-between">
-          
-          </div> -->
+    <div class="flex justify-end px-4">
+      <p
+        @click="showModal('restore')"
+        class="text-sm font-medium hover:underline hover:cursor-pointer"
+      >
+        Забули пароль?
+      </p>
+    </div>
     <button
       type="submit"
-      class="flex flex-col mx-auto items-center min-w-[100px] text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-slate-950 font-medium rounded-2xl text-sm px-5 py-2.5 dark:bg-slate-950 dark:bg-opacity-30 dark:hover:bg-slate-700 dark:focus:bg-primary-700"
+      class="flex border-2 flex-col mx-auto items-center min-w-[180px] text-md focus:outline-none font-medium rounded-3xl px-3 py-2 bg-background bg-opacity-60"
     >
       Увійти
     </button>
-    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+    <p class="text-sm text-center font-light text-gray-500">
+      Немає акаунту?
+      <button @click="showModal('signup')" class="font-medium hover:underline text-white">
+        Зареєструватися
+      </button>
+    </p>
+    <!-- <p class="text-sm font-light text-gray-500 dark:text-gray-400">
       Немає акаунту?
       <button
-        @click="switchModal('signup')"
+        @click="showModal('signup')"
         to="signup"
         class="font-medium text-primary-600 hover:underline dark:text-primary-500"
       >
         Зареєструватися
       </button>
-    </p>
+    </p> -->
   </form>
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth'
-export default {
-  props: ['isShowModal', 'closeModal', 'switchModal'],
-  setup() {
-    const authStore = useAuthStore()
+import { mapActions } from 'pinia'
+import { useModalStore } from '../../stores/modal'
+import { useField } from 'vee-validate'
+import * as yup from 'yup'
 
-    return { authStore }
-  },
+export default {
   data() {
     return {
-      login: '',
-      password: ''
+      login: useField(
+        () => '',
+        yup.string().when('isEmail', {
+          is: true,
+          then: () => yup.string().email().required(),
+          otherwise: () => yup.string().required().min(10)
+        })
+      ),
+      password: useField(() => '', yup.string().required().min(8))
     }
   },
   methods: {
+    ...mapActions(useModalStore, ['hideModals', 'showModal']),
+    ...mapActions(useAuthStore, { authLogin: 'login' }),
     async loginSubmit() {
-      const success = await this.authStore.login({
+      const success = await this.authLogin({
         login: this.login,
         password: this.password
       })
-      if (success) this.closeModal()
+      if (success) {
+        this.hideModals()
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useSidebarStore } from '../stores/sidebar'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,12 +10,7 @@ const router = createRouter({
       component: () => import('../views/GeneralPage.vue')
     },
     {
-      path: '/restore',
-      name: 'restore',
-      component: () => import('../components/auth/RestoreView.vue')
-    },
-    {
-      path: '/book',
+      path: '/books',
       name: 'books',
       component: () => import('../views/product/ProductShowcaseView.vue')
     },
@@ -33,7 +29,8 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: () => import('../views/admin/AdminPanelView.vue')
+      component: () => import('../views/admin/AdminPanelView.vue'),
+      childrens: []
     },
     {
       path: '/checkout',
@@ -41,6 +38,11 @@ const router = createRouter({
       component: () => import('../views/order/CheckoutPageView.vue')
     }
   ]
+})
+
+router.beforeEach(() => {
+  const sidebarStore = useSidebarStore()
+  sidebarStore.closeSidebars()
 })
 
 export default router

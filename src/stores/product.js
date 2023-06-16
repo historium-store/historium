@@ -1,9 +1,9 @@
-import { defineStore } from 'pinia'
+import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
 import router from '../router'
+
 export const useProductStore = defineStore('product', {
   state: () => ({
-    api: useApiStore(),
     products: undefined,
     product: undefined,
     homeSpecialSections: {
@@ -12,31 +12,32 @@ export const useProductStore = defineStore('product', {
     }
   }),
   actions: {
+    ...mapActions(useApiStore, ['get']),
     isAvailable(product) {
       return product?.quantity > 0
     },
-    async viewProduct(key) {
-      await router.push(`/${key}`)
+    async viewProduct(id) {
+      await router.push({ name: 'product', params: { id } })
     },
     async loadProducts() {
       console.log('>>> loadProducts')
 
-      const response = await this.api.get('product')
+      const response = await this.get('product')
       this.products = response.data.result
     },
     async loadProduct(key) {
       console.log('>>> loadProduct ' + key)
 
-      const response = await this.api.get(`product/${key}`)
+      const response = await this.get(`product/${key}`)
       this.product = response.data
       console.log(this.product)
     },
     async loadNovelties() {
       console.log('>>> loadNovelties')
 
-      const response = await this.api.get(`product`, false, {
+      const response = await this.get(`product`, false, {
         orderBy: 'createdAt',
-        limit: 5
+        limit: 12
       })
       console.log(response.data)
       this.homeSpecialSections.novelties = response.data.result
@@ -44,54 +45,13 @@ export const useProductStore = defineStore('product', {
     async loadRecomendations() {
       console.log('>>> loadRecomendations')
 
-      const response = await this.api.get(`product`, false, {
+      const response = await this.get(`product`, false, {
         orderBy: 'createdAt',
         order: 'desc',
-        limit: 4
+        limit: 12
       })
       console.log(response.data)
       this.homeSpecialSections.recomendations = response.data.result
-    },
-    useProductMock() {
-      this.product = {
-        _id: 'none',
-        name: 'Назва',
-        price: 0,
-        quantity: 1,
-        type: { _id: 'none', name: 'Книга', key: 'book' },
-        sections: [
-          {
-            _id: 'none',
-            name: 'Фантастика та фентезі',
-            key: 'fantastyka-ta-fentezi'
-          }
-        ],
-        description: 'Опис',
-        images: ['https://m.media-amazon.com/images/I/81cxuKpEabL._AC_UF894,1000_QL80_.jpg'],
-        createdAt: 1685304891224,
-        updatedAt: 1685704864958,
-        code: '000000',
-        key: 'novi-temni-viki-kniga-1-koloniya',
-        specificProduct: {
-          _id: 'none',
-          publisher: { _id: 'none', name: 'Автор' },
-          languages: ['Мова'],
-          publishedIn: 2023,
-          authors: [{ _id: 'none', fullName: 'Автор' }],
-          compilers: [],
-          translators: [],
-          illustrators: [],
-          editors: [],
-          copies: 1,
-          isbns: ['999-999-99999-0-1'],
-          format: '0х0 мм',
-          pages: 1,
-          weight: 500,
-          paperType: 'Офсетний',
-          bindingType: 'Тверда',
-          illustrationsType: ['Чорно-білі']
-        }
-      }
     }
   }
 })

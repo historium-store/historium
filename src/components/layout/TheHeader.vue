@@ -31,7 +31,7 @@
           </RouterLink>
         </div>
         <div class="flex flex-1 px-6 items-center xs:max-[550px]:hidden">
-          <the-search :query="querySearch"></the-search>
+          <the-search></the-search>
         </div>
         <div class="flex flex-wrap items-center">
           <div class="flex">
@@ -86,6 +86,7 @@ import { useAuthStore } from '@/stores/auth.js'
 import TheSearch from '../layout/TheSearch.vue'
 import { useSidebarStore } from '../../stores/sidebar'
 import { mapActions } from 'pinia'
+import { useModalStore } from '../../stores/modal'
 export default {
   props: ['openModal', 'switchModal'],
   setup() {
@@ -97,9 +98,9 @@ export default {
   components: { TheSearch },
   methods: {
     ...mapActions(useSidebarStore, ['openSidebar']),
+    ...mapActions(useModalStore, ['showModal']),
     loginClick() {
-      this.switchModal('login')
-      this.openModal()
+      this.showModal('login')
     },
     async profileClick() {
       if (!this.userStore.isAuthenticated) {

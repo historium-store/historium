@@ -1,11 +1,11 @@
-import { defineStore } from 'pinia'
+import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
+import { useCartStore } from './cart'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user')),
-    api: useApiStore()
+    user: JSON.parse(localStorage.getItem('user'))
   }),
   getters: {
     isAuthenticated(state) {
@@ -13,12 +13,17 @@ export const useAuthStore = defineStore('auth', {
     },
     getUserFromStorage() {
       return JSON.parse(localStorage.getItem('user'))
+    },
+    fullName() {
+      return `${this.user?.firstName} ${this.user?.lastName}`
     }
   },
   actions: {
+    ...mapActions(useApiStore, ['post', 'get', 'patch']),
+    ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
     // User
     async getUser() {
-      const response = await this.api.get('user/account', true)
+      const response = await this.get('user/account', true)
       this.user = response.data
       localStorage.setItem('user', JSON.stringify(response.data))
     },
@@ -40,12 +45,14 @@ export const useAuthStore = defineStore('auth', {
     async signup(payload) {
       console.log('>>> signup')
 
-      await this.api.post('signup', payload)
+      await this.post('signup', payload)
       return true
     },
     async login(payload) {
-      const response = await this.api.post('login', payload)
+      const response = await this.post('login', payload)
       await this.setToken(response.data.token)
+      this.saveCartToLS()
+      await this.synchronizeCarts()
       return true
     },
     logout() {
@@ -53,6 +60,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('user')
       this.token = null
       this.user = null
+      this.clearCart()
     },
 
     // Password restoration
@@ -60,14 +68,14 @@ export const useAuthStore = defineStore('auth', {
     async restorePasswordRequest(payload) {
       console.log('>>> restorePasswordRequest')
 
-      const response = this.api.post('password-restore', payload)
+      const response = this.post('password-restore', payload)
       console.log(response.status)
       return true
     },
     async restorePasswordConfirm(payload) {
       console.log('>>> restorePasswordConfirm')
 
-      const response = this.api.post('verify-restore', payload)
+      const response = this.post('verify-restore', payload)
       console.log(response.status)
       return response
     },
@@ -75,7 +83,7 @@ export const useAuthStore = defineStore('auth', {
       console.log('>>> updatePassword')
 
       const { userId, password } = payload
-      const response = this.api.patch(`user/${userId}`, { password })
+      const response = this.patch(`user/${userId}`, { password })
       console.log(response.status)
       return true
     }

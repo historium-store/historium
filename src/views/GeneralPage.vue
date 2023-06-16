@@ -7,8 +7,8 @@
 <script>
 import ProductShowcaseView from '../views/product/ProductShowcaseView.vue'
 import TheSpecialSection from '../components/product/TheSpecialSection.vue'
-// import TheCarousel from '../components/layout/TheCarousel.vue'
+import TheCarousel from '../components/layout/TheCarousel.vue'
 export default {
-  components: { ProductShowcaseView, TheSpecialSection }
+  components: { ProductShowcaseView, TheSpecialSection, TheCarousel }
 }
 </script>

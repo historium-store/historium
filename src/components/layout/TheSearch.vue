@@ -1,14 +1,16 @@
 <template>
   <input
+    @keydown="searchInputTrigger"
     type="search"
-    class="relative block w-max min-w-0 flex-auto rounded-2xl border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-sm font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+    class="relative block w-max min-w-0 flex-auto rounded-2xl border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-sm font-normal leading-[1.6] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:outline-none"
     placeholder="Знайти книгу"
     aria-label="Знайти книгу"
     aria-describedby="button-addon2"
-    v-model.trim="querySearch"
+    v-model.trim="searchInput"
   />
   <span
-    class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal text-neutral-700 dark:text-neutral-200"
+    @click="search"
+    class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal hover:cursor-pointer"
     id="basic-addon2"
   >
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -21,10 +23,18 @@
   </span>
 </template>
 <script>
+import { mapActions, mapWritableState } from 'pinia'
+import { useSearchStore } from '../../stores/search'
 export default {
-  data() {
-    return {
-      querySearch: ''
+  computed: {
+    ...mapWritableState(useSearchStore, ['searchInput'])
+  },
+  methods: {
+    ...mapActions(useSearchStore, ['search']),
+    async searchInputTrigger(e) {
+      if (e.key === 'Enter') {
+        await this.search()
+      }
     }
   }
 }

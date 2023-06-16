@@ -4,9 +4,9 @@
       <h1
         class="text-xl text-center font-sans leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
       >
-        Ваш акаунт
+        Профіль
       </h1>
-      <ul
+      <!-- <ul
         v-if="userStore.isAuthenticated"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
@@ -17,7 +17,7 @@
         >
           {{ field[0] }}: {{ field[1] }}
         </li>
-      </ul>
+      </ul> -->
       <button
         class="p-2 ml-1 w-max text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         @click="userStore.logout"

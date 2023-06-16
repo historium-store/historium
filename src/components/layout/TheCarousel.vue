@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-6 my-12">
     <div class="relative slide">
       <div class="carousel-indicators absolute bottom-0 flex w-full justify-center items-center">
         <ol class="z-0 flex w-4/12 justify-center">
@@ -10,7 +10,7 @@
           ></li>
         </ol>
       </div>
-      <div class="carousel-inner relative overflow-hidden w-full">
+      <div class="carousel-inner relative overflow-hidden rounded-lg">
         <div
           v-for="(img, i) in images"
           :id="`slide-${i}`"
@@ -30,12 +30,12 @@ export default {
   data() {
     return {
       images: [
+        'https://static.yakaboo.ua/media/banner/image/130056295231.png',
         'https://static.yakaboo.ua/media/banner/image/13002210052023.png',
-        'https://static.yakaboo.ua/media/banner/image/1300235231.png',
         'https://static.yakaboo.ua/media/banner/image/13002080520231.png'
       ],
       active: 0,
-      timerCountdown: 5000,
+      timerCountdown: 3000,
       interval: null
     }
   },

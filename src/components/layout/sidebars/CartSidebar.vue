@@ -2,13 +2,11 @@
   <aside
     id="cart-sidebar"
     :class="
-      'fixed  right-0 sm:right-10 z-30 w-full sm:w-[500px] transition-transform duration-500 ' +
+      'fixed right-0 sm:right-10 z-30 w-full sm:w-[500px] transition-transform duration-500 ' +
       getStyle
     "
   >
-    <div
-      class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter dark:bg-cart-light dark:text-white"
-    >
+    <div class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter">
       <!-- <div class="top-hr h-3 mb-6"></div> -->
       <img src="../../../assets/cart-header-dashes.png" />
       <div class="px-2 md:px-8 mt-6 flex flex-col">
@@ -44,7 +42,7 @@
         <!-- <div
           class="-mb-16 h-16 z-50 bg-gradient-to-b from-cart-lighter to-transparent"
         ></div> -->
-        <ul class="font-medium h-[70vmin] overflow-y-auto flex flex-col [&>*:last-child]:mb-4">
+        <ul class="font-medium h-[50vmin] overflow-y-auto flex flex-col [&>*:last-child]:mb-4">
           <li v-for="item in cart ? cart?.items : []" :key="item.product._id" class="py-3">
             <div class="flex m-2">
               <img
@@ -117,8 +115,8 @@
       </div>
       <img class="mt-4" src="../../../assets/cart-bottom-dashes.png" />
     </div>
-    <img v-if="isDarkMode" src="../../../assets/cart-bottom-dark.png" />
-    <img v-else src="../../../assets/cart-bottom.png" />
+    <!-- <img v-if="isDarkMode" src="../../../assets/cart-bottom-dark.png" /> -->
+    <img src="../../../assets/cart-bottom.png" />
   </aside>
 </template>
 

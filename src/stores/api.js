@@ -5,7 +5,7 @@ import { useAuthStore } from './auth'
 export const useApiStore = defineStore('api', {
   state: () => ({
     authStore: useAuthStore(),
-    API: 'http:/0.0.0.0:3000/'
+    API: import.meta.env.VITE_API_URL
   }),
   actions: {
     getHeader(isNeedAuth) {

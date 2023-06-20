@@ -13,18 +13,20 @@
         placeholder="Введіть номер або email"
         v-model.trim="login.value"
       />
-      <span>{{ login.errorMessage }}</span>
+      <span class="text-xs ps-3 text-red-500">{{ login.errorMessage }}</span>
     </div>
     <div>
       <input
+        @change="password.handleChange"
         type="password"
         name="password"
         id="password"
         placeholder="Введіть пароль"
         class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         required=""
-        v-model.trim="password"
+        v-model.trim="password.value"
       />
+      <span class="text-xs ps-3 text-red-500">{{ password.errorMessage }}</span>
     </div>
     <div class="flex justify-end px-4">
       <p
@@ -46,16 +48,6 @@
         Зареєструватися
       </button>
     </p>
-    <!-- <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-      Немає акаунту?
-      <button
-        @click="showModal('signup')"
-        to="signup"
-        class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-      >
-        Зареєструватися
-      </button>
-    </p> -->
   </form>
 </template>
 
@@ -69,14 +61,7 @@ import * as yup from 'yup'
 export default {
   data() {
     return {
-      login: useField(
-        () => '',
-        yup.string().when('isEmail', {
-          is: true,
-          then: () => yup.string().email().required(),
-          otherwise: () => yup.string().required().min(10)
-        })
-      ),
+      login: useField(() => '', yup.string().required().email()),
       password: useField(() => '', yup.string().required().min(8))
     }
   },
@@ -84,9 +69,11 @@ export default {
     ...mapActions(useModalStore, ['hideModals', 'showModal']),
     ...mapActions(useAuthStore, { authLogin: 'login' }),
     async loginSubmit() {
+      console.log(this.login.value)
+      console.log(this.password.value)
       const success = await this.authLogin({
-        login: this.login,
-        password: this.password
+        login: this.login.value,
+        password: this.password.value
       })
       if (success) {
         this.hideModals()

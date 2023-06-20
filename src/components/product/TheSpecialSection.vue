@@ -32,11 +32,19 @@
 import { useProductStore } from '../../stores/product'
 import TheProductCard from './TheProductCard.vue'
 import { mapActions, mapWritableState } from 'pinia'
+
+const breakpoints = {
+  2: 768,
+  4: 1024,
+  5: 1280,
+  6: 1536
+}
+
 export default {
   props: ['name', 'title'],
   data() {
     return {
-      sliceCount: 4,
+      windowWidth: window.innerWidth,
       isExtended: false
     }
   },
@@ -50,15 +58,26 @@ export default {
         await productStore.loadRecomendations()
         break
     }
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
+    })
     return { productStore }
   },
   components: { TheProductCard },
   computed: {
-    ...mapWritableState(useProductStore, ['homeSpecialSections'])
+    ...mapWritableState(useProductStore, ['homeSpecialSections']),
+    sliceCount() {
+      if (this.isExtended) return this.homeSpecialSections[this?.name]?.length
+      for (let [i, v] of Object.entries(breakpoints)) {
+        if (this.windowWidth < v) {
+          return i
+        }
+      }
+      return 6
+    }
   },
   methods: {
     showMore() {
-      this.sliceCount = this.homeSpecialSections[this?.name]?.length
       this.isExtended = true
     },
     ...mapActions(useProductStore, ['isAvailable', 'viewProduct'])

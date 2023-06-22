@@ -2,74 +2,74 @@
   <h1 class="text-3xl text-center font-sans leading-tight tracking-tight md:text-2xl">
     Реестрація
   </h1>
-  <form class="space-y-4 mt-12 [&>div>input]:pl-5" @submit.prevent="signupSubmit">
-    <div>
-      <!-- <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Ваше ім'я <sup>*</sup></label
-      > -->
-      <input
-        type="text"
-        name="firstName"
-        id="text"
-        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
-        placeholder="Введіть ваше ім'я"
-        required=""
-        v-model.trim="formData.firstName"
-      />
-    </div>
-    <div>
-      <!-- <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Ваше прізвище <sup>*</sup></label
-      > -->
-      <input
-        type="text"
-        name="lastName"
-        id="text"
-        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
-        placeholder="Введіть ваше прізвище"
-        required=""
-        v-model.trim="formData.lastName"
-      />
-    </div>
-    <div>
-      <!-- <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Номер телефону <sup>*</sup></label
-      > -->
-      <input
-        type="tel"
-        name="phoneNumber"
-        id="text"
-        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
-        placeholder="+38"
-        required=""
-        v-model.trim="formData.phoneNumber"
-      />
-    </div>
-    <div>
-      <!-- <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Електронна пошта <sup>*</sup></label
-      > -->
-      <input
-        type="email"
-        name="email"
-        id="email"
-        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
-        placeholder="Введіть email"
-        required=""
-        v-model.trim="formData.email"
-      />
-    </div>
-    <div>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Введіть пароль"
-        class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
-        required=""
-        v-model.trim="formData.password"
-      />
-      <div class="flex justify-end px-4 mt-4">
+  <VeeForm
+    as="div"
+    v-slot="{ handleSubmit }"
+    class="mt-12 [&>div>input]:pl-5"
+    :validation-schema="schema"
+  >
+    <form @submit="handleSubmit($event, registerSubmit)">
+      <Field v-slot="{ field, meta, handleChange }" name="firstName">
+        <input
+          @input="handleChange"
+          type="text"
+          name="firstName"
+          id="firstName"
+          :class="inputStyle(meta)"
+          placeholder="Введіть ваше ім'я"
+          v-model.trim="field.value"
+        />
+        <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
+      </Field>
+      <Field v-slot="{ field, meta, handleChange }" name="lastName">
+        <input
+          @input="handleChange"
+          type="text"
+          name="lastName"
+          id="lastName"
+          :class="inputStyle(meta)"
+          placeholder="Введіть ваше прізвище"
+          v-model.trim="field.value"
+        />
+        <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
+      </Field>
+      <Field v-slot="{ field, meta, handleChange }" name="phoneNumber">
+        <input
+          @input="handleChange"
+          type="text"
+          name="phoneNumber"
+          id="phoneNumber"
+          :class="inputStyle(meta)"
+          placeholder="Введіть ваше номер телефону"
+          v-model.trim="field.value"
+        />
+        <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
+      </Field>
+      <Field v-slot="{ field, meta, handleChange }" name="email">
+        <input
+          @input="handleChange"
+          type="text"
+          name="email"
+          id="email"
+          :class="inputStyle(meta)"
+          placeholder="Введіть вашу пошту"
+          v-model.trim="field.value"
+        />
+        <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
+      </Field>
+      <Field v-slot="{ field, meta, handleChange }" name="password">
+        <input
+          @input="handleChange"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Введіть пароль"
+          :class="inputStyle(meta)"
+          v-model.trim="field.value"
+        />
+        <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
+      </Field>
+      <div class="flex justify-end px-4">
         <p
           @click="showModal('restore')"
           class="text-sm font-medium hover:underline hover:cursor-pointer"
@@ -77,65 +77,68 @@
           Забули пароль?
         </p>
       </div>
-    </div>
-
-    <!-- <div class="flex items-center mb-4">
-      <input
-        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-slate-950 dark:bg-opacity-30 dark:border-gray-600"
-        type="checkbox"
-        name="confirm"
-        id="confirm"
-      />
-      <label class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" for="confirm"
-        >Погоджуюсь з умовами використання</label
+      <button
+        type="submit"
+        class="flex border-2 flex-col mx-auto items-center min-w-[200px] text-white focus:outline-none font-medium rounded-3xl text-sm px-3 py-2 bg-background bg-opacity-30"
       >
-    </div> -->
-    <button
-      type="submit"
-      class="flex border-2 flex-col mx-auto items-center min-w-[200px] text-white focus:outline-none font-medium rounded-3xl text-sm px-3 py-2 bg-background bg-opacity-30"
-    >
-      Реестрація
-    </button>
-    <p class="text-sm text-center font-light text-gray-500">
-      Вже маєте акаунт?
-      <button @click="showModal('login')" class="font-medium text-white hover:underline">
-        Увійти
+        Реестрація
       </button>
-    </p>
-  </form>
+      <p class="text-sm text-center font-light text-gray-500">
+        Вже маєте акаунт?
+        <button @click="showModal('login')" class="font-medium text-white hover:underline">
+          Увійти
+        </button>
+      </p>
+    </form>
+  </VeeForm>
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth'
 import { mapActions } from 'pinia'
 import { useModalStore } from '../../stores/modal'
+import { Form as VeeForm, Field } from 'vee-validate'
+import * as yup from 'yup'
+import validator from 'validator'
+
+function validatePhone(value) {
+  return validator.isMobilePhone(value, 'uk-UA')
+}
 
 export default {
-  data() {
-    return {
-      formData: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        email: '',
-        password: ''
-      }
-    }
+  components: { VeeForm, Field },
+  setup() {
+    const schema = yup.object({
+      firstName: yup.string().min(2).max(50).required(),
+      lastName: yup.string().min(2).max(50).required(),
+      phoneNumber: yup
+        .string()
+        .test({
+          test: validatePhone,
+          message: 'Невірний формат мобільного'
+        })
+        .required(),
+      email: yup.string().email().required(),
+      password: yup.string().min(8).max(50).required()
+    })
+
+    return { schema }
   },
   methods: {
     ...mapActions(useAuthStore, ['signup', 'login']),
-    ...mapActions(useModalStore, ['showModal']),
-
-    async signupSubmit() {
-      const success = await this.signup({
-        ...this.formData
-      })
+    ...mapActions(useModalStore, ['showModal', 'hideModals']),
+    async registerSubmit(values) {
+      const success = await this.signup(values)
       if (success) {
-        console.log('success')
-        await this.login({ login: this.formData.email, password: this.formData.password })
-      } else {
-        alert('ERROR')
+        await this.login({ login: values.email, password: values.password })
+        this.hideModals()
       }
+    },
+    inputStyle(meta) {
+      return (
+        'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +
+        (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
+      )
     }
   }
 }

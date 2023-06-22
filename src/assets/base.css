@@ -65,18 +65,24 @@
 body {
   min-height: 100vh;
   color: #fff;
-  background: #031425;
-  /* background-image: url('../assets/background-img.png'); */
-  /* background-repeat: no-repeat; */
-  /* background-size: cover; */
-  /* background-blend-mode: overlay; */
-  /* mix-blend-mode: normal; */
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family: Neucha, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: Neucha, Rubik, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px;
+  font-weight: 300;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.background {
+  min-height: 100vh;
+  position: relative;
+  background: #031425;
+  background-image: url('../assets/smoke.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-attachment: fixed;
+  background-position: top;
 }

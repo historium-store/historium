@@ -1,117 +1,176 @@
 <template>
+  <!-- <div class="absolute top-10 right-10 w-60 flex flex-col">
+    <alert class="bg-cart-light" title="Товар у кошику"></alert>
+  </div> -->
+
   <div v-if="isLoaded" class="w-11/12 mx-auto my-6 p-4">
-    <div class="pb-2 mb-2">
-      <h2 class="text-[28px]">{{ product.name }}</h2>
-      <span
-        v-for="[i, author] in Object.entries(specificProduct?.authors)"
-        :key="author.id"
-        class="font-thin"
-        >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
-      </span>
-    </div>
-    <div class="">
-      <!-- <div class="">
-        <sup class="">LIKE</sup>
-        <sup class="">ADD TO LIB</sup>
-        <sup class="">READ PART</sup>
-      </div> -->
-      <!-- image viewer component -->
-      <div class="flex py-4">
+    <div class="grid grid-cols-1 lg:grid-cols-5">
+      <div class="flex p-2 col-span-1 lg:col-span-2">
         <div class="flex flex-col mx-auto">
-          <div class="h-[500px]">
-            <img class="rounded-lg shadow-xl h-full" :src="currentImage" />
-          </div>
-          <div class="thumb flex justify-normal">
-            <div class="px-1" v-for="[i, image] in Object.entries(product.images)" :key="image.id">
-              <img
-                @click="pickImage"
-                class="h-20 rounded-md my-2 border-primary-100 border-2"
-                :id="i"
-                :src="image"
-                :alt="i"
-              />
+          <div class="p-2">
+            <div class="mx-auto w-2/3 lg:w-full lg:h-2/3">
+              <img class="mx-auto rounded-2xl shadow-xl h-full" :src="currentImage" />
+              <!-- <div class="mx-auto lg:w-full border-[3px] rounded-2xl -z-20"></div> -->
+              <!-- <img class="rounded-2xl shadow-xl h-full border-[3px] -z-20" :src="currentImage" /> -->
+            </div>
+            <!-- <div
+              class="-mt-[385px] ml-[8px] border-[3px] rounded-2xl h-[400px] w-[260px] -z-20"
+            ></div> -->
+
+            <div class="my-4 flex space-x-2 justify-between font-rubik text-[13px]">
+              <Button
+                id="addToCartButton"
+                @click="addToCart"
+                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+              >
+                <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+                <span class="ml-2">До кошика</span>
+              </Button>
+              <Button
+                @click="checkout"
+                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+              >
+                <font-awesome-icon :icon="['fas', 'bag-shopping']" />
+                <span class="ml-2">Купити зараз</span>
+              </Button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- <button class="justify-center" @click="next">| > |</button> -->
-    <div>
-      <div class="inline-flex">
-        <div class="price">
-          <span class="pe-2 text-[32px]">{{ product.price }}</span>
-          <span class="text-[28px]">грн</span>
+      <div class="p-2 col-span-4 lg:col-span-3 font-rubik">
+        <div class="grid grid-cols-4">
+          <div class="col-span-4 md:col-span-3">
+            <div class="mb-5">
+              <h2 class="text-[28px] font-body">{{ product.name }}</h2>
+              <span
+                v-for="[i, author] in Object.entries(specificProduct?.authors)"
+                :key="author.id"
+                class="text-lg text-gray-400"
+                >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
+              </span>
+            </div>
+          </div>
+          <div class="col-span-4 md:col-span-1 text-cart-light">
+            <h2 class="text-[32px] font-body pb-5 md:pb-0 md:text-center">
+              <span class="inline-flex items-center space-x-1">
+                <p>{{ product.price }}</p>
+                <p class="text-[28px]">₴</p>
+              </span>
+            </h2>
+          </div>
         </div>
-        <!-- <div class="label-promotion">Акція</div> -->
-      </div>
-      <div class="mt-4">
-        <span class="font-thin text-sm">{{
-          availability ? 'В наявності' : 'Немає в наявності'
-        }}</span>
-        <span class="mx-2">•</span>
-        <span class="font-thin text-sm">{{ product.type.name }}</span>
-      </div>
-    </div>
-    <div class="my-4 inline-flex">
-      <Button
-        id="addToCartButton"
-        @click="addToCart"
-        class="mr-2 p-2 border hover:bg-cart-light border-cyan-500 rounded-md"
-      >
-        <font-awesome-icon :icon="['fas', 'cart-shopping']" />
-        <span class="ml-2">До кошика</span>
-      </Button>
-      <Button
-        @click="checkout"
-        class="mr-2 p-2 border hover:bg-cart-light border-cyan-500 rounded-md"
-      >
-        <font-awesome-icon :icon="['fas', 'bag-shopping']" />
-        <span class="ml-2">Купити зараз</span>
-      </Button>
-    </div>
-    <br />
-    <div class="space-y-6">
-      <div>
-        <p class="text-lg">Формат</p>
-        <p class="mt-2">{{ specificProduct.format }}</p>
-      </div>
-      <div>
-        <p class="text-lg">Мова</p>
-        <span>
-          <p class="mt-2" v-for="lang in specificProduct.languages" :key="lang">{{ lang }}</p>
-        </span>
-      </div>
-      <div>
-        <p class="text-lg">Видавництво</p>
-        <span>
-          <p class="mt-2">{{ specificProduct.publisher.name }}</p>
-        </span>
-      </div>
-      <div>
-        <p class="text-lg">Рік видання</p>
-        <p class="mt-2">{{ specificProduct.firstPublishedIn }}</p>
-      </div>
-      <hr />
-      <div><p>Доставка, оплата, гарантія</p></div>
-      <hr />
-      <div>
-        <p class="text-lg">Про автора</p>
-        <span>
-          <p class="" v-for="author in specificProduct.authors" :key="author">
-            {{ author.fullName }}
-          </p>
-        </span>
-      </div>
-      <div>
-        <h2 class="text-[24px] text-center">Про книгу</h2>
+        <div class="space-x-2">
+          <Button class="px-4 h-8 border border-cart-light rounded-full"> Читати фрагмент </Button>
+          <Button class="w-8 h-8 py-0.5 border bg-cart-light border-cart-light rounded-full">
+            <font-awesome-icon :icon="['fas', 'bookmark']" />
+          </Button>
+        </div>
+        <div class="mt-5">
+          <p class="text-gray-400">Формат</p>
+          <div class="inline-flex py-2">
+            <Button class="px-4 h-8 border bg-cart-light border-cart-light rounded-full">
+              <font-awesome-icon :icon="['fas', 'book']" />
+              <span class="ml-2">{{ specificProduct.type }}</span>
+            </Button>
+          </div>
+        </div>
         <div>
-          <p>{{ product.description }}</p>
+          <p class="text-gray-400">Мова книги</p>
+          <div class="inline-flex py-2">
+            <Button
+              v-for="language in specificProduct.languages"
+              :key="language"
+              class="px-4 h-8 border border-cart-light rounded-full"
+            >
+              <span>{{ language }}</span>
+            </Button>
+          </div>
+        </div>
+        <div class="py-2">
+          <p class="text-gray-400">Опис</p>
+          <p>«{{ showDescription }}»</p>
+          <span class="hover:cursor-pointer text-gray-400" @click="switchDescription">
+            <div class="inline-flex items-center mt-5" v-if="!isExtendedDescription">
+              <p>Показати ще</p>
+              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
+            </div>
+            <div class="inline-flex items-center mt-5" v-else>
+              <p>Приховати</p>
+              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
+            </div>
+          </span>
+        </div>
+        <div>
+          <p class="font-body text-xl my-5">Характеристики</p>
+          <div class="border-2 rounded-2xl p-3 px-6 space-y-5">
+            <div>
+              <p class="text-gray-400">Формат</p>
+              <p>{{ specificProduct.format }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400">Автор</p>
+              <span
+                v-for="[i, author] in Object.entries(specificProduct?.authors)"
+                :key="author.id"
+                class="font-thin"
+                >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
+              </span>
+            </div>
+            <div>
+              <p class="text-gray-400">Тип</p>
+              <p>{{ specificProduct.type }}</p>
+            </div>
+            <div v-if="isExtendedFeature" class="space-y-5">
+              <div>
+                <p class="text-gray-400">Ілюстрації</p>
+                <p>{{ specificProduct.illustrationsType[0] }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Палітурка</p>
+                <p>{{ specificProduct.bindingType }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Видавництво</p>
+                <p>{{ specificProduct.publisher.name }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">ISBN</p>
+                <p>{{ specificProduct.isbns[0] }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Мова</p>
+                <p>{{ specificProduct.languages[0] }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Кількість сторінок</p>
+                <p>{{ specificProduct.pages }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Рік видання</p>
+                <p>{{ specificProduct.publishedIn }}</p>
+              </div>
+            </div>
+            <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
+              <div class="inline-flex items-center mt-5" v-if="!isExtendedFeature">
+                <p>Показати ще характеристики</p>
+                <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
+              </div>
+              <div class="inline-flex items-center mt-5" v-else>
+                <p>Приховати всі характеристики</p>
+                <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
+              </div>
+            </span>
+          </div>
+        </div>
+        <div>
+          <p class="text-xl font-body my-5">Рецензії</p>
+          <Button class="px-4 w-full py-0.5 border bg-cart-light border-cart-light rounded-full">
+            Написати рецензію
+          </Button>
         </div>
       </div>
-      <!-- <div></div>
-      <div>{{ specificProduct }}</div>
-      <div>{{ product }}</div> -->
     </div>
+    <the-special-section name="history" title="Раніше переглядали" />
   </div>
   <spinner v-else size="10" class="mx-auto mt-10" />
 </template>
@@ -121,14 +180,18 @@ import { mapActions, mapWritableState } from 'pinia'
 import { useProductStore } from '../../stores/product'
 import { useCartStore } from '../../stores/cart'
 import { Spinner } from 'flowbite-vue'
+import TheSpecialSection from '../../components/product/TheSpecialSection.vue'
+import { useAlertStore } from '../../stores/alert'
 
 export default {
   props: ['id'],
-  // setup(state) {
-  //   const productStore = useProductStore()
-  //   productStore.useProductMock()
-  //   return { productStore, state }
-  // },
+  watch: {
+    id: async function () {
+      this.isLoaded = false
+      await this.loadProduct(this.id)
+      this.isLoaded = true
+    }
+  },
   async mounted() {
     await this.loadProduct(this.id)
     this.isLoaded = true
@@ -136,10 +199,12 @@ export default {
   data() {
     return {
       imageIndex: 0,
-      isLoaded: false
+      isLoaded: false,
+      isExtendedDescription: false,
+      isExtendedFeature: false
     }
   },
-  components: { Spinner },
+  components: { Spinner, TheSpecialSection },
   computed: {
     ...mapWritableState(useProductStore, ['product']),
     specificProduct() {
@@ -150,9 +215,29 @@ export default {
     },
     availability() {
       return this.product?.quantity > 0
+    },
+    showDescription() {
+      const description = this.product.description.replaceAll(';', '. ')
+
+      if (this.isExtendedDescription || description.length < 250) {
+        return description
+      } else {
+        let shortDescription = ''
+
+        for (let i of description.split('.')) {
+          if (shortDescription.length < 250) {
+            shortDescription += `${i}.`
+          }
+        }
+        console.log(shortDescription)
+        console.log(description)
+
+        return shortDescription
+      }
     }
   },
   methods: {
+    ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useProductStore, ['loadProduct']),
     ...mapActions(useCartStore, ['addItem']),
     pickImage(event) {
@@ -163,11 +248,18 @@ export default {
     async addToCart() {
       document.getElementById('addToCartButton').disabled = true
       await this.addItem(this.product._id)
+      this.showAlert('Товар додано')
       document.getElementById('addToCartButton').disabled = false
     },
     async checkout() {
       await this.addToCart()
       await this.$router.push('checkout')
+    },
+    switchDescription() {
+      this.isExtendedDescription = !this.isExtendedDescription
+    },
+    switchFeature() {
+      this.isExtendedFeature = !this.isExtendedFeature
     }
   }
 }

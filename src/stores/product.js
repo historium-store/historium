@@ -8,7 +8,8 @@ export const useProductStore = defineStore('product', {
     product: undefined,
     homeSpecialSections: {
       novelties: undefined,
-      recomendations: undefined
+      recomendations: undefined,
+      history: undefined
     }
   }),
   actions: {
@@ -52,6 +53,7 @@ export const useProductStore = defineStore('product', {
       })
       console.log(response.data)
       this.homeSpecialSections.recomendations = response.data.result
+      this.homeSpecialSections.history = response.data.result
     }
   }
 })

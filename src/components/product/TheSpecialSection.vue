@@ -1,5 +1,5 @@
 <template>
-  <div class="block mt-6 m-2 md:m-6 border-[3px] rounded-3xl">
+  <div :id="name" class="block mt-6 m-2 md:m-6 border-[3px] rounded-3xl">
     <div class="flex justify-items-center">
       <span
         class="relative -mt-4 ms-8 bg-teal-600 min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
@@ -18,7 +18,7 @@
       ></the-product-card>
     </div>
     <span
-      v-if="!isExtended"
+      v-if="!isExtended && allowShowMore"
       class="inline-flex items-center p-2 hover:cursor-pointer"
       @click="showMore"
     >
@@ -41,7 +41,7 @@ const breakpoints = {
 }
 
 export default {
-  props: ['name', 'title'],
+  props: ['name', 'title', 'allowShowMore'],
   data() {
     return {
       windowWidth: window.innerWidth,
@@ -55,6 +55,9 @@ export default {
         await productStore.loadNovelties()
         break
       case 'recomendations':
+        await productStore.loadRecomendations()
+        break
+      case 'history':
         await productStore.loadRecomendations()
         break
     }

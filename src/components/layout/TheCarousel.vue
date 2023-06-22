@@ -10,7 +10,7 @@
           ></li>
         </ol>
       </div>
-      <div class="carousel-inner relative overflow-hidden rounded-lg">
+      <div class="carousel-inner relative overflow-hidden rounded-lg border-[3px]">
         <div
           v-for="(img, i) in images"
           :id="`slide-${i}`"
@@ -18,7 +18,8 @@
           :class="`${active === i ? 'active' : 'left-full'}`"
           class="carousel-item inset-0 relative w-full transform transition-all duration-300 ease-in-out"
         >
-          <img class="block w-full h-72" :src="img" alt="slides" />
+          <img v-if="isSmall" class="block w-full" :src="img.small" alt="slides" />
+          <img v-else class="block w-full" :src="img.big" alt="slides" />
         </div>
       </div>
     </div>
@@ -29,10 +30,16 @@
 export default {
   data() {
     return {
+      windowWidth: window.innerWidth,
       images: [
-        'https://static.yakaboo.ua/media/banner/image/130056295231.png',
-        'https://static.yakaboo.ua/media/banner/image/13002210052023.png',
-        'https://static.yakaboo.ua/media/banner/image/13002080520231.png'
+        {
+          small: './src/assets/banner-example-small.jpg',
+          big: './src/assets/banner-example-big.jpg'
+        },
+        {
+          small: './src/assets/banner-example-small.jpg',
+          big: './src/assets/banner-example-big.jpg'
+        }
       ],
       active: 0,
       timerCountdown: 3000,
@@ -41,12 +48,22 @@ export default {
   },
   mounted() {
     this.interval = setInterval(this.slide, this.timerCountdown)
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
+    })
   },
   methods: {
     slide() {
       if (this.active < this.images.length - 1) {
         this.active++
       } else this.active = 0
+    }
+  },
+  computed: {
+    isSmall() {
+      console.log(this.windowWidth)
+      if (this.windowWidth < 558) return true
+      else return false
     }
   }
 }

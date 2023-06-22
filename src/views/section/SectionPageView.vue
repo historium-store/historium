@@ -41,16 +41,7 @@ export default {
     return { isLoaded: false }
   },
   async mounted() {
-    let sectionKey
-    if (this.sectionId.length) {
-      sectionKey = this.sectionId.at(-1)
-    } else sectionKey = this.sectionId
-
-    await this.loadSectionNames()
-    this.currentSection = this.getSectionByKey(sectionKey)
-    console.log(this.currentSection)
-    await this.loadSectionProducts()
-    this.isLoaded = true
+    await this.loadPage()
   },
   components: { TheProductCard, Breadcrumb, BreadcrumbItem, Spinner },
   methods: {
@@ -61,9 +52,26 @@ export default {
       'getSectionByKey',
       'getSectionNameByKey'
     ]),
+    async loadPage() {
+      this.isLoaded = false
+      let sectionKey
+      if (this.sectionId.length) {
+        sectionKey = this.sectionId.at(-1)
+      } else sectionKey = this.sectionId
+
+      await this.loadSectionNames()
+      this.currentSection = this.getSectionByKey(sectionKey)
+      console.log(this.currentSection)
+      await this.loadSectionProducts()
+      this.isLoaded = true
+    },
     async goto(path) {
-      // await this.$router.push({ path: '/', params: { key } })
       await this.$router.push({ path })
+    }
+  },
+  watch: {
+    sectionId: async function () {
+      await this.loadPage()
     }
   },
   computed: {

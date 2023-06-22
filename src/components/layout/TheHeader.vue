@@ -66,9 +66,9 @@
       </div>
       <div class="flex justify-center xs:max-sm:hidden">
         <ul class="flex items-center my-2 [&>li]:px-3 [&>li]:hover:cursor-pointer">
-          <li>Головна</li>
-          <li>Новинки</li>
-          <li>Хіти продажів</li>
+          <li><RouterLink to="/">Головна</RouterLink></li>
+          <li @click="scrollTo('novelties')">Новинки</li>
+          <li @click="scrollTo('recomendations')">Хіти продажів</li>
           <li>Про компанію</li>
           <li>Акції</li>
           <li>Контакти</li>
@@ -106,6 +106,12 @@ export default {
       if (!this.userStore.isAuthenticated) {
         this.loginClick()
       } else this.openSidebar('profile')
+    },
+    scrollTo(section) {
+      document.getElementById(section).scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setTimeout(() => {
+        window.scrollBy({ behavior: 'smooth', top: -12 })
+      }, 400)
     }
   }
 }

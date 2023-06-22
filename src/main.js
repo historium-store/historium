@@ -22,6 +22,7 @@ import {
   faCloudArrowDown,
   faEllipsis,
   faChevronDown,
+  faChevronUp,
   faUsers,
   faGear,
   faPen,
@@ -29,7 +30,8 @@ import {
   faImage,
   faClipboard,
   faTrashCan,
-  faXmark
+  faXmark,
+  faArrowLeft
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -44,6 +46,7 @@ library.add(
   faCloudArrowDown,
   faEllipsis,
   faChevronDown,
+  faChevronUp,
   faUsers,
   faGear,
   faPen,
@@ -51,7 +54,8 @@ library.add(
   faImage,
   faClipboard,
   faTrashCan,
-  faXmark
+  faXmark,
+  faArrowLeft
 )
 
 const app = createApp(App)

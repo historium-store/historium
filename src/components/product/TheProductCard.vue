@@ -1,22 +1,22 @@
 <template>
   <div class="rounded-lg hover:cursor-pointer px-2">
     <div class="card-poster">
-      <div class="mx-auto w-[140px]">
+      <div class="mx-auto w-[130px]">
         <img
-          class="border-[3px] h-[200px] w-[140px] object-cover rounded-xl"
+          class="border-[3px] h-[200px] w-[130px] object-cover rounded-xl"
           :src="good?.image"
           alt=""
         />
-        <div class="-mt-[192px] ml-[8px] border-[3px] rounded-xl h-[200px] w-[140px] -z-20"></div>
+        <div class="-mt-[192px] ml-[8px] border-[3px] rounded-xl h-[200px] w-[130px] -z-20"></div>
       </div>
     </div>
-    <div class="card-content min-h-[100px] my-2 px-2 flex flex-col">
-      <div class="card-category">
-        <p class="title-label text-center text-md text-ellipsis hover:whitespace-normal">
+    <div class="card-content min-h-[100px] my-2 flex flex-col mx-auto">
+      <div class="card-category flex-col line-clamp-3 hover:line-clamp-none">
+        <p class="title-label font-rubik text-[14px] text-center text-ellipsis">
           {{ good?.name }}
         </p>
         <div class="author-wrapper text-center">
-          <a class="creator-label text-[12px]">{{ good.authors?.[0] }}</a>
+          <a class="creator-label text-[13px] text-gray-400">{{ good.authors?.[0] }}</a>
         </div>
       </div>
       <div class="mt-auto">

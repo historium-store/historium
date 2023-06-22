@@ -28,7 +28,8 @@
         <sidebar-item
           v-if="sections !== currentSections"
           @click="back"
-          title="<-- Назад"
+          icon="arrow-left"
+          title="Назад"
           titleStyle="text-md"
         />
         <sidebar-item

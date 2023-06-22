@@ -6,7 +6,7 @@
       getStyle
     "
   >
-    <div class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter">
+    <div class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter rounded-b-2xl">
       <!-- <div class="top-hr h-3 mb-6"></div> -->
       <img src="../../../assets/cart-header-dashes.png" />
       <div class="px-2 md:px-8 mt-6 flex flex-col">
@@ -42,7 +42,9 @@
         <!-- <div
           class="-mb-16 h-16 z-50 bg-gradient-to-b from-cart-lighter to-transparent"
         ></div> -->
-        <ul class="font-medium h-[50vmin] overflow-y-auto flex flex-col [&>*:last-child]:mb-4">
+        <ul
+          class="font-medium h-[40vh] md:h-[50vh] overflow-y-auto flex flex-col [&>*:last-child]:mb-4"
+        >
           <li v-for="item in cart ? cart?.items : []" :key="item.product._id" class="py-3">
             <div class="flex m-2">
               <img
@@ -100,7 +102,7 @@
           </li>
         </ul>
         <div
-          class="-mt-16 bg-transparent h-16 bg-gradient-to-b from-transparent to-cart-lighter"
+          class="-mt-4 bg-transparent h-4 bg-gradient-to-b from-transparent to-cart-lighter"
         ></div>
         <hr class="mx-2 mt-6 border-[1.5px] rounded-full border-cart-light" />
         <div class="inline-flex justify-between items-center mt-auto mx-1">
@@ -113,10 +115,10 @@
           </RouterLink>
         </div>
       </div>
-      <img class="mt-4" src="../../../assets/cart-bottom-dashes.png" />
+      <img class="my-4" src="../../../assets/cart-bottom-dashes.png" />
     </div>
     <!-- <img v-if="isDarkMode" src="../../../assets/cart-bottom-dark.png" /> -->
-    <img src="../../../assets/cart-bottom.png" />
+    <!-- <img src="../../../assets/cart-bottom.png" /> -->
   </aside>
 </template>
 

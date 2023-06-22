@@ -1,5 +1,6 @@
 <template>
   <TheModal />
+  <TheAlert />
   <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
   <Suspense>
     <router-view v-slot="slotProps">
@@ -24,6 +25,7 @@ import { RouterView } from 'vue-router'
 import { ref } from 'vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheFooter from './components/layout/TheFooter.vue'
+import TheAlert from './components/layout/modals/TheAlert.vue'
 import TheModal from './components/layout/modals/TheModal.vue'
 import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
 import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
@@ -49,6 +51,11 @@ export default {
     }
     return { cartStore }
   },
+  computed: {
+    alertStyle() {
+      return 'translate-y-[150px]'
+    }
+  },
   components: {
     SectionsSidebar,
     TheHeader,
@@ -62,7 +69,8 @@ export default {
     RouterView,
     SignUpView,
     RestoreView,
-    BreadcrumbItem
+    BreadcrumbItem,
+    TheAlert
   }
 }
 </script>

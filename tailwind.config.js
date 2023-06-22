@@ -24,7 +24,8 @@ export default {
           light: '#209393',
           lighter: '#E1FFFE'
         },
-        background: '#031425'
+        background: '#031425',
+        background_light: '#061b30'
       }
     },
     screens: {
@@ -67,7 +68,8 @@ export default {
         'Segoe UI Emoji',
         'Segoe UI Symbol',
         'Noto Color Emoji'
-      ]
+      ],
+      rubik: ['Rubik', 'sans-serif']
     },
     container: {
       center: true

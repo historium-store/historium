@@ -1,7 +1,11 @@
 <template>
-  <!-- <the-carousel /> -->
-  <the-special-section name="novelties" title="Новинки"></the-special-section>
-  <the-special-section name="recomendations" title="Рекомендації"></the-special-section>
+  <the-carousel />
+  <the-special-section name="novelties" title="Новинки" :allowShowMore="true"></the-special-section>
+  <the-special-section
+    name="recomendations"
+    title="Рекомендації"
+    :allowShowMore="true"
+  ></the-special-section>
   <product-showcase-view></product-showcase-view>
 </template>
 <script>

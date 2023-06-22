@@ -1,9 +1,10 @@
 import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
-import { CookieStorage } from 'cookie-storage'
+// import { CookieStorage } from 'cookie-storage'
 
-const cookieStorage = new CookieStorage()
+// const cookieStorage = new CookieStorage()
+const cookieStorage = localStorage
 
 const cartTemplate = {
   items: [],

@@ -170,14 +170,17 @@ export const useCartStore = defineStore('cart', {
       return true
     },
     async clearCart() {
-      if (this.isAuthenticated) {
-        await this.delete('user/cart')
-      } else {
-        cookieStorage.removeItem('cart')
+      if (this.cart.items.length > 0) {
+        if (this.isAuthenticated) {
+          await this.delete('user/cart')
+        } else {
+          cookieStorage.removeItem('cart')
+        }
+        this.cart = cartTemplate
+        console.log(this.cart)
+        this.saveCartToLS()
+        await this.updateCart()
       }
-      this.cart = cartTemplate
-      this.saveCartToLS()
-      await this.updateCart()
     },
     countPrice() {
       this.cart.totalPrice = this.cart.items.reduce(

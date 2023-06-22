@@ -81,8 +81,9 @@ body {
   position: relative;
   background: #031425;
   background-image: url('../assets/smoke.png');
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   background-size: contain;
   background-attachment: fixed;
   background-position: top;
+  background-size: 30% 30%;
 }

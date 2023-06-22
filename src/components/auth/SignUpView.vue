@@ -101,10 +101,6 @@ import { Form as VeeForm, Field } from 'vee-validate'
 import * as yup from 'yup'
 import validator from 'validator'
 
-function validatePhone(value) {
-  return validator.isMobilePhone(value, 'uk-UA')
-}
-
 export default {
   components: { VeeForm, Field },
   setup() {
@@ -114,7 +110,7 @@ export default {
       phoneNumber: yup
         .string()
         .test({
-          test: validatePhone,
+          test: (value) => validator.isMobilePhone(value, 'uk-UA'),
           message: 'Невірний формат мобільного'
         })
         .required(),

@@ -19,7 +19,7 @@
           class="carousel-item inset-0 relative w-full transform transition-all duration-300 ease-in-out"
         >
           <img v-if="isSmall" class="block w-full" :src="img.small" alt="slides" />
-          <img v-else class="block w-full" :src="img.big" alt="slides" />
+          <img v-else class="block w-full max-h-72" :src="img.big" alt="slides" />
         </div>
       </div>
     </div>
@@ -61,7 +61,6 @@ export default {
   },
   computed: {
     isSmall() {
-      console.log(this.windowWidth)
       if (this.windowWidth < 558) return true
       else return false
     }

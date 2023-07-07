@@ -3,7 +3,7 @@
     <h1 class="text-center text-3xl my-5">Admin Panel</h1>
     <div class="[&>div]:hover:cursor-pointer grid grid-cols-2 gap-5 w-11/12 mx-auto mt-4">
       <RouterLink
-        to="products"
+        :to="$route.name + '/product'"
         class="flex p-2 m-2 h-20 bg-primary-1000 rounded-lg hover:bg-primary-950"
       >
         <div class="mx-auto items-center inline-flex space-x-3">

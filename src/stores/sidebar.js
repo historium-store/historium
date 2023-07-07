@@ -12,9 +12,10 @@ export const useSidebarStore = defineStore('sidebar', {
   state: () => ({
     sidebars: [
       { name: 'main', isOpen: false, style: closedLeftSidebarClass, align: 'left' },
+      { name: 'navbar', isOpen: false, style: closedLeftSidebarClass, align: 'left' },
       { name: 'sections', isOpen: false, style: closedLeftSidebarClass, align: 'left' },
       { name: 'cart', isOpen: false, style: closedTopSidebarClass, align: 'top' },
-      { name: 'profile', isOpen: false, style: closedRightSidebarClass, align: 'right' }
+      { name: 'profile', isOpen: false, style: closedTopSidebarClass, align: 'top' }
     ]
   }),
   actions: {
@@ -38,7 +39,7 @@ export const useSidebarStore = defineStore('sidebar', {
     },
     closeSidebar(sidebarName) {
       const sidebar = this.getSidebar(sidebarName)
-      if (sidebar) {
+      if (sidebar && sidebar.isOpen) {
         sidebar.isOpen = false
         this.setSidebarStyle(sidebar)
         document.body.classList.remove('overflow-hidden')

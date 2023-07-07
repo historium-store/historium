@@ -13,7 +13,7 @@
         >{{ getSectionByKey(part)?.name }}</breadcrumb-item
       >
     </breadcrumb>
-    <div
+    <!-- <div
       v-if="sectionProducts"
       class="grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 mx-auto p-6"
     >
@@ -23,17 +23,19 @@
         :good="product"
         @click="viewProduct(product.key)"
       />
-    </div>
-    <div v-else>Not found</div>
+    </div> -->
+    <ProductShowcaseView :products="sectionProducts" />
+    <!-- <div v-else>Not found</div> -->
   </div>
-  <spinner v-else size="10" class="mx-auto mt-10" />
+  <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
 
 <script>
+import ProductShowcaseView from '../product/ProductShowcaseView.vue'
 import { mapWritableState, mapActions } from 'pinia'
 import { useSectionStore } from '../../stores/section'
-import TheProductCard from '../../components/product/TheProductCard.vue'
-import { Breadcrumb, BreadcrumbItem, Spinner } from 'flowbite-vue'
+// import TheProductCard from '../../components/product/TheProductCard.vue'
+import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
 import { useProductStore } from '../../stores/product'
 export default {
   props: ['sectionId'],
@@ -43,7 +45,7 @@ export default {
   async mounted() {
     await this.loadPage()
   },
-  components: { TheProductCard, Breadcrumb, BreadcrumbItem, Spinner },
+  components: { ProductShowcaseView, Breadcrumb, BreadcrumbItem },
   methods: {
     ...mapActions(useProductStore, ['viewProduct']),
     ...mapActions(useSectionStore, [
@@ -61,7 +63,6 @@ export default {
 
       await this.loadSectionNames()
       this.currentSection = this.getSectionByKey(sectionKey)
-      console.log(this.currentSection)
       await this.loadSectionProducts()
       this.isLoaded = true
     },
@@ -75,7 +76,8 @@ export default {
     }
   },
   computed: {
-    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSection'])
+    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSection']),
+    ...mapWritableState(useProductStore, ['products'])
   }
 }
 </script>

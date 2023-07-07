@@ -7,14 +7,14 @@
       >
     </div>
     <div
-      class="grid xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
+      class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
     >
       <the-product-card
         :good="good"
         :isAvailable="isAvailable(good)"
         v-for="good in homeSpecialSections?.[name]?.slice(0, sliceCount)"
         :key="good.key"
-        @click="viewProduct(good.key)"
+        @click="viewProduct(good.key, good.type.key)"
       ></the-product-card>
     </div>
     <span
@@ -36,8 +36,7 @@ import { mapActions, mapWritableState } from 'pinia'
 const breakpoints = {
   2: 768,
   4: 1024,
-  5: 1280,
-  6: 1536
+  5: 1536
 }
 
 export default {

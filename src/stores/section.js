@@ -1,6 +1,7 @@
 import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
 import router from '../router'
+import { useSidebarStore } from './sidebar'
 export const useSectionStore = defineStore('section', {
   state: () => ({
     sections: undefined,
@@ -11,18 +12,6 @@ export const useSectionStore = defineStore('section', {
   }),
   actions: {
     ...mapActions(useApiStore, ['get']),
-    async recursiveGetAllProducts(sections) {
-      for (let i of sections) {
-        if (i.products) {
-          this.sectionProducts = this.sectionProducts.concat(i.products)
-        }
-        if (i.sections) {
-          this.recursiveGetAllProducts(i.sections)
-        }
-        console.log(this.sectionProducts)
-      }
-      // this.sectionProducts = [...new Set(this.sectionProducts)]
-    },
     async loadSectionNames() {
       console.log('>>> loadSectionNames')
 
@@ -32,9 +21,6 @@ export const useSectionStore = defineStore('section', {
     },
     async loadSectionProducts() {
       console.log('>>> loadSectionProducts')
-      // if (!this.currentSection && section) {
-      //   this.currentSection = section
-      // }
       const response = await this.get(`section/${this.currentSection.key}/products`, false)
       console.log(response)
       this.sectionProducts = response.data.result
@@ -45,8 +31,6 @@ export const useSectionStore = defineStore('section', {
         let pick = this.getSectionByKey(this.params[0])
         for (let key of this.params.slice(1)) {
           // console.log(this.params)
-          console.log(pick)
-          console.log(key)
           pick = pick.sections.find((section) => section.key === key)
         }
         this.currentSections = pick.sections
@@ -55,9 +39,10 @@ export const useSectionStore = defineStore('section', {
     async showAll() {
       await router.push({ name: 'section', params: { sectionId: this.params } })
       this.params = []
+      const sidebarStore = useSidebarStore()
+      sidebarStore.closeSidebars()
     },
     async pickSection(key) {
-      console.log(key)
       const pick = this.getSectionByKey(key)
       this.params.push(key)
       if (pick?.sections?.length) {
@@ -65,7 +50,11 @@ export const useSectionStore = defineStore('section', {
       } else {
         await router.push({ name: 'section', params: { sectionId: this.params } })
         this.params = []
+        const sidebarStore = useSidebarStore()
+        sidebarStore.closeSidebars()
       }
+
+      // await this.loadSectionProducts()
     },
     getSectionByKey(key) {
       return this.sections?.find((s) => s.key === key)

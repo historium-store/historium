@@ -1,13 +1,15 @@
 <template>
   <aside
     id="section-sidebar"
-    :class="'fixed top-0 left-0 z-30 w-full sm:w-96 h-screen transition-transform ' + getStyle"
+    :class="
+      'fixed top-0 left-0 z-30 w-full sm:w-96 h-screen transition-transform font-rubik ' + getStyle
+    "
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-background">
-      <span><h1 class="text-xl px-5">Категорії</h1></span>
+      <span><h1 class="text-2xl px-5 font-body">Категорії</h1></span>
       <button
         @click="closeSidebar('sections')"
-        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 absolute top-2.5 right-6 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        class="text-gray-400 bg-transparent hover:text-gray-900 rounded-3xl text-sm p-1.5 absolute top-2.5 right-6 inline-flex items-center hover:bg-gray-600"
       >
         <svg
           aria-hidden="true"
@@ -26,17 +28,19 @@
       </button>
       <ul class="space-y-2 font-medium mt-6">
         <sidebar-item
-          v-if="sections !== currentSections"
+          v-if="sections != currentSections"
           @click="back"
           icon="arrow-left"
           title="Назад"
           titleStyle="text-md"
+          class="bg-cart-dark"
         />
         <sidebar-item
-          v-if="sections !== currentSections"
+          v-if="sections != currentSections"
           @click="showAll"
           title="Показати всі"
           titleStyle="text-md"
+          class="bg-cart-darker"
         />
         <sidebar-item
           @click="pickSection(section.key)"

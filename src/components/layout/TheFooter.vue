@@ -1,5 +1,5 @@
 <template>
-  <footer class="mt-auto">
+  <footer class="mt-auto bg-cart-dark bg-opacity-40">
     <div class="xl:ml-64 w-4/5 mx-auto my-12">
       <div class="m-3">
         <img class="h-20 mx-auto" src="../../assets/wb-logo.png" />

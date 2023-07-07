@@ -22,14 +22,15 @@ export default {
         cart: {
           dark: '#0E6060',
           light: '#209393',
-          lighter: '#E1FFFE'
+          lighter: '#E1FFFE',
+          darker: '#054040'
         },
         background: '#031425',
         background_light: '#061b30'
       }
     },
     screens: {
-      xs: '0px',
+      xs: '320px',
       ...defaultTheme.screens
     },
     fontFamily: {

@@ -4,7 +4,7 @@
   <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
   <Suspense>
     <router-view v-slot="slotProps">
-      <div class="xl:ml-64">
+      <div class="xl:ml-48">
         <component :is="slotProps.Component"></component>
       </div>
       <!-- <transition name="route" mode="out-in">
@@ -13,10 +13,11 @@
     </router-view>
   </Suspense>
   <the-footer />
-  <main-sidebar></main-sidebar>
-  <sections-sidebar></sections-sidebar>
-  <profile-sidebar></profile-sidebar>
-  <cart-sidebar></cart-sidebar>
+  <Main-sidebar />
+  <Sections-sidebar />
+  <Profile-sidebar />
+  <Cart-sidebar />
+  <NavigationBar />
 </template>
 
 <script>
@@ -27,10 +28,11 @@ import TheHeader from './components/layout/TheHeader.vue'
 import TheFooter from './components/layout/TheFooter.vue'
 import TheAlert from './components/layout/modals/TheAlert.vue'
 import TheModal from './components/layout/modals/TheModal.vue'
-import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
 import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
+import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
 import ProfileSidebar from './components/layout/sidebars/ProfileSidebar.vue'
 import CartSidebar from './components/layout/sidebars/CartSidebar.vue'
+import NavigationBar from './components/layout/sidebars/NavigationBar.vue'
 import LoginView from './components/auth/LoginView.vue'
 import SignUpView from './components/auth/SignUpView.vue'
 import RestoreView from './components/auth/RestoreView.vue'
@@ -70,7 +72,8 @@ export default {
     SignUpView,
     RestoreView,
     BreadcrumbItem,
-    TheAlert
+    TheAlert,
+    NavigationBar
   }
 }
 </script>

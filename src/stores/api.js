@@ -29,6 +29,7 @@ export const useApiStore = defineStore('api', {
         )
         .catch((error) => {
           console.log(error.response.data.message)
+          return error.response
         })
     },
     async get(route, isNeedAuth, query) {
@@ -38,7 +39,8 @@ export const useApiStore = defineStore('api', {
           this.getHeader(isNeedAuth)
         )
         .catch((error) => {
-          console.log(error)
+          console.log(error.response.data.message)
+          return error.response
         })
     },
     async patch(route, body, query) {
@@ -47,6 +49,7 @@ export const useApiStore = defineStore('api', {
         .patch(`${this.API}${route}?${query}`, body, this.getHeader(true))
         .catch((error) => {
           console.log(error.response.data.message)
+          return error.response
         })
     },
     async delete(route, body, query) {
@@ -57,6 +60,7 @@ export const useApiStore = defineStore('api', {
         )
         .catch((error) => {
           console.log(error.response.data.message)
+          return error.response
         })
     }
   }

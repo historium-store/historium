@@ -50,10 +50,12 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(payload) {
       const response = await this.post('login', payload)
-      await this.setToken(response.data.token)
-      this.saveCartToLS()
-      await this.synchronizeCarts()
-      return true
+      if (response.statusText == 'OK') {
+        await this.setToken(response.data.token)
+        this.saveCartToLS()
+        await this.synchronizeCarts()
+        return true
+      } else return response
     },
     logout() {
       localStorage.removeItem('token')

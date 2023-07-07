@@ -28,7 +28,7 @@ export const useCartStore = defineStore('cart', {
         this.cart.items.map((item) =>
           items.push({ quantity: item.quantity, product: item.product._id })
         )
-        const response = await this.patch('user/cart', { items })
+        const response = await this.patch('cart', { items })
         this.cart = response.data
       }
     },
@@ -40,7 +40,7 @@ export const useCartStore = defineStore('cart', {
         await this.loadCartFromLS()
         return
       }
-      const response = await this.get('user/cart', true)
+      const response = await this.get('cart', true)
       this.cart = response.data
     },
     async loadCartFromLS() {
@@ -104,7 +104,7 @@ export const useCartStore = defineStore('cart', {
     async addItem(itemId) {
       console.log('addItem')
       if (this.isAuthenticated) {
-        await this.post('user/cart-item', { product: itemId }, null, true)
+        await this.post('cart-item', { product: itemId }, null, true)
       } else {
         const index = this.cart.items.findIndex((item) => item.product._id === itemId)
         if (index != -1) {
@@ -126,7 +126,7 @@ export const useCartStore = defineStore('cart', {
     },
     async removeItem(itemId) {
       if (this.isAuthenticated) {
-        await this.delete('user/cart-item', { product: itemId, quantity: Number.MAX_SAFE_INTEGER })
+        await this.delete('cart-item', { product: itemId, quantity: Number.MAX_SAFE_INTEGER })
       } else {
         const index = this.cart.items.findIndex((item) => item.product._id === itemId)
         if (index != -1) {
@@ -141,7 +141,11 @@ export const useCartStore = defineStore('cart', {
     },
     async decreaseItem(itemId) {
       if (this.isAuthenticated) {
-        await this.delete('user/cart-item', { product: itemId })
+        const item = this.cart.items.find((item) => item.product._id === itemId)
+        if (item.quantity > 1) {
+          await this.delete('cart-item', { product: itemId })
+          await this.updateCart()
+        }
       } else {
         const index = this.cart.items.findIndex((item) => item.product._id === itemId)
         if (index != -1 && this.cart.items[index].quantity > 1) {
@@ -149,15 +153,15 @@ export const useCartStore = defineStore('cart', {
           this.cart.totalQuantity--
           this.countPrice()
           this.saveCartToLS()
+          await this.updateCart()
         }
       }
-      await this.updateCart()
       return true
     },
     async changeItemCount(itemId, quantity) {
       if (quantity < 100) {
         if (this.isAuthenticated) {
-          await this.api.post('user/cart-item', { product: itemId, quantity }, null, true)
+          await this.api.post('cart-item', { product: itemId, quantity }, null, true)
         } else {
           const index = this.cart.items.findIndex((item) => item.product._id === itemId)
           this.cart.items[index].quantity = +quantity
@@ -173,7 +177,7 @@ export const useCartStore = defineStore('cart', {
       // if (this.cart.items.length > 0) {
       this.cart = cartTemplate
       if (this.isAuthenticated) {
-        await this.delete('user/cart')
+        await this.delete('cart')
       } else {
         cookieStorage.removeItem('cart')
       }

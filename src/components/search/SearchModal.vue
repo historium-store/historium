@@ -6,10 +6,10 @@
           <img
             class="h-20 rounded-md hover:cursor-pointer"
             :src="item.image"
-            @click="viewProduct(item.key)"
+            @click="viewProduct(item.product.key, item.product.type.key)"
           />
           <div class="product-details pl-4">
-            <p @click="viewProduct(item.key)" class="hover:cursor-pointer">
+            <p @click="viewProduct(item.product.key, item.product.type.key)" class="hover:cursor-pointer">
               {{ item.name }}
             </p>
             <p class="text-sm">{{ item.authors[0] }}</p>

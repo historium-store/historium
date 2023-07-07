@@ -57,7 +57,7 @@ export default {
         await productStore.loadRecomendations()
         break
       case 'history':
-        await productStore.loadRecomendations()
+        await productStore.loadHistory()
         break
     }
     window.addEventListener('resize', () => {

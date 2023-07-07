@@ -2,6 +2,7 @@ import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
 import router from '../router'
 import { useFilterStore } from './filter'
+import { useAuthStore } from './auth'
 
 export const useProductStore = defineStore('product', {
   state: () => ({
@@ -17,6 +18,12 @@ export const useProductStore = defineStore('product', {
     ...mapActions(useApiStore, ['get']),
     isAvailable(product) {
       return product?.quantity > 0
+    },
+    async getAbstractProductById(id, isPreview = true) {
+      console.log(`>>> getAbstractProductById ${id} `)
+
+      const response = await this.get(`product/${id}`, false, isPreview ? { preview: true } : {})
+      return response.data
     },
     async viewProduct(id, type = 'product') {
       await router.push({ name: 'product', params: { id, type } })
@@ -40,7 +47,8 @@ export const useProductStore = defineStore('product', {
 
       const response = await this.get(`${type}/${key}`)
       this.product = response.data
-      console.log(this.product)
+      const authStore = useAuthStore()
+      await authStore.pushInHistory(this.product?.product?._id)
     },
     async loadNovelties() {
       console.log('>>> loadNovelties')
@@ -60,7 +68,16 @@ export const useProductStore = defineStore('product', {
         limit: 12
       })
       this.homeSpecialSections.recomendations = response.data.result
-      this.homeSpecialSections.history = response.data.result
+    },
+    async loadHistory() {
+      console.log('>>> loadHistory')
+
+      const response = await this.get(`user/account`, true)
+      const userHistory = response.data.history
+      this.homeSpecialSections.history = []
+      userHistory.forEach(async (id) => {
+        this.homeSpecialSections.history.push(await this.getAbstractProductById(id))
+      })
     }
   }
 })

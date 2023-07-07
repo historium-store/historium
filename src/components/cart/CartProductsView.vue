@@ -1,5 +1,6 @@
 <template>
-  <ul class="font-medium h-[40vh] md:h-[50vh] overflow-y-auto flex flex-col [&>*:last-child]:mb-4">
+  <!-- <ul class="font-medium h-[40vh] md:h-[50vh] overflow-y-auto flex flex-col [&>*:last-child]:mb-4"> -->
+  <ul class="font-medium overflow-y-auto flex flex-col [&>*:last-child]:mb-4">
     <li v-for="item in cart ? cart?.items : []" :key="item.product._id" class="py-3">
       <div class="flex m-2">
         <img
@@ -8,7 +9,10 @@
           @click="viewProduct(item.product.key, item.product.type.key)"
         />
         <div class="product-details pl-4 flex flex-col">
-          <p @click="viewProduct(item.product.key, item.product.type.key)" class="text-cart-dark hover:cursor-pointer">
+          <p
+            @click="viewProduct(item.product.key, item.product.type.key)"
+            class="text-cart-dark hover:cursor-pointer"
+          >
             {{ item.product?.name }}
           </p>
           <p class="text-xs">{{ item.product?.authors?.[0] }}</p>

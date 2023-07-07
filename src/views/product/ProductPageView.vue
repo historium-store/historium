@@ -33,7 +33,7 @@
             <div class="mb-5">
               <h2 class="text-[28px] font-body">{{ product.name }}</h2>
               <span
-                v-for="[i, author] in Object.entries(product?.authors)"
+                v-for="[i, author] in Object.entries(product?.authors || [])"
                 :key="author.id"
                 class="text-lg text-gray-400"
                 >{{ author.fullName }}{{ i < product?.authors?.length - 1 ? ', ' : '' }}
@@ -340,6 +340,7 @@ import { useAlertStore } from '../../stores/alert'
 import { useBookStore } from '../../stores/book'
 
 export default {
+  components: { TheSpecialSection },
   props: ['type', 'id'],
   watch: {
     id: async function () {

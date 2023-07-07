@@ -88,6 +88,10 @@ export const useAuthStore = defineStore('auth', {
       const response = this.patch(`user/${userId}`, { password })
       console.log(response.status)
       return true
+    },
+    async pushInHistory(id) {
+      const response = this.post('user/history', { product: id }, null, true)
+      console.log(response.status)
     }
   }
 })

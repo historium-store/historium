@@ -2,22 +2,22 @@
   <div class="title">
     <span>{{ title }}</span>
   </div>
-  <div class="body px-2">
-    <div v-if="type === 'number'" class="grid grid-cols-2 text-black h-8">
-      <div class="items-center">
-        <span class="absolute">від</span>
+  <div class="body px-2 font-rubik text-xs">
+    <div v-if="type === 'number'" class="grid grid-cols-2 text-black">
+      <div class="items-center p-1">
+        <span class="absolute ps-1 pt-1">від</span>
         <input
-          class="rounded-md ps-6"
+          class="rounded-md pr-2 w-full h-8 text-right"
           step="50"
           :min="filters['min']"
           :type="type"
           :value="filters['min']"
         />
       </div>
-      <div class="items-center">
-        <span class="absolute">до</span>
+      <div class="items-center p-1">
+        <span class="absolute ps-1 pt-1">до</span>
         <input
-          class="rounded-md ps-6"
+          class="rounded-md pr-2 w-full h-8 text-right"
           step="50"
           :max="filters['max']"
           :type="type"
@@ -29,9 +29,12 @@
     </div>
     <ul v-else>
       <li v-for="filter in filters" :key="filter">
-        <div class="inline-flex items-center">
-          <input v-model="isChecked[filter]" class="w-5 h-5" :id="filter" :type="type" />
-          <label class="pl-3 text-ellipsis whitespace-nowrap" :for="filter">{{ filter }}</label>
+        <div class="inline-flex items-center w-full py-1">
+          <input v-model="isChecked[filter]" :id="filter" :type="type" />
+
+          <label class="pl-3 whitespace-nowrap overflow-hidden text-ellipsis" :for="filter">{{
+            filter
+          }}</label>
         </div>
       </li>
     </ul>

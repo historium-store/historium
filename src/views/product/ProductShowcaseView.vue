@@ -33,18 +33,20 @@ export default {
 </script> -->
 
 <template>
-  <div class="">
-    <the-filters />
+  <div class="min-h-screen">
+    <the-filters v-if="filters" />
     <div
       v-if="products"
-      class="xl:ml-64 grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mx-auto p-6"
+      :class="
+        (filters ? 'xl:ml-64' : '') +
+        ' grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 mx-auto p-6'
+      "
     >
       <the-product-card
         :good="good"
         :isAvailable="isAvailable(good)"
         v-for="good in products"
         :key="good.key"
-        @click="viewProduct(good.key, good.type.key)"
       ></the-product-card>
     </div>
   </div>
@@ -56,7 +58,7 @@ import { mapActions } from 'pinia'
 import TheProductCard from '../../components/product/TheProductCard.vue'
 import TheFilters from '../../components/filter/TheFilters.vue'
 export default {
-  props: ['products'],
+  props: ['products', 'filters'],
   components: { TheProductCard, TheFilters },
   methods: {
     ...mapActions(useProductStore, ['isAvailable', 'viewProduct'])

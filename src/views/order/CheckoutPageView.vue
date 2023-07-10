@@ -80,7 +80,7 @@
                 as="select"
                 type="text"
                 name="country"
-                class="border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
+                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30"
                 v-model.trim="formData.deliveryInfo.country"
               >
                 <option disabled value="">Оберіть країну доставки</option>
@@ -99,7 +99,7 @@
                 as="select"
                 type="text"
                 name="city"
-                class="border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
+                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30"
                 v-model.trim="formData.deliveryInfo.city"
               >
                 <option disabled value="">Оберіть місто доставки</option>
@@ -108,7 +108,7 @@
                 </option>
                 <!-- <span class="text-xs ps-3 text-red-500">{{ errors.lastName }}</span> -->
               </Field>
-              <div class="sm:text-lg rounded-2xl block w-full p-3 space-x-2">
+              <div class="rounded-2xl block w-full p-3 space-x-2">
                 <input name="callback" type="checkbox" />
                 <label for="callback">Передзвоніть мені </label>
               </div>
@@ -179,11 +179,9 @@
                 <p class="">Дата відправки</p>
                 <p>Відправка сьогодні</p>
               </div>
-              <div class="inline-flex space-x-1">
-                <p class="text-xs">
-                  Відправляючи замовлення, я підтверджую, що прочитав і згоден(а) з
-                </p>
-                <RouterLink to="conditions-of-use" class="text-xs text-blue-900"
+              <div class="text-xs">
+                <p>Відправляючи замовлення, я підтверджую, що прочитав і згоден(а) з</p>
+                <RouterLink to="conditions-of-use" class="text-blue-900"
                   >Умовами використання</RouterLink
                 >
               </div>
@@ -222,11 +220,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-span-1">
-        <div class="p-3 px-10">
-          <Cart class="rounded-3xl" />
-        </div>
-      </div> -->
     </div>
     <div v-else><h1 class="text-center mt-6">Кошик порожній</h1></div>
 
@@ -316,7 +309,8 @@ export default {
     ...mapWritableState(useAuthStore, { authUser: 'user' }),
     ...mapWritableState(useOrderStore, ['countries', 'cities', 'delivery']),
     buttonLabel() {
-      return `Оплатити ${this.cart.totalPrice + this.delivery?.pickedType?.price} ₴`
+      // return `Оплатити ${this.cart.totalPrice + this.delivery?.pickedType?.price} ₴`
+      return `Підтвердити замовлення`
     },
     totalQuantityLabel() {
       const totalQuantityLabel =
@@ -343,7 +337,7 @@ export default {
     ]),
     inputStyle(meta) {
       return (
-        'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +
+        'border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30 h-12 ' +
         (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
       )
     },
@@ -358,22 +352,15 @@ export default {
         items: this.cart.items,
         description: this.formData.description
       }
-      console.log(payload)
       this.isLoading = true
       const response = await this.post('order', payload, null, true)
-      console.log(response)
       if (response.status === 201) {
         await this.clearCart()
         console.log(response)
-        this.isLoading = false
         this.showAlert('Заказ успішний', 'bg-green-500')
         this.$router.push({ name: 'orders' })
       } else this.showAlert('Щось пішло не так', 'bg-red-500')
-
-      // await this.$router.push({ name: 'general' })
-      // setTimeout(() => {
-      //   window.open('https://send.monobank.ua/jar/8afB7nJQPh', '_blank')
-      // }, 2000)
+      this.isLoading = false
     }
   }
 }

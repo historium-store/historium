@@ -36,7 +36,6 @@ export const useCartStore = defineStore('cart', {
       console.log('updateCart')
 
       if (!this.isAuthenticated) {
-        // this.saveCartToLS()
         await this.loadCartFromLS()
         return
       }
@@ -45,57 +44,8 @@ export const useCartStore = defineStore('cart', {
     },
     async loadCartFromLS() {
       console.log('loadCartFromLS')
-
-      // collect local cart and get items
       const localCart = JSON.parse(cookieStorage.getItem('cart')) || cartTemplate
-
-      // let items = []
-      // if (localCart?.totalQuantity > 0 && this.cart.totalQuantity === 0) {
       this.cart = { ...localCart }
-      // }
-      //   localCart.items.forEach(async (item) => {
-      //     if (!item.product) {
-      //       const response = await this.api.get(`product/${item.product._id}`, { preview: true })
-      //       items.push(response.data)
-      //     } else {
-      //       items.push(item)
-      //     }
-      //   })
-      // } else {
-      //   localCart.items = items
-      // }
-
-      // if (localCart.items.length > 0) {
-      //   if (this.cart.totalQuantity === 0) {
-      //     this.cart = { ...localCart }
-      //   } else {
-      //     console.log()
-      //   }
-      //   console.log()
-      // }
-
-      //   this.cart = { ...cart }
-      // } else {
-      //   let resultCart = cartTemplate
-      //   cart.items.forEach((local) => {
-      //     const match = this.cart.items.find((old) => old.product._id === local.product._id)
-      //     if (!match) resultCart.items.push(local)
-
-      //     match.quantity = Math.max(local.quantity, match.quantity)
-      //     resultCart.items.push(match)
-      //   })
-
-      //   resultCart.totalPrice = resultCart.items.reduce(
-      //     (count, item) => (count += item.product.price * item.quantity),
-      //     0
-      //   )
-      //   resultCart.totalQuantity = resultCart.items.reduce(
-      //     (count, item) => (count += item.quantity),
-      //     0
-      //   )
-
-      //   this.cart = { ...resultCart }
-      // }
     },
     saveCartToLS() {
       console.log('saveCartToLS')

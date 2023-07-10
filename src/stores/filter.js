@@ -16,18 +16,20 @@ export const useFilterStore = defineStore('filter', {
     },
     async changeFilters(filterKey, values) {
       const productStore = useProductStore()
-      this.activeFilters[filterKey.slice(0, -1)] = values
-      await productStore.loadProducts()
+      this.activeFilters[filterKey] = values
+      await productStore.loadProducts('book')
     },
     getFiltersQuery() {
-      // this.activeFilters = Object.entries(this.activeFilters)
-      //   .filter((filter) => filter[1].length > 0)
-      //   .map((filter) => filter)
       Object.keys(this.activeFilters).forEach(
         (k) => this.activeFilters[k].length == 0 && delete this.activeFilters[k]
       )
-      const query = new URLSearchParams(this.activeFilters)
-      console.log(query)
+
+      const query = new URLSearchParams()
+
+      for (let [key, value] of Object.entries(this.activeFilters)) {
+        query.append(key, value.join(';'))
+      }
+
       return query
     }
   }

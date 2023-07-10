@@ -36,6 +36,9 @@
         <div class="flex flex-wrap items-center">
           <div class="flex">
             <div class="bookmark px-2">
+              <div class="ml-2 top-5 w-3 h-3 rounded-full bg-cart-light items-center flex absolute">
+                <p class="mx-auto text-xs">{{ user?.wishlist?.length }}</p>
+              </div>
               <font-awesome-icon
                 size="lg"
                 class="max-sm:text-2xl"
@@ -44,6 +47,9 @@
               />
             </div>
             <span @click="openSidebar('cart')" class="px-2 hover:cursor-pointer">
+              <div class="ml-3 top-5 w-3 h-3 rounded-full bg-cart-light items-center flex absolute">
+                <p class="mx-auto text-xs">{{ cart?.items?.length }}</p>
+              </div>
               <font-awesome-icon
                 size="lg"
                 class="max-sm:text-2xl"
@@ -85,8 +91,10 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
 import TheSearch from '../layout/TheSearch.vue'
 import { useSidebarStore } from '../../stores/sidebar'
-import { mapActions } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
 import { useModalStore } from '../../stores/modal'
+import { useCartStore } from '../../stores/cart'
+import { useUserStore } from '../../stores/user'
 export default {
   props: ['openModal', 'switchModal'],
   setup() {
@@ -94,7 +102,6 @@ export default {
     const querySearch = ref('')
     return { userStore, querySearch }
   },
-  emits: {},
   components: { TheSearch },
   methods: {
     ...mapActions(useSidebarStore, ['openSidebar']),
@@ -113,6 +120,10 @@ export default {
         window.scrollBy({ behavior: 'smooth', top: -12 })
       }, 400)
     }
+  },
+  computed: {
+    ...mapWritableState(useCartStore, ['cart']),
+    ...mapWritableState(useUserStore, ['user'])
   }
 }
 </script>

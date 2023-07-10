@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useSidebarStore } from '../stores/sidebar'
 
-function prefixRoutes(prefix, routes) {
-  return routes.map((route) => (route.path = prefix + '/' + route.path))
-}
+// function prefixRoutes(prefix, routes) {
+//   return routes.map((route) => (route.path = prefix + '/' + route.path))
+// }
 
 const NotFound = { template: '<h2>Page Not Found</h2>' }
 const router = createRouter({
@@ -34,13 +34,13 @@ const router = createRouter({
       component: () => import('../views/product/ProductPageView.vue'),
       props: true
     },
+    // {
+    //   path: '/section',
+    //   name: 'sectionAll',
+    //   component: () => import('../views/section/SectionPageView.vue')
+    // },
     {
-      path: '/section',
-      name: 'sectionAll',
-      component: () => import('../views/section/SectionPageView.vue')
-    },
-    {
-      path: '/section/:sectionId*',
+      path: '/section/:sectionId+',
       name: 'section',
       component: () => import('../views/section/SectionPageView.vue'),
       props: true
@@ -49,6 +49,12 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../views/admin/AdminPanelView.vue')
+    },
+    {
+      path: '/admin/:instance+',
+      name: 'instance',
+      component: () => import('../views/admin/ItemActionsView.vue'),
+      props: true
     },
     {
       path: '/checkout',

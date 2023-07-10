@@ -15,7 +15,7 @@
           >
             {{ item.product?.name }}
           </p>
-          <p class="text-xs">{{ item.product?.authors?.[0] }}</p>
+          <p class="text-xs">{{ item.product.creators?.[0] }}</p>
           <span class="inline-flex items-center mt-auto">
             <p class="text-xl">{{ item.product?.price }} ₴</p>
             <span class="mx-2 text-xl">•</span>

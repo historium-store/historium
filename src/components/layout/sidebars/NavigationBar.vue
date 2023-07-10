@@ -7,7 +7,7 @@
     "
   >
     <div class="w-full mt-48 mb-auto flex overflow-y-auto ml-14">
-      <div class="border-[3px] rounded-full px-5 py-20 mx-auto">
+      <div class="border-[3px] rounded-full px-5 py-20 mx-auto bg-background">
         <ul class="space-y-10 [&>li]:mx-auto">
           <li>
             <font-awesome-icon

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter rounded-b-2xl overflow-y-auto"
-  >
+  <div class="flex flex-col px-3 py-4 text-cart-light bg-cart-lighter rounded-b-2xl max-h-[100vh]">
     <!-- <div class="top-hr h-3 mb-6"></div> -->
     <img src="../../assets/cart-header-dashes.png" />
     <div class="px-2 md:px-8 mt-6 flex flex-col">
@@ -37,7 +35,10 @@
         </li>
         <hr class="border-[1.5px] rounded-full border-cart-light" />
       </ul>
-      <cart-products-view :cart="cart"></cart-products-view>
+      <cart-products-view
+        class="overflow-y-auto max-h-[60vh] min-h-[200px]"
+        :cart="cart"
+      ></cart-products-view>
       <div class="-mt-4 bg-transparent h-4 bg-gradient-to-b from-transparent to-cart-lighter"></div>
       <hr class="mx-2 mt-6 border-[1.5px] rounded-full border-cart-light" />
       <div class="inline-flex justify-between items-center mt-auto mx-1">
@@ -63,7 +64,8 @@ export default {
   props: ['isSidebar'],
   components: { CartProductsView },
   methods: {
-    ...mapActions(useSidebarStore, ['closeSidebar'])
+    ...mapActions(useSidebarStore, ['closeSidebar']),
+    ...mapActions(useCartStore, ['clearCart'])
   },
   computed: {
     ...mapWritableState(useCartStore, ['cart'])

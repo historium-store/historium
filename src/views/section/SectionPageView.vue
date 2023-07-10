@@ -13,19 +13,20 @@
         >{{ getSectionByKey(part)?.name }}</breadcrumb-item
       >
     </breadcrumb>
-    <!-- <div
-      v-if="sectionProducts"
-      class="grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 mx-auto p-6"
-    >
-      <the-product-card
-        v-for="product in sectionProducts"
-        :key="product._id"
-        :good="product"
-        @click="viewProduct(product.key)"
-      />
-    </div> -->
-    <ProductShowcaseView :products="sectionProducts" />
-    <!-- <div v-else>Not found</div> -->
+    <div v-if="currentSection.sections.length > 0">
+      <hr />
+      <div class="grid grid-cols-5 m-3">
+        <section-card
+          v-for="section in currentSection.sections"
+          :key="section"
+          :name="section.name"
+          @click="goto(`/section/${sectionId.join('/')}/${section.key}`)"
+        ></section-card>
+      </div>
+      <hr />
+    </div>
+
+    <ProductShowcaseView :products="sectionProducts" :filters"false" />
   </div>
   <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
@@ -37,6 +38,7 @@ import { useSectionStore } from '../../stores/section'
 // import TheProductCard from '../../components/product/TheProductCard.vue'
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
 import { useProductStore } from '../../stores/product'
+import SectionCard from '../../components/section/SectionCard.vue'
 export default {
   props: ['sectionId'],
   data() {
@@ -45,7 +47,7 @@ export default {
   async mounted() {
     await this.loadPage()
   },
-  components: { ProductShowcaseView, Breadcrumb, BreadcrumbItem },
+  components: { ProductShowcaseView, Breadcrumb, BreadcrumbItem, SectionCard },
   methods: {
     ...mapActions(useProductStore, ['viewProduct']),
     ...mapActions(useSectionStore, [

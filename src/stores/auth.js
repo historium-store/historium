@@ -90,8 +90,18 @@ export const useAuthStore = defineStore('auth', {
       return true
     },
     async pushInHistory(id) {
-      const response = this.post('user/history', { product: id }, null, true)
-      console.log(response.status)
+      console.log('pushInHistory')
+      if (this.isAuthenticated) {
+        this.post('user/history', { product: id }, null, true)
+      } else {
+        const history = JSON.parse(localStorage.getItem('history')) || []
+        const index = history.indexOf(id)
+        if (index > -1) {
+          history.splice(index, 1)
+        }
+        history.unshift(id)
+        localStorage.setItem('history', JSON.stringify(history))
+      }
     }
   }
 })

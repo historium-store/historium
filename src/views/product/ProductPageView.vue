@@ -3,26 +3,26 @@
     <div class="grid grid-cols-1 lg:grid-cols-5">
       <div class="flex p-2 col-span-1 lg:col-span-2">
         <div class="flex flex-col mx-auto">
-          <div class="w-2/3 mx-auto lg:w-full lg:h-2/3">
-            <div class="mx-auto p-6 xl:px-12 2xl:px-24">
-              <img class="rounded-2xl shadow-xl h-full" :src="currentImage" />
-              <div class="my-4 flex space-x-2 font-rubik text-[13px]">
-                <Button
-                  id="addToCartButton"
-                  @click="addToCart"
-                  class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
-                >
-                  <font-awesome-icon :icon="['fas', 'cart-shopping']" />
-                  <span class="ml-2">До кошика</span>
-                </Button>
-                <Button
-                  @click="checkout"
-                  class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
-                >
-                  <font-awesome-icon :icon="['fas', 'bag-shopping']" />
-                  <span class="ml-2">Купити зараз</span>
-                </Button>
-              </div>
+          <div class="w-3/4 mx-auto lg:w-full">
+            <div class="m-auto p-6 pt-0 xl:px-12 2xl:px-24">
+              <img class="rounded-2xl shadow-xl" :src="currentImage" />
+            </div>
+            <div class="my-4 flex space-x-2 font-rubik text-[13px]">
+              <Button
+                id="addToCartButton"
+                @click="addToCart"
+                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+              >
+                <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+                <span class="ml-2">До кошика</span>
+              </Button>
+              <Button
+                @click="checkout"
+                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+              >
+                <font-awesome-icon :icon="['fas', 'bag-shopping']" />
+                <span class="ml-2">Купити зараз</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -31,19 +31,19 @@
         <div class="grid grid-cols-4">
           <div class="col-span-4 md:col-span-3">
             <div class="mb-5">
-              <h2 class="text-[28px] font-body">{{ product.name }}</h2>
+              <h2 class="text-2xl font-body">{{ good.product.name }}</h2>
               <span
-                v-for="[i, author] in Object.entries(product?.authors || [])"
+                v-for="[i, author] in Object.entries(good?.authors || [])"
                 :key="author.id"
                 class="text-lg text-gray-400"
-                >{{ author.fullName }}{{ i < product?.authors?.length - 1 ? ', ' : '' }}
+                >{{ author.fullName }}{{ i < good?.authors?.length - 1 ? ', ' : '' }}
               </span>
             </div>
           </div>
           <div class="col-span-4 md:col-span-1 text-cart-light">
             <h2 class="text-[32px] font-body pb-5 md:pb-0 md:text-center">
               <span class="inline-flex items-center space-x-1">
-                <p>{{ product.product.price }}</p>
+                <p>{{ good.product.price }}</p>
                 <p class="text-[28px]">₴</p>
               </span>
             </h2>
@@ -60,7 +60,7 @@
           <div class="inline-flex py-2">
             <Button class="px-4 h-8 border bg-cart-light border-cart-light rounded-full">
               <font-awesome-icon :icon="['fas', 'book']" />
-              <span class="ml-2">{{ product.type }}</span>
+              <span class="ml-2">{{ good.type }}</span>
             </Button>
           </div>
         </div>
@@ -68,7 +68,7 @@
           <p class="text-gray-400">Мова книги</p>
           <div class="inline-flex py-2">
             <Button
-              v-for="language in product.languages"
+              v-for="language in good.languages"
               :key="language"
               class="px-4 h-8 border border-cart-light rounded-full"
             >
@@ -95,49 +95,49 @@
           <div class="border-2 rounded-2xl p-3 px-6 space-y-5">
             <div>
               <p class="text-gray-400">Формат</p>
-              <p>{{ product.format }}</p>
+              <p>{{ good.format }}</p>
             </div>
             <div>
               <p class="text-gray-400">Автор</p>
               <span
-                v-for="[i, author] in Object.entries(product.authors)"
+                v-for="[i, author] in Object.entries(good.authors)"
                 :key="author.id"
                 class="font-thin"
-                >{{ author.fullName }}{{ i < product.product?.creators?.length - 1 ? ', ' : '' }}
+                >{{ author.fullName }}{{ i < good.product?.creators?.length - 1 ? ', ' : '' }}
               </span>
             </div>
             <div>
               <p class="text-gray-400">Тип</p>
-              <p>{{ product.type }}</p>
+              <p>{{ good.type }}</p>
             </div>
             <div v-if="isExtendedFeature" class="space-y-5">
               <div>
                 <p class="text-gray-400">Ілюстрації</p>
-                <p>{{ product.illustrationsType[0] }}</p>
+                <p>{{ good.illustrationsType[0] }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Палітурка</p>
-                <p>{{ product.bindingType }}</p>
+                <p>{{ good.bindingType }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Видавництво</p>
-                <p>{{ product.publisher.name }}</p>
+                <p>{{ good.publisher.name }}</p>
               </div>
               <div>
                 <p class="text-gray-400">ISBN</p>
-                <p>{{ product.isbns[0] }}</p>
+                <p>{{ good.isbns[0] }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Мова</p>
-                <p>{{ product.languages[0] }}</p>
+                <p>{{ good.languages[0] }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Кількість сторінок</p>
-                <p>{{ product.pages }}</p>
+                <p>{{ good.pages }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Рік видання</p>
-                <p>{{ product.publishedIn }}</p>
+                <p>{{ good.publishedIn }}</p>
               </div>
             </div>
             <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
@@ -162,7 +162,7 @@
     </div>
     <the-special-section name="history" title="Раніше переглядали" />
   </div>
-  <spinner v-else size="10" class="mx-auto mt-10" />
+  <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
 <!-- <template>
   <div v-if="isLoaded" class="w-11/12 mx-auto my-6 p-4">
@@ -337,7 +337,6 @@ import { useProductStore } from '../../stores/product'
 import { useCartStore } from '../../stores/cart'
 import TheSpecialSection from '../../components/product/TheSpecialSection.vue'
 import { useAlertStore } from '../../stores/alert'
-import { useBookStore } from '../../stores/book'
 
 export default {
   components: { TheSpecialSection },
@@ -363,18 +362,16 @@ export default {
   },
 
   computed: {
-    ...mapWritableState(useProductStore, ['product']),
-    // ...mapWritableState(useBookStore, ['book']),
-    //
+    ...mapWritableState(useProductStore, { good: 'product' }),
     currentImage() {
-      return this.product?.product?.images[this.imageIndex]
+      return this.good?.product?.images[this.imageIndex]
     },
     availability() {
-      return this.product?.product?.quantity > 0
+      return this.good?.product?.quantity > 0
     },
     showDescription() {
       // const description = this.product.description.replaceAll(';', '. ')
-      const description = this.product?.product?.description
+      const description = this.good?.product?.description
       if (this.isExtendedDescription || description.length < 200) {
         return description
       } else {
@@ -391,28 +388,21 @@ export default {
   methods: {
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useProductStore, ['loadProduct']),
-    ...mapActions(useBookStore, ['loadBook']),
     ...mapActions(useCartStore, ['addItem']),
     pickImage(event) {
-      if (event.originalTarget.id < this.product.images.length) {
+      if (event.originalTarget.id < this.good.images.length) {
         this.imageIndex = event.originalTarget.id
       }
     },
-    // async addToCart() {
-    //   document.getElementById('addToCartButton').disabled = true
-    //   await this.addItem(this.product._id)
-    //   this.showAlert('Товар додано')
-    //   document.getElementById('addToCartButton').disabled = false
-    // },
     async addToCart() {
       document.getElementById('addToCartButton').disabled = true
-      await this.addItem(this.product.product._id)
+      await this.addItem(this.good.product._id)
       this.showAlert('Товар додано')
       document.getElementById('addToCartButton').disabled = false
     },
     async checkout() {
       await this.addToCart()
-      await this.$router.push('checkout')
+      await this.$router.push({ name: 'checkout' })
     },
     switchDescription() {
       this.isExtendedDescription = !this.isExtendedDescription

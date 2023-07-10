@@ -28,10 +28,10 @@ export const useProductStore = defineStore('product', {
     async viewProduct(id, type = 'product') {
       await router.push({ name: 'product', params: { id, type } })
     },
-    async loadProducts() {
+    async loadProducts(type = 'product') {
       console.log('>>> loadProducts')
       const filterStore = useFilterStore()
-      const response = await this.get('product', false, filterStore.getFiltersQuery())
+      const response = await this.get(type, false, filterStore.getFiltersQuery())
       console.log(response)
       this.products = response.data.result
     },
@@ -72,8 +72,14 @@ export const useProductStore = defineStore('product', {
     async loadHistory() {
       console.log('>>> loadHistory')
 
-      const response = await this.get(`user/account`, true)
-      const userHistory = response.data.history
+      const authStore = useAuthStore()
+      let userHistory
+      if (authStore.isAuthenticated) {
+        const response = await this.get(`user/account`, true)
+        userHistory = response.data.history
+      } else {
+        userHistory = JSON.parse(localStorage.getItem('history')) || []
+      }
       this.homeSpecialSections.history = []
       userHistory.forEach(async (id) => {
         this.homeSpecialSections.history.push(await this.getAbstractProductById(id))

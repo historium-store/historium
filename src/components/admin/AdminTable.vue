@@ -1,16 +1,3 @@
-<!-- <template>
-  <table class="table-auto">
-    <thead>
-      <tr>
-        <th v-for="[field] in Object.entries(products)" :key="field">{{ field }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for=""></tr>
-    </tbody>
-  </table>
-</template> -->
-<template>sdwegvsdefgdsfwerdg</template>
 
 <script>
 export default {

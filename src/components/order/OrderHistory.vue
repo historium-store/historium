@@ -12,13 +12,13 @@
     <div v-if="isExtended" class="p-3">
       <div class="flex justify-between my-3">
         <p>{{ totalQuantityLabel }}</p>
-        <p>{{ order.totalPrice }} ₴</p>
+        <p>{{ order.totalPrice - order.deliveryPrice }} ₴</p>
         <!--   -deliveryPrice -->
       </div>
       <hr />
       <div class="flex justify-between my-3">
         <p>{{ order.deliveryInfo.type }}</p>
-        <p>price ₴</p>
+        <p>{{ order.deliveryPrice }} ₴</p>
       </div>
       <hr />
       <div class="flex justify-between my-3">

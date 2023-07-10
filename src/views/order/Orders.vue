@@ -1,8 +1,15 @@
 <template>
   <div class="w-4/5 mx-auto my-6">
     <p class="text-center text-2xl">Мої замовлення</p>
-    <div class="" v-for="order in orders" :key="order._id">
-      <order-history :order="order"></order-history>
+    <div v-if="orders.length > 0">
+      <div class="" v-for="order in orders" :key="order._id">
+        <order-history :order="order"></order-history>
+      </div>
+    </div>
+    <div v-else>
+      <div class="flex bg-cart-lighter rounded-2xl mt-6 bg-opacity-10 h-32 items-center">
+        <p class="mx-auto">Замовлень ще немає</p>
+      </div>
     </div>
   </div>
 </template>

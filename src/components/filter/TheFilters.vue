@@ -3,11 +3,6 @@
     :class="'absolute ml-48 top-35 left-0 z-30 w-full sm:w-64 h-screen transition-transform invisible xl:visible xl:transform-none'"
   >
     <div v-if="filters" class="space-y-3 px-3 py-4 bg-background_light rounded-2xl h-fit">
-      <!-- <filter-block
-        v-for="([key, value], index) in Object.entries(filters)"
-        :key="key"
-        :title="value"
-      ></filter-block> -->
       <FilterBlock title="Фільтри" :filters="filters['trend']" filter-key="trend" />
       <FilterBlock title="Тип книги" :filters="filters['type']" filter-key="type" />
       <FilterBlock title="Видавництво" :filters="filters['publisher']" filter-key="publisher" />

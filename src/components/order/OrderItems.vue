@@ -9,12 +9,22 @@
           @click="viewProduct(item.product.key, item.product.type.key)"
         />
         <div class="product-details pl-4 flex flex-col">
-          <p @click="viewProduct(item.product.key, item.product.type.key)" class="hover:cursor-pointer text-lg font-body">
+          <p
+            @click="viewProduct(item.product.key, item.product.type.key)"
+            class="hover:cursor-pointer text-lg font-body"
+          >
             {{ item.product?.name }}
           </p>
-          <div class="rounded-lg border-1 bg-cart-dark w-fit px-2">
-            <p class="text-xs">{{ item.product?.authors?.[0] }}</p>
+          <div class="flex space-x-2 mt-2">
+            <div
+              v-for="creator in item.product?.creators"
+              :key="creator"
+              class="rounded-lg border-1 bg-cart-dark w-fit px-2"
+            >
+              <p class="text-xs">{{ creator }}</p>
+            </div>
           </div>
+
           <span class="inline-flex items-center mt-auto">
             <p class="">{{ item.product?.price }} ₴</p>
             <span class="mx-2 text-xl">•</span>

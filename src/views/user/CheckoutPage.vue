@@ -350,7 +350,7 @@ export default {
       const response = await this.post('order', payload, null, true)
       if (response.status === 201) {
         await this.clearCart()
-        this.showAlert('Заказ успішний', 'bg-green-500')
+        this.showAlert('Заказ успішний')
         this.$router.push({ name: 'orders' })
       } else this.showAlert('Щось пішло не так', 'bg-red-500')
       this.isLoading = false

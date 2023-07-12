@@ -13,7 +13,6 @@ export const useFilterStore = defineStore('filter', {
     async loadFilters() {
       const response = await this.get('book/filters')
       this.filters = response.data
-      console.log(response.data)
     },
     async changeFilters(filterKey, values) {
       const productStore = useProductStore()

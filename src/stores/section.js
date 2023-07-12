@@ -1,13 +1,12 @@
 import { defineStore, mapActions } from 'pinia'
-import { useApiStore } from './api'
 import router from '../router'
+import { useApiStore } from './api'
 import { useSidebarStore } from './sidebar'
 export const useSectionStore = defineStore('section', {
   state: () => ({
-    sections: undefined,
-    currentSections: undefined,
-    sectionProducts: undefined,
-    // rootPath: '/section',
+    sections: [],
+    currentSections: [],
+    sectionProducts: [],
     params: []
   }),
   actions: {
@@ -15,18 +14,19 @@ export const useSectionStore = defineStore('section', {
     async loadSectionNames() {
       const response = await this.get(`section`)
       this.sections = response.data
-      this.currentSections = this.sections
+      this.currentSections = response.data
     },
     async loadSectionProducts() {
       console.log('>>> loadSectionProducts')
-      if (!this.currentSections) await this.loadSectionNames()
+      // if (!this.currentSections) await this.loadSectionNames()
+      console.log('get', this.currentSections.key)
       const response = await this.get(`section/${this.currentSections.key}/products`, false)
       this.sectionProducts = response.data.result
     },
     async back() {
       this.params.splice(-1, 1)
-      if (this.params.length > 0) {
-        let pick = this.getSectionByKey(this.params[0])
+      if (this.params.length) {
+        let pick = this.getSectionByKey(this.sections, this.params[0])
         for (let key of this.params.slice(1)) {
           pick = pick.sections.find((section) => section.key === key)
         }
@@ -40,7 +40,7 @@ export const useSectionStore = defineStore('section', {
       sidebarStore.closeSidebars()
     },
     async pickSection(key) {
-      const pick = this.getSectionByKey(key)
+      const pick = this.getSectionByKey(this.sections, key)
       this.params.push(key)
       if (pick?.sections?.length) {
         this.currentSections = pick.sections
@@ -53,8 +53,13 @@ export const useSectionStore = defineStore('section', {
 
       // await this.loadSectionProducts()
     },
-    getSectionByKey(key) {
-      return this.sections?.find((s) => s.key === key)
+    getSectionByKey(sections, key) {
+      const res = sections.find((s) => s.key === key)
+      if (res) {
+        return res
+      } else {
+        return this.getSectionByKey(sections.sections, key)
+      }
     }
   }
 })

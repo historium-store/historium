@@ -14,7 +14,7 @@
         {{ getSectionByKey(part)?.name }}
       </breadcrumb-item>
     </breadcrumb>
-    <div v-if="currentSections?.sections?.length > 0">
+    <div v-if="currentSections?.sections?.length">
       <div
         class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 mx-auto p-6"
       >
@@ -26,7 +26,6 @@
         />
       </div>
     </div>
-
     <ProductShowcase :products="sectionProducts" :filters="false" />
   </div>
   <div v-else class="flex">
@@ -74,8 +73,8 @@ export default {
         sectionKey = this.sectionId.at(-1)
       } else sectionKey = this.sectionId
 
-      await this.loadSectionNames()
-      this.currentSections = this.getSectionByKey(sectionKey)
+      // await this.loadSectionNames()
+      this.currentSections = this.getSectionByKey(this.sections, sectionKey)
       await this.loadSectionProducts()
       this.isLoaded = true
     },

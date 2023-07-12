@@ -172,7 +172,7 @@ export default {
     ...mapActions(useAuthStore, { authLogout: 'logout' }),
     async logout() {
       this.closeSidebars()
-      this.showAlert('Успішний вихід з аккаунту', 'bg-red-400')
+      this.showAlert('Успішний вихід з аккаунту', 'bg-red-500')
       await this.authLogout()
     }
   }

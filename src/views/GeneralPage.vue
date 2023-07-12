@@ -2,10 +2,8 @@
   <!-- <carousel /> -->
   <special-section name="novelties" title="Новинки" :allow-show-more="true" />
   <special-section name="recomendations" title="Рекомендації" :allow-show-more="true" />
-  <!-- <product-showcase-view></product-showcase-view> -->
 </template>
 <script>
-// import ProductShowcaseView from '../views/product/ProductShowcaseView.vue'
 import Carousel from '../components/layout/sections/Carousel.vue'
 import SpecialSection from '../components/layout/sections/SpecialSection.vue'
 export default {

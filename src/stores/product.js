@@ -50,8 +50,6 @@ export const useProductStore = defineStore('product', {
       await this.pushInHistory(this.product?.product?._id)
     },
     async loadNovelties() {
-      console.log('>>> loadNovelties')
-
       const response = await this.get(`product`, false, {
         orderBy: 'createdAt',
         limit: 12
@@ -59,8 +57,6 @@ export const useProductStore = defineStore('product', {
       this.homeSpecialSections.novelties = response.data.result
     },
     async loadRecomendations() {
-      console.log('>>> loadRecomendations')
-
       const response = await this.get(`product`, false, {
         orderBy: 'createdAt',
         order: 'desc',
@@ -69,8 +65,6 @@ export const useProductStore = defineStore('product', {
       this.homeSpecialSections.recomendations = response.data.result
     },
     async loadHistory() {
-      console.log('>>> loadHistory')
-
       const authStore = useAuthStore()
       let userHistory
       if (authStore.isAuthenticated) {

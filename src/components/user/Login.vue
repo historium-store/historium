@@ -86,9 +86,9 @@ export default {
       const response = await this.authLogin(values)
       if (response === true) {
         this.hideModals()
-        this.showAlert(`Вітаю, ${this.user.firstName}!`, 'bg-green-600')
+        this.showAlert(`Вітаю, ${this.user.firstName}!`)
       } else {
-        this.showAlert(response.data.message, 'bg-red-600')
+        this.showAlert(response.data.message, 'bg-red-500')
       }
     },
     inputStyle(meta) {

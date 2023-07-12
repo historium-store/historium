@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', {
         await this.getUser()
       } else {
         const alertStore = useAlertStore()
-        alertStore.showAlert('Увійдіть щоб додавати товари до бажаних', 'bg-turquoise')
+        alertStore.showAlert('Увійдіть щоб додавати товари до бажаних')
       }
     },
     async pushInWaitlist(id) {
@@ -55,7 +55,7 @@ export const useUserStore = defineStore('user', {
         await this.getUser()
       } else {
         const alertStore = useAlertStore()
-        alertStore.showAlert('Увійдіть щоб додавати товари до очыкуванних', 'bg-turquoise')
+        alertStore.showAlert('Увійдіть щоб додавати товари до очыкуванних')
       }
     },
     async removeFromWishlist(id) {

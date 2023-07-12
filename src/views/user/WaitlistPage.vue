@@ -1,4 +1,5 @@
 <template>
+  <p class="text-center text-2xl my-6">Список очікування</p>
   <div v-if="waitlistItems.length" class="h-screen">
     <special-section name="waitlist" title="В очікувванні" :items="waitlistItems" />
   </div>

@@ -2,7 +2,7 @@
   <aside
     id="section-sidebar"
     :class="
-      'fixed top-0 left-0 z-30 w-full sm:w-96 h-screen transition-transform font-rubik ' + getStyle
+      'fixed top-0 left-0 z-50 w-full sm:w-96 h-screen transition-transform font-rubik ' + getStyle
     "
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-background">
@@ -33,14 +33,14 @@
           icon="arrow-left"
           title="Назад"
           titleStyle="text-md"
-          class="bg-cart-dark"
+          class="bg-deepgreen"
         />
         <sidebar-item
           v-if="sections != currentSections"
           @click="showAll"
           title="Показати всі"
           titleStyle="text-md"
-          class="bg-cart-darker"
+          class="bg-deepgreen"
         />
         <sidebar-item
           @click="pickSection(section.key)"

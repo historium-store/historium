@@ -15,16 +15,14 @@ export const useUserStore = defineStore('user', {
     },
     fullName() {
       return `${this.user?.firstName} ${this.user?.lastName}`
+    },
+    wishlistItemsQuantity() {
+      return this.user?.wishlist.length || 0
     }
   },
   actions: {
     ...mapActions(useApiStore, ['post', 'get', 'patch', 'delete']),
     ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
-    async getUser() {
-      const response = await this.get('user/account', true)
-      this.user = response.data
-      localStorage.setItem('user', JSON.stringify(response.data))
-    },
 
     async pushInHistory(id) {
       console.log('pushInHistory')
@@ -47,7 +45,7 @@ export const useUserStore = defineStore('user', {
         await this.getUser()
       } else {
         const alertStore = useAlertStore()
-        alertStore.showAlert('Увійдіть щоб додавати товари до бажаних', 'bg-cart-light')
+        alertStore.showAlert('Увійдіть щоб додавати товари до бажаних', 'bg-turquoise')
       }
     },
     async removeFromWishlist(id) {
@@ -56,6 +54,11 @@ export const useUserStore = defineStore('user', {
         await this.delete('user/wishlist', { product: id }, null, true)
         await this.getUser()
       }
+    },
+    async getUser() {
+      const response = await this.get('user/account', true)
+      this.user = response.data
+      localStorage.setItem('user', JSON.stringify(response.data))
     }
   }
 })

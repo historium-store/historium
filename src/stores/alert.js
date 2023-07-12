@@ -6,11 +6,11 @@ export const useAlertStore = defineStore('alert', {
       startAnimationDelay: 200,
       duration: 2500,
       title: 'Товар додано',
-      color: 'bg-cart-light'
+      color: 'bg-turquoise'
     }
   },
   actions: {
-    showAlert(title, color = 'bg-cart-light') {
+    showAlert(title, color = 'bg-turquoise') {
       this.title = title
       this.color = color
       const alert = document.getElementById('alert')

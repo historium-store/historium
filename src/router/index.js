@@ -64,12 +64,18 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/search/SearchPageView.vue')
+      component: () => import('../views/search/SearchPageView.vue'),
+      props: true
     },
     {
       path: '/user/orders',
       name: 'orders',
       component: () => import('../views/order/Orders.vue')
+    },
+    {
+      path: '/user/wishlist',
+      name: 'wishlist',
+      component: () => import('../views/user/WishlistView.vue')
     },
     { path: '/:pathMatch(.*)*', component: NotFound }
   ]

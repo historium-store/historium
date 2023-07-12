@@ -1,13 +1,24 @@
 <template>
   <div class="rounded-lg hover:cursor-pointer px-2">
     <div class="card-poster" @click="viewProduct(good.key, good.type.key)">
-      <div class="mx-auto w-[130px]">
+      <div class="mx-auto w-[182px] md:w-[130px]">
+        <div class="absolute mt-2 ml-[6.4rem] bg-gray-400 w-8 h-8">
+          <font-awesome-icon
+            @click.stop="addToWishlist"
+            size="xl"
+            :icon="['fas', 'bookmark']"
+            :style="{ color: bookmarkColor }"
+            class=""
+          />
+        </div>
         <img
-          class="border-[3px] h-[200px] w-[130px] object-cover rounded-xl"
+          class="border-[3px] h-[280px] w-[182px] md:h-[200px] md:w-[130px] object-cover rounded-xl"
           :src="good?.image"
           alt=""
         />
-        <div class="-mt-[192px] ml-[8px] border-[3px] rounded-xl h-[200px] w-[130px] -z-20"></div>
+        <div
+          class="-mt-[268px] ml-[12px] md:-mt-[192px] md:ml-[8px] border-[3px] rounded-xl h-[280px] w-[182px] md:h-[200px] md:w-[130px] -z-20"
+        ></div>
       </div>
     </div>
     <div class="card-content min-h-[120px] my-2 flex flex-col mx-auto">
@@ -23,22 +34,16 @@
         </div>
       </div>
       <div class="mt-auto">
-        <div class="price-wrapper text-center">
-          <div class="flex price-display text-[24px] lg:mx-4 lg:px-2">
-            <div class="mx-auto">
-              <span class="pe-1">{{ good?.price }}</span>
+        <div class="price-wrapper text-center flex">
+          <div class="flex price-display justify-between text-xl mx-auto lg:px-2">
+            <div class="">
+              <span class="">{{ good?.price }}</span>
               <span class="price-display-currency">₴</span>
             </div>
-            <span class="mx-auto space-x-2">
-              <font-awesome-icon
-                @click.stop="addToWishlist"
-                size="xs"
-                :icon="['fas', 'bookmark']"
-                :style="{ color: bookmarkColor }"
-              />
+            <span class="space-x-2">
               <font-awesome-icon
                 @click.stop="addToCart"
-                size="xs"
+                size="sm"
                 :icon="['fas', 'cart-shopping']"
                 :style="{ color: cartColor }"
               />
@@ -68,6 +73,10 @@ export default {
       this.showAlert('Товар додано у кошик')
     },
     async addToWishlist() {
+      if (!this.isAuthenticated) {
+        this.showAlert('Увійдіть в акаунт', 'bg-red-500')
+        return
+      }
       if (!this.isInWishlist) {
         await this.pushInWishlist(this.good._id)
         this.showAlert('Товар додано до бажаних')
@@ -82,7 +91,7 @@ export default {
     ...mapWritableState(useCartStore, ['cart']),
     ...mapWritableState(useUserStore, ['user']),
     isInWishlist() {
-      return this.isAuthenticated && this.user.wishlist.map((item) => item).includes(this.good._id)
+      return this.isAuthenticated && this.user?.wishlist.map((item) => item).includes(this.good._id)
     },
     isInCart() {
       return this.cart.items.map((item) => item.product._id).includes(this.good._id)

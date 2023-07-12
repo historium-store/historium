@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-if="sectionProducts">{{ sectionProducts }}</div> -->
-  <div v-if="isLoaded">
+  <div v-if="isLoaded" class="mr-12">
     <breadcrumb class="m-2" v-if="sections">
       <breadcrumb-item class="hover:cursor-pointer" @click="goto('/')" home
         >Головна</breadcrumb-item
@@ -13,20 +13,20 @@
         >{{ getSectionByKey(part)?.name }}</breadcrumb-item
       >
     </breadcrumb>
-    <div v-if="currentSection.sections.length > 0">
-      <hr />
-      <div class="grid grid-cols-5 m-3">
+    <div v-if="currentSections?.sections?.length > 0">
+      <div
+        class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 mx-auto p-6"
+      >
         <section-card
-          v-for="section in currentSection.sections"
+          v-for="section in currentSections.sections"
           :key="section"
           :name="section.name"
           @click="goto(`/section/${sectionId.join('/')}/${section.key}`)"
         ></section-card>
       </div>
-      <hr />
     </div>
 
-    <ProductShowcaseView :products="sectionProducts" :filters"false" />
+    <ProductShowcaseView :products="sectionProducts" :filters="false" />
   </div>
   <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
@@ -64,7 +64,7 @@ export default {
       } else sectionKey = this.sectionId
 
       await this.loadSectionNames()
-      this.currentSection = this.getSectionByKey(sectionKey)
+      this.currentSections = this.getSectionByKey(sectionKey)
       await this.loadSectionProducts()
       this.isLoaded = true
     },
@@ -78,7 +78,7 @@ export default {
     }
   },
   computed: {
-    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSection']),
+    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSections']),
     ...mapWritableState(useProductStore, ['products'])
   }
 }

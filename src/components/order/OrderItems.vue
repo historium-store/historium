@@ -1,8 +1,8 @@
 <template>
-  <ul class="font-medium overflow-y-auto flex flex-col">
+  <ul class="font-medium flex flex-col w-full">
     <li v-for="item in order ? order?.items : []" :key="item.product._id" class="py-3">
       <!-- {{ item }} -->
-      <div class="flex m-2">
+      <div class="flex my-2 md:m-2">
         <img
           class="h-24 rounded-md hover:cursor-pointer border-2"
           :src="item.product?.image"
@@ -11,7 +11,7 @@
         <div class="product-details pl-4 flex flex-col">
           <p
             @click="viewProduct(item.product.key, item.product.type.key)"
-            class="hover:cursor-pointer text-lg font-body"
+            class="hover:cursor-pointer text:sm md:text-lg font-body"
           >
             {{ item.product?.name }}
           </p>
@@ -19,7 +19,7 @@
             <div
               v-for="creator in item.product?.creators"
               :key="creator"
-              class="rounded-lg border-1 bg-cart-dark w-fit px-2"
+              class="rounded-lg border-1 bg-deepgreen px-2"
             >
               <p class="text-xs">{{ creator }}</p>
             </div>
@@ -38,7 +38,7 @@
           </span>
         </div>
       </div>
-      <hr class="mx-2 mt-6 border-[1.5px] rounded-full opacity-40" />
+      <hr class="md:mx-2 mt-6 border-[1.5px] rounded-full opacity-40" />
     </li>
   </ul>
 </template>

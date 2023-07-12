@@ -16,12 +16,14 @@ export const useSectionStore = defineStore('section', {
       console.log('>>> loadSectionNames')
 
       const response = await this.get(`section`)
+      console.log(response.data)
       this.sections = response.data
       this.currentSections = this.sections
     },
     async loadSectionProducts() {
       console.log('>>> loadSectionProducts')
-      const response = await this.get(`section/${this.currentSection.key}/products`, false)
+      if (!this.currentSections) await this.loadSectionNames()
+      const response = await this.get(`section/${this.currentSections.key}/products`, false)
       console.log(response)
       this.sectionProducts = response.data.result
     },

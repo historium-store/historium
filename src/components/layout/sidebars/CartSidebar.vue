@@ -2,7 +2,7 @@
   <aside
     id="cart-sidebar"
     :class="
-      'fixed right-0 sm:right-10 z-30 w-full sm:w-[500px] transition-transform duration-500 ' +
+      'fixed right-0 sm:right-10 z-50 w-full sm:w-[500px] transition-transform duration-500 ' +
       getStyle
     "
   >
@@ -14,17 +14,14 @@
 
 <script>
 // import SidebarItem from './SidebarItem.vue'
-import { mapActions, mapWritableState } from 'pinia'
+import { mapActions } from 'pinia'
 import { useSidebarStore } from '../../../stores/sidebar'
 import { useCartStore } from '../../../stores/cart'
-import { useAuthStore } from '../../../stores/auth'
 import { useProductStore } from '../../../stores/product'
 import Cart from '../../cart/Cart.vue'
 export default {
   async mounted() {
-    const userStore = useAuthStore()
     await this.updateCart()
-    return { userStore }
   },
   components: { Cart },
   methods: {
@@ -42,5 +39,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

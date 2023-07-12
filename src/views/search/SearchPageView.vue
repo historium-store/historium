@@ -15,6 +15,7 @@ export default {
   components: { ProductShowcaseView },
   computed: {
     ...mapWritableState(useProductStore, ['products'])
+    // ...mapWritableState(useSearchStore, ['results'])
   },
   methods: {
     ...mapActions(useProductStore, ['loadProducts'])

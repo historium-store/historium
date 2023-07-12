@@ -11,14 +11,14 @@
               <Button
                 id="addToCartButton"
                 @click="addToCart"
-                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+                class="w-1/2 py-1.5 border hover:bg-turquoise border-turquoise rounded-full"
               >
                 <font-awesome-icon :icon="['fas', 'cart-shopping']" />
                 <span class="ml-2">До кошика</span>
               </Button>
               <Button
                 @click="checkout"
-                class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
+                class="w-1/2 py-1.5 border hover:bg-turquoise border-turquoise rounded-full"
               >
                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                 <span class="ml-2">Купити зараз</span>
@@ -33,14 +33,14 @@
             <div class="mb-5">
               <h2 class="text-2xl font-body">{{ good.product.name }}</h2>
               <span
-                v-for="[i, author] in Object.entries(good?.authors || [])"
+                v-for="[i, author] in Object.entries(good.product?.creators || [])"
                 :key="author.id"
                 class="text-lg text-gray-400"
-                >{{ author.fullName }}{{ i < good?.authors?.length - 1 ? ', ' : '' }}
+                >{{ author }}{{ i < good.product?.creators.length - 1 ? ', ' : '' }}
               </span>
             </div>
           </div>
-          <div class="col-span-4 md:col-span-1 text-cart-light">
+          <div class="col-span-4 md:col-span-1 text-turquoise">
             <h2 class="text-[32px] font-body pb-5 md:pb-0 md:text-center">
               <span class="inline-flex items-center space-x-1">
                 <p>{{ good.product.price }}</p>
@@ -50,47 +50,49 @@
           </div>
         </div>
         <div class="space-x-2">
-          <Button class="px-4 h-8 border border-cart-light rounded-full"> Читати фрагмент </Button>
-          <Button class="w-8 h-8 py-0.5 border bg-cart-light border-cart-light rounded-full">
+          <Button class="px-4 h-8 border border-turquoise rounded-full"> Читати фрагмент </Button>
+          <Button class="w-8 h-8 py-0.5 border bg-turquoise border-turquoise rounded-full">
             <font-awesome-icon :icon="['fas', 'bookmark']" />
           </Button>
         </div>
-        <div class="mt-5">
-          <p class="text-gray-400">Формат</p>
-          <div class="inline-flex py-2">
-            <Button class="px-4 h-8 border bg-cart-light border-cart-light rounded-full">
-              <font-awesome-icon :icon="['fas', 'book']" />
-              <span class="ml-2">{{ good.type }}</span>
-            </Button>
+        <div>
+          <div v-if="good.product.type.key === 'book'" class="mt-5">
+            <p class="text-gray-400">Формат</p>
+            <div class="inline-flex py-2">
+              <Button class="px-4 h-8 border bg-turquoise border-turquoise rounded-full">
+                <font-awesome-icon :icon="['fas', 'book']" />
+                <span class="ml-2">{{ good.type }}</span>
+              </Button>
+            </div>
+          </div>
+          <div v-if="good.product.type.key === 'book'">
+            <p class="text-gray-400">Мова книги</p>
+            <div class="inline-flex py-2">
+              <Button
+                v-for="language in good.languages"
+                :key="language"
+                class="px-4 h-8 border border-turquoise rounded-full"
+              >
+                <span>{{ language }}</span>
+              </Button>
+            </div>
+          </div>
+          <div class="py-2">
+            <p class="text-gray-400">Опис</p>
+            <p>«{{ showDescription }}»</p>
+            <span class="hover:cursor-pointer text-gray-400" @click="switchDescription">
+              <div class="inline-flex items-center mt-5" v-if="!isExtendedDescription">
+                <p>Показати ще</p>
+                <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
+              </div>
+              <div class="inline-flex items-center mt-5" v-else>
+                <p>Приховати</p>
+                <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
+              </div>
+            </span>
           </div>
         </div>
-        <div>
-          <p class="text-gray-400">Мова книги</p>
-          <div class="inline-flex py-2">
-            <Button
-              v-for="language in good.languages"
-              :key="language"
-              class="px-4 h-8 border border-cart-light rounded-full"
-            >
-              <span>{{ language }}</span>
-            </Button>
-          </div>
-        </div>
-        <div class="py-2">
-          <p class="text-gray-400">Опис</p>
-          <p>«{{ showDescription }}»</p>
-          <span class="hover:cursor-pointer text-gray-400" @click="switchDescription">
-            <div class="inline-flex items-center mt-5" v-if="!isExtendedDescription">
-              <p>Показати ще</p>
-              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
-            </div>
-            <div class="inline-flex items-center mt-5" v-else>
-              <p>Приховати</p>
-              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
-            </div>
-          </span>
-        </div>
-        <div>
+        <div v-if="good.product.type.key === 'book'">
           <p class="font-body text-xl my-5">Характеристики</p>
           <div class="border-2 rounded-2xl p-3 px-6 space-y-5">
             <div>
@@ -152,158 +154,52 @@
             </span>
           </div>
         </div>
-        <div>
-          <p class="text-xl font-body my-5">Рецензії</p>
-          <Button class="px-4 w-full py-0.5 border bg-cart-light border-cart-light rounded-full">
-            Написати рецензію
-          </Button>
-        </div>
-      </div>
-    </div>
-    <the-special-section name="history" title="Раніше переглядали" />
-  </div>
-  <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
-</template>
-<!-- <template>
-  <div v-if="isLoaded" class="w-11/12 mx-auto my-6 p-4">
-    <div class="grid grid-cols-1 lg:grid-cols-5">
-      <div class="flex p-2 col-span-1 lg:col-span-2">
-        <div class="flex flex-col mx-auto">
-          <div class="w-3/4 mx-auto lg:w-full">
-            <div class="m-auto p-6 pt-0 xl:px-12 2xl:px-24">
-              <img class="rounded-2xl shadow-xl" :src="currentImage" />
-            </div>
-          </div>
-          <div class="max-md:my-4 flex space-x-2 font-rubik text-[13px]">
-            <Button
-              id="addToCartButton"
-              @click="addToCart"
-              class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
-            >
-              <font-awesome-icon :icon="['fas', 'cart-shopping']" />
-              <span class="ml-2">До кошика</span>
-            </Button>
-            <Button
-              @click="checkout"
-              class="w-1/2 py-1.5 border hover:bg-cart-light border-cart-light rounded-full"
-            >
-              <font-awesome-icon :icon="['fas', 'bag-shopping']" />
-              <span class="ml-2">Купити зараз</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div class="p-2 col-span-4 lg:col-span-3 font-rubik">
-        <div class="grid grid-cols-4">
-          <div class="col-span-4 md:col-span-3">
-            <div class="mb-5">
-              <h2 class="text-2xl font-body">{{ book.product.name }}</h2>
-              <span
-                v-for="[i, author] in Object.entries(book.authors)"
-                :key="author.id"
-                class="text-lg text-gray-400"
-                >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
-              </span>
-            </div>
-          </div>
-          <div class="col-span-4 md:col-span-1 text-cart-light">
-            <h2 class="text-[32px] font-body pb-5 md:pb-0 md:text-center">
-              <span class="inline-flex items-center space-x-1">
-                <p>{{ book.product.price }}</p>
-                <p class="text-[28px]">₴</p>
-              </span>
-            </h2>
-          </div>
-        </div>
-        <div class="space-x-2">
-          <Button class="px-4 h-8 border border-cart-light rounded-full"> Читати фрагмент </Button>
-          <Button class="w-8 h-8 py-0.5 border bg-cart-light border-cart-light rounded-full">
-            <font-awesome-icon :icon="['fas', 'bookmark']" />
-          </Button>
-        </div>
-        <div class="mt-5">
-          <p class="text-gray-400">Формат</p>
-          <div class="inline-flex py-2">
-            <Button class="px-4 h-8 border bg-cart-light border-cart-light rounded-full">
-              <font-awesome-icon :icon="['fas', 'book']" />
-              <span class="ml-2">{{ book.type }}</span>
-            </Button>
-          </div>
-        </div>
-        <div>
-          <p class="text-gray-400">Мова книги</p>
-          <div class="inline-flex py-2">
-            <Button
-              v-for="language in book.languages"
-              :key="language"
-              class="px-4 h-8 border border-cart-light rounded-full"
-            >
-              <span>{{ language }}</span>
-            </Button>
-          </div>
-        </div>
-        <div class="py-2">
-          <p class="text-gray-400">Опис</p>
-          <p>«{{ showDescription }}»</p>
-          <span class="hover:cursor-pointer text-gray-400" @click="switchDescription">
-            <div class="inline-flex items-center mt-5" v-if="!isExtendedDescription">
-              <p>Показати ще</p>
-              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
-            </div>
-            <div class="inline-flex items-center mt-5" v-else>
-              <p>Приховати</p>
-              <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
-            </div>
-          </span>
-        </div>
-        <div>
+        <div v-else-if="good.product.type.key === 'board-game'">
           <p class="font-body text-xl my-5">Характеристики</p>
           <div class="border-2 rounded-2xl p-3 px-6 space-y-5">
             <div>
-              <p class="text-gray-400">Формат</p>
-              <p>{{ book.format }}</p>
+              <p class="text-gray-400">Пакування</p>
+              <p>{{ good.packaging }}</p>
             </div>
             <div>
-              <p class="text-gray-400">Автор</p>
+              <p class="text-gray-400">Розмір</p>
+              <p>{{ good.packageSize }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400">Виробник</p>
               <span
-                v-for="[i, author] in Object.entries(book?.authors)"
-                :key="author.id"
+                v-for="[i, creator] in Object.entries(good.product.creators)"
+                :key="creator.id"
                 class="font-thin"
-                >{{ author.fullName }}{{ i < specificProduct?.authors?.length - 1 ? ', ' : '' }}
+                >{{ creator }}{{ i < good.creators?.length - 1 ? ', ' : '' }}
               </span>
             </div>
             <div>
               <p class="text-gray-400">Тип</p>
-              <p>{{ book.type }}</p>
+              <p>{{ good.type }}, {{ good.kind }}</p>
             </div>
             <div v-if="isExtendedFeature" class="space-y-5">
               <div>
-                <p class="text-gray-400">Ілюстрації</p>
-                <p>{{ book.illustrationsType[0] }}</p>
+                <p class="text-gray-400">Вік</p>
+                <span v-for="[i, age] in Object.entries(good.ages)" :key="age" class="font-thin"
+                  >{{ age }}{{ i < good.ages?.length - 1 ? ', ' : '' }}
+                </span>
               </div>
               <div>
                 <p class="text-gray-400">Палітурка</p>
-                <p>{{ book.bindingType }}</p>
-              </div>
-              <div>
-                <p class="text-gray-400">Видавництво</p>
-                <p>{{ book.publisher.name }}</p>
-              </div>
-              <div>
-                <p class="text-gray-400">ISBN</p>
-                <p>{{ book.isbns[0] }}</p>
+                <p>{{ good.article }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Мова</p>
-                <p>{{ book.languages[0] }}</p>
+                <p>{{ good.languages[0] }}</p>
               </div>
               <div>
-                <p class="text-gray-400">Кількість сторінок</p>
-                <p>{{ book.pages }}</p>
+                <p class="text-gray-400">Кількість гравців</p>
+                <p>{{ good.playersCount }}</p>
               </div>
               <div>
-                <p class="text-gray-400">Рік видання</p>
-                <p>{{ book.publishedIn }}</p>
+                <p class="text-gray-400">Артикул</p>
+                <p>{{ good.article }}</p>
               </div>
             </div>
             <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
@@ -320,7 +216,7 @@
         </div>
         <div>
           <p class="text-xl font-body my-5">Рецензії</p>
-          <Button class="px-4 w-full py-0.5 border bg-cart-light border-cart-light rounded-full">
+          <Button class="px-4 w-full py-0.5 border bg-turquoise border-turquoise rounded-full">
             Написати рецензію
           </Button>
         </div>
@@ -329,7 +225,7 @@
     <the-special-section name="history" title="Раніше переглядали" />
   </div>
   <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
-</template> -->
+</template>
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'

@@ -80,7 +80,7 @@
                 as="select"
                 type="text"
                 name="country"
-                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30"
+                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30 h-12"
                 v-model.trim="formData.deliveryInfo.country"
               >
                 <option disabled value="">Оберіть країну доставки</option>
@@ -99,7 +99,7 @@
                 as="select"
                 type="text"
                 name="city"
-                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30"
+                class="border mt-2 rounded-2xl block w-full p-3 bg-background bg-opacity-30 h-12"
                 v-model.trim="formData.deliveryInfo.city"
               >
                 <option disabled value="">Оберіть місто доставки</option>
@@ -198,7 +198,7 @@
         </VeeForm>
       </div>
       <div class="col-span-1">
-        <div class="mt-12 mx-6">
+        <div class="mt-12 md:mx-6">
           <div class="flex justify-between">
             <p class="pr-1">{{ totalQuantityLabel }} у кошику</p>
             <font-awesome-icon

@@ -1,41 +1,32 @@
-import { defineStore, mapActions } from 'pinia'
+import { defineStore, mapActions, mapWritableState } from 'pinia'
 import { useApiStore } from './api'
 import { useCartStore } from './cart'
+import { useUserStore } from './user'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem('token'),
-    user: JSON.parse(localStorage.getItem('user'))
+    token: localStorage.getItem('token')
   }),
   getters: {
     isAuthenticated(state) {
-      return !!state.token && !!state.user
+      console.log(state.token)
+      return !!state.token
     },
-    getUserFromStorage() {
-      return JSON.parse(localStorage.getItem('user'))
-    },
-    fullName() {
-      return `${this.user?.firstName} ${this.user?.lastName}`
-    }
-  },
-  actions: {
-    ...mapActions(useApiStore, ['post', 'get', 'patch']),
-    ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
-    // User
-    async getUser() {
-      const response = await this.get('user/account', true)
-      this.user = response.data
-      localStorage.setItem('user', JSON.stringify(response.data))
-    },
-
-    // Authorization
-
     getAuthToken() {
       if (!this.token) {
         throw Error('User is not authenticated!')
       }
       return 'Bearer ' + this.token
-    },
+    }
+  },
+  computed: {
+    ...mapWritableState(useUserStore, ['user'])
+  },
+  actions: {
+    ...mapActions(useApiStore, ['post', 'get', 'patch']),
+    ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
+    ...mapActions(useUserStore, ['getUser']),
+    // Authorization
     async setToken(token) {
       localStorage.setItem('token', token)
       this.token = token
@@ -54,15 +45,17 @@ export const useAuthStore = defineStore('auth', {
         await this.setToken(response.data.token)
         this.saveCartToLS()
         await this.synchronizeCarts()
+        await this.updateCart()
+        await this.getUser()
         return true
       } else return response
     },
-    logout() {
+    async logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      this.token = null
-      this.user = null
-      this.clearCart()
+      useUserStore().$reset()
+      this.$reset()
+      await this.clearCart()
     },
 
     // Password restoration
@@ -88,20 +81,6 @@ export const useAuthStore = defineStore('auth', {
       const response = this.patch(`user/${userId}`, { password })
       console.log(response.status)
       return true
-    },
-    async pushInHistory(id) {
-      console.log('pushInHistory')
-      if (this.isAuthenticated) {
-        this.post('user/history', { product: id }, null, true)
-      } else {
-        const history = JSON.parse(localStorage.getItem('history')) || []
-        const index = history.indexOf(id)
-        if (index > -1) {
-          history.splice(index, 1)
-        }
-        history.unshift(id)
-        localStorage.setItem('history', JSON.stringify(history))
-      }
     }
   }
 })

@@ -24,34 +24,37 @@
             </svg>
           </button>
           <RouterLink to="/" class="flex mx-4 items-center">
-            <img src="/src/assets/logo.png" class="h-10 sm:h-11" alt="Historium Logo" />
+            <img src="/src/assets/logo.png" class="h-12 sm:h-14" alt="Historium Logo" />
             <span
               class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
             ></span>
           </RouterLink>
         </div>
-        <div class="flex flex-1 px-6 items-center xs:max-[550px]:hidden">
-          <the-search></the-search>
-        </div>
+        <the-search name="pc" class="max-[550px]:hidden"></the-search>
         <div class="flex flex-wrap items-center">
           <div class="flex">
-            <div class="bookmark px-2">
-              <div class="ml-2 top-5 w-3 h-3 rounded-full bg-cart-light items-center flex absolute">
-                <p class="mx-auto text-xs">{{ user?.wishlist?.length }}</p>
+            <RouterLink :to="isAuthenticated ? '/user/wishlist' : ''" class="bookmark px-2">
+              <div
+                class="ml-2 top-6 w-5 h-5 sm:w-4 sm:h-4 rounded-full bg-turquoise items-center flex absolute"
+              >
+                <p class="mx-auto mt-1 sm:mt-0 sm:text-xs">{{ wishlistItemsQuantity }}</p>
               </div>
+
               <font-awesome-icon
-                size="lg"
+                size="xl"
                 class="max-sm:text-2xl"
                 :icon="['fas', 'bookmark']"
                 style="color: #ffffff"
               />
-            </div>
+            </RouterLink>
             <span @click="openSidebar('cart')" class="px-2 hover:cursor-pointer">
-              <div class="ml-3 top-5 w-3 h-3 rounded-full bg-cart-light items-center flex absolute">
-                <p class="mx-auto text-xs">{{ cart?.items?.length }}</p>
+              <div
+                class="ml-3 top-6 w-5 h-5 sm:w-4 sm:h-4 rounded-full bg-turquoise items-center flex absolute"
+              >
+                <p class="mx-auto mt-1 sm:mt-0 sm:text-xs">{{ cart?.items?.length }}</p>
               </div>
               <font-awesome-icon
-                size="lg"
+                size="xl"
                 class="max-sm:text-2xl"
                 :icon="['fas', 'cart-shopping']"
                 style="color: #ffffff"
@@ -60,7 +63,7 @@
             <div class="user px-2">
               <span class="hover:cursor-pointer" @click="profileClick">
                 <font-awesome-icon
-                  size="lg"
+                  size="xl"
                   class="max-sm:text-2xl"
                   :icon="['fas', 'user']"
                   style="color: #ffffff"
@@ -70,8 +73,9 @@
           </div>
         </div>
       </div>
+      <the-search name="phone" class="mt-5 min-[550px]:hidden"></the-search>
       <div class="flex justify-center xs:max-sm:hidden">
-        <ul class="flex items-center my-2 [&>li]:px-3 [&>li]:hover:cursor-pointer">
+        <ul class="flex items-center my-3 [&>li]:px-3 [&>li]:hover:cursor-pointer">
           <li><RouterLink to="/">Головна</RouterLink></li>
           <li @click="scrollTo('novelties')">Новинки</li>
           <li @click="scrollTo('recomendations')">Хіти продажів</li>
@@ -98,9 +102,9 @@ import { useUserStore } from '../../stores/user'
 export default {
   props: ['openModal', 'switchModal'],
   setup() {
-    const userStore = useAuthStore()
+    const authStore = useAuthStore()
     const querySearch = ref('')
-    return { userStore, querySearch }
+    return { authStore, querySearch }
   },
   components: { TheSearch },
   methods: {
@@ -110,7 +114,7 @@ export default {
       this.showModal('login')
     },
     async profileClick() {
-      if (!this.userStore.isAuthenticated) {
+      if (!this.authStore.isAuthenticated) {
         this.loginClick()
       } else this.openSidebar('profile')
     },
@@ -123,7 +127,8 @@ export default {
   },
   computed: {
     ...mapWritableState(useCartStore, ['cart']),
-    ...mapWritableState(useUserStore, ['user'])
+    ...mapWritableState(useUserStore, ['user', 'wishlistItemsQuantity']),
+    ...mapWritableState(useAuthStore, ['isAuthenticated'])
   }
 }
 </script>

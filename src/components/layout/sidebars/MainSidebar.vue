@@ -1,7 +1,7 @@
 <template>
   <aside
     id="main-sidebar"
-    :class="'fixed top-0 left-0 z-30 w-full sm:w-64 h-screen transition-transform ' + getStyle"
+    :class="'fixed top-0 left-0 z-50 w-full sm:w-64 h-screen transition-transform ' + getStyle"
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-background">
       <div class="inline-flex">

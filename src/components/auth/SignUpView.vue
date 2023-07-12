@@ -133,7 +133,7 @@ export default {
     inputStyle(meta) {
       return (
         'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +
-        (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
+        (meta.validated ? (meta.valid ? 'border-turquoise' : 'border-red-600') : 'border-white')
       )
     }
   }

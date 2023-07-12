@@ -64,6 +64,7 @@ import { useModalStore } from '../../stores/modal'
 import { Form as VeeForm, Field } from 'vee-validate'
 import * as yup from 'yup'
 import { useAlertStore } from '../../stores/alert'
+import { useUserStore } from '../../stores/user'
 export default {
   components: { VeeForm, Field },
   setup() {
@@ -75,7 +76,7 @@ export default {
     return { schema }
   },
   computed: {
-    ...mapWritableState(useAuthStore, ['user'])
+    ...mapWritableState(useUserStore, ['user'])
   },
   methods: {
     ...mapActions(useModalStore, ['hideModals', 'showModal']),
@@ -93,7 +94,7 @@ export default {
     inputStyle(meta) {
       return (
         'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +
-        (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
+        (meta.validated ? (meta.valid ? 'border-turquoise' : 'border-red-600') : 'border-white')
       )
     }
   }

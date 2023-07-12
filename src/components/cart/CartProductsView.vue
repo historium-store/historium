@@ -11,7 +11,7 @@
         <div class="product-details pl-4 flex flex-col">
           <p
             @click="viewProduct(item.product.key, item.product.type.key)"
-            class="text-cart-dark hover:cursor-pointer"
+            class="text-d hover:cursor-pointer"
           >
             {{ item.product?.name }}
           </p>
@@ -31,10 +31,10 @@
             style="color: #0e6060"
           />
           <div
-            class="product-actions select-none inline-flex items-center border-2 border-cart-light rounded-full"
+            class="product-actions select-none inline-flex items-center border-2 border-turquoise rounded-full"
           >
             <div
-              class="bg-cart-dark rounded-full w-6 h-6 m-1 text-2xl hover:cursor-pointer"
+              class="bg-deepgreen rounded-full w-6 h-6 m-1 text-2xl hover:cursor-pointer"
               @click="remove(item.product._id)"
             >
               <p class="text-center text-white -mt-0.5">-</p>
@@ -46,7 +46,7 @@
               v-model.number="item.quantity"
             />
             <div
-              class="bg-cart-dark rounded-full w-6 h-6 m-1 text-2xl hover:cursor-pointer"
+              class="bg-deepgreen rounded-full w-6 h-6 m-1 text-2xl hover:cursor-pointer"
               @click="add(item.product._id)"
             >
               <p class="text-center text-white -mt-0.5">+</p>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <hr class="mx-2 mt-6 border-[1.5px] rounded-full border-cart-light opacity-40" />
+      <hr class="mx-2 mt-6 border-[1.5px] rounded-full border-turquoise opacity-40" />
     </li>
   </ul>
 </template>

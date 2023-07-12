@@ -5,6 +5,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        turquoise: '#209393',
+        lightturquoise: '#6DBEBE',
+        whiteblue: '#E1FFFE',
+        deepblue: '#031425',
+        deepgreen: '#084F4F',
         primary: {
           50: '#ecfdf5',
           100: '#d1fae5',
@@ -18,12 +23,6 @@ export default {
           900: '#064e3b',
           950: '#083644',
           1000: '#083344'
-        },
-        cart: {
-          dark: '#0E6060',
-          light: '#209393',
-          lighter: '#E1FFFE',
-          darker: '#054040'
         },
         background: '#031425',
         background_light: '#061b30'

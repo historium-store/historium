@@ -13,11 +13,11 @@
     </router-view>
   </Suspense>
   <the-footer />
-  <Main-sidebar />
-  <Sections-sidebar />
-  <Profile-sidebar />
-  <Cart-sidebar />
-  <NavigationBar />
+  <main-sidebar />
+  <sections-sidebar />
+  <profile-sidebar />
+  <cart-sidebar />
+  <navigation-bar />
 </template>
 
 <script>
@@ -46,9 +46,9 @@ export default {
     return { isShowModal, modalState, authStates }
   },
   async mounted() {
-    const userStore = useAuthStore()
+    const authStore = useAuthStore()
     const cartStore = useCartStore()
-    if (userStore.isAuthenticated) {
+    if (authStore.isAuthenticated) {
       await cartStore.updateCart()
     }
     return { cartStore }

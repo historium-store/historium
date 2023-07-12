@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-cart-light rounded-3xl my-4 p-3 font-rubik">
+  <div class="bg-turquoise rounded-3xl my-4 p-1 md:p-3 font-rubik">
     <div class="flex justify-between p-3">
       <p>№ {{ order.number }}</p>
       <p>{{ orderDate }}</p>

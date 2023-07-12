@@ -13,7 +13,7 @@ export const useApiStore = defineStore('api', {
         'Access-Control-Allow-Origin': '*'
       }
       if (isNeedAuth) {
-        const token = this.authStore.getAuthToken()
+        const token = this.authStore.getAuthToken
         headers['Authorization'] = token
       }
       return {

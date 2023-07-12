@@ -1,13 +1,16 @@
 <template>
   <aside
     id="profile-sidebar"
-    :class="'fixed right-0 sm:right-10 z-30 w-full sm:w-[350px] transition-transform ' + getStyle"
+    :class="
+      'fixed right-0 sm:right-10 z-50 w-full sm:w-[350px] transition-transform duration-500 ' +
+      getStyle
+    "
   >
     <!-- <div class="fixed">
       <img class="" src="src/assets/profile-border.png" alt="" />
     </div> -->
 
-    <div class="px-3 py-4 bg-cart-light">
+    <div class="px-3 py-4 bg-turquoise">
       <div class="border-t-2 border-x-2 rounded-t-2xl p-4 space-y-5 flex flex-col">
         <div class="inline-flex mx-auto mt-4">
           <span><h1 class="text-2xl">Профіль</h1></span>
@@ -59,7 +62,12 @@
               </router-link>
             </li>
             <li class="px-3">
-              <div class="inline-flex space-x-3 items-center">
+              <router-link
+                :to="{
+                  name: 'wishlist'
+                }"
+                class="inline-flex space-x-3 items-center"
+              >
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
@@ -67,8 +75,8 @@
                     style="color: #0e6060"
                   />
                 </div>
-                <p>Бажані книги</p>
-              </div>
+                <p>Бажані товари</p>
+              </router-link>
             </li>
             <li class="px-3">
               <div class="inline-flex space-x-3 items-center">
@@ -152,20 +160,22 @@ import { mapActions, mapState } from 'pinia'
 import { useSidebarStore } from '../../../stores/sidebar'
 import { useAuthStore } from '../../../stores/auth'
 import { useAlertStore } from '../../../stores/alert'
+import { useUserStore } from '../../../stores/user'
 
 export default {
   methods: {
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useSidebarStore, ['closeSidebar', 'openSidebar', 'getSidebar', 'closeSidebars']),
     ...mapActions(useAuthStore, { authLogout: 'logout' }),
-    logout() {
+    async logout() {
       this.closeSidebars()
       this.showAlert('Успішний вихід з аккаунту', 'bg-red-400')
-      this.authLogout()
+      await this.authLogout()
     }
   },
   computed: {
-    ...mapState(useAuthStore, ['user', 'isAuthenticated', 'fullName']),
+    ...mapState(useAuthStore, ['isAuthenticated']),
+    ...mapState(useUserStore, ['user', 'fullName']),
     getStyle() {
       return this.getSidebar('profile').style
     }

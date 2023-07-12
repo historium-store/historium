@@ -31,7 +31,7 @@
         type="text"
         :placeholder="input.title"
         :class="
-          'border sm:text-lg rounded-2xl p-3 m-1 bg-cart-light bg-opacity-60 h-10 ' +
+          'border sm:text-lg rounded-2xl p-3 m-1 bg-turquoise bg-opacity-60 h-10 ' +
           (input?.fullWidth ? 'col-span-2' : 'col-span-1')
         "
       />

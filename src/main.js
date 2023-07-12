@@ -40,7 +40,8 @@ import {
   faTruck,
   faArrowRightFromBracket,
   faListCheck,
-  faPlus
+  faPlus,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -73,7 +74,8 @@ library.add(
   faTruck,
   faArrowRightFromBracket,
   faListCheck,
-  faPlus
+  faPlus,
+  faSearch
 )
 
 const app = createApp(App)

@@ -1,6 +1,6 @@
 <template>
-  <footer class="mt-auto bg-cart-dark bg-opacity-40">
-    <div class="xl:ml-64 w-4/5 mx-auto my-12">
+  <footer class="mt-auto bg-deepgreen bg-opacity-40">
+    <div class="w-4/5 mx-auto my-12">
       <div class="m-3">
         <img class="h-20 mx-auto" src="../../assets/wb-logo.png" />
         <hr class="mt-6 border-[1.5px] rounded mx-auto" />
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="mx-auto mt-6 flex w-3/4 text-sm space-x-2">
+      <div class="mx-auto mt-6 flex md:w-3/4 text-sm space-x-2">
         <input
           class="w-4/5 px-3 py-1 rounded-2xl border-2 items-center text-white bg-transparent"
           type="search"

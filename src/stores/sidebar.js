@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
 const openedSidebarStyle = 'transform-none'
-const closedLeftSidebarClass = '-translate-x-full'
-const closedRightSidebarClass = 'translate-x-full'
-const closedTopSidebarClass = '-translate-y-full'
+const closedLeftSidebarClass = '-translate-x-full invisible'
+const closedRightSidebarClass = 'translate-x-full invisible'
+const closedTopSidebarClass = '-translate-y-full invisible'
 
 const overflow = document.createElement('div')
 overflow.className = 'bg-gray-900 bg-opacity-70 fixed inset-0 z-20'
@@ -52,8 +52,10 @@ export const useSidebarStore = defineStore('sidebar', {
           s.isOpen = false
           this.setSidebarStyle(s)
         })
-        document.body.classList.remove('overflow-hidden')
-        document.body.removeChild(overflow)
+        if (document.body.classList.contains('overflow-hidden')) {
+          document.body.classList.remove('overflow-hidden')
+          document.body.removeChild(overflow)
+        }
       }
     },
     setSidebarStyle(sidebar) {

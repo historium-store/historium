@@ -1,5 +1,5 @@
 <template>
-  <div :id="name" class="block mt-6 m-2 md:m-6 border-[3px] rounded-3xl">
+  <div :id="name" class="my-12 mx-6 border-[3px] rounded-3xl">
     <div class="flex justify-items-center">
       <span
         class="relative -mt-4 ms-8 bg-teal-600 min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
@@ -7,12 +7,12 @@
       >
     </div>
     <div
-      class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
     >
       <the-product-card
         :good="good"
         :isAvailable="isAvailable(good)"
-        v-for="good in homeSpecialSections?.[name]?.slice(0, sliceCount)"
+        v-for="good in items ? items : homeSpecialSections?.[name]?.slice(0, sliceCount)"
         :key="good.key"
         @click="viewProduct(good.key, good.type.key)"
       ></the-product-card>
@@ -40,7 +40,7 @@ const breakpoints = {
 }
 
 export default {
-  props: ['name', 'title', 'allowShowMore'],
+  props: ['name', 'title', 'allowShowMore', 'items'],
   data() {
     return {
       windowWidth: window.innerWidth,
@@ -49,16 +49,18 @@ export default {
   },
   async mounted() {
     const productStore = useProductStore()
-    switch (this.name) {
-      case 'novelties':
-        await productStore.loadNovelties()
-        break
-      case 'recomendations':
-        await productStore.loadRecomendations()
-        break
-      case 'history':
-        await productStore.loadHistory()
-        break
+    if (!this.items) {
+      switch (this.name) {
+        case 'novelties':
+          await productStore.loadNovelties()
+          break
+        case 'recomendations':
+          await productStore.loadRecomendations()
+          break
+        case 'history':
+          await productStore.loadHistory()
+          break
+      }
     }
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth

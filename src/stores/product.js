@@ -3,6 +3,7 @@ import { useApiStore } from './api'
 import router from '../router'
 import { useFilterStore } from './filter'
 import { useAuthStore } from './auth'
+import { useUserStore } from './user'
 
 export const useProductStore = defineStore('product', {
   state: () => ({
@@ -16,6 +17,7 @@ export const useProductStore = defineStore('product', {
   }),
   actions: {
     ...mapActions(useApiStore, ['get']),
+    ...mapActions(useUserStore, ['pushInHistory']),
     isAvailable(product) {
       return product?.quantity > 0
     },
@@ -47,8 +49,7 @@ export const useProductStore = defineStore('product', {
 
       const response = await this.get(`${type}/${key}`)
       this.product = response.data
-      const authStore = useAuthStore()
-      await authStore.pushInHistory(this.product?.product?._id)
+      await this.pushInHistory(this.product?.product?._id)
     },
     async loadNovelties() {
       console.log('>>> loadNovelties')

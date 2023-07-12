@@ -1,8 +1,8 @@
 <template>
   <aside
-    :class="'absolute ml-48 top-35 left-0 z-30 w-full sm:w-64 h-screen transition-transform invisible xl:visible xl:transform-none'"
+    :class="'absolute mt-2 ml-48 top-24 left-0 z-30 w-full sm:w-64 h-screen transition-transform invisible xl:visible xl:transform-none'"
   >
-    <div v-if="filters" class="space-y-3 px-3 py-4 bg-background_light rounded-2xl h-fit">
+    <div v-if="filters" class="space-y-3 px-3 py-4 bg-background_light rounded-2xl h-fit m-2">
       <FilterBlock title="Фільтри" :filters="filters['trend']" filter-key="trend" />
       <FilterBlock title="Тип книги" :filters="filters['type']" filter-key="type" />
       <FilterBlock title="Видавництво" :filters="filters['publisher']" filter-key="publisher" />

@@ -15,7 +15,7 @@
         <div class="inline-flex mx-auto mt-4">
           <span><h1 class="text-2xl">Профіль</h1></span>
           <div
-            class="flex items-center w-8 h-8 hover:cursor-pointer hover:bg-slate-100 rounded-full absolute top-18 right-12"
+            class="flex items-center w-8 h-8 hover:cursor-pointer hover:bg-lightturquoise rounded-full absolute top-18 right-12"
           >
             <font-awesome-icon
               @click="closeSidebar('profile')"
@@ -102,7 +102,7 @@
                 <p>Моя бібліотека</p>
               </div>
             </li>
-            <li class="px-3">
+            <!-- <li class="px-3">
               <div class="inline-flex space-x-3 items-center">
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
@@ -113,7 +113,7 @@
                 </div>
                 <p>Бонуси</p>
               </div>
-            </li>
+            </li> -->
             <hr class="" />
 
             <li class="px-3">

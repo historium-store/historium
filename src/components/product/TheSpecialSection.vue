@@ -2,7 +2,7 @@
   <div :id="name" class="my-12 mx-6 border-[3px] rounded-3xl">
     <div class="flex justify-items-center">
       <span
-        class="relative -mt-4 ms-8 bg-teal-600 min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
+        class="relative -mt-4 ms-8 bg-turquoise min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
         >{{ title }}</span
       >
     </div>

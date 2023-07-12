@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import ProductShowcaseView from '../product/ProductShowcaseView.vue'
+import ProductShowcaseView from './ProductShowcase.vue'
 import { mapWritableState, mapActions } from 'pinia'
 import { useSectionStore } from '../../stores/section'
 // import TheProductCard from '../../components/product/TheProductCard.vue'

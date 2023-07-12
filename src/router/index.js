@@ -20,7 +20,7 @@ const router = createRouter({
     {
       path: '/books',
       name: 'books',
-      component: () => import('../views/product/ProductShowcaseView.vue')
+      component: () => import('../views/product/ProductShowcase.vue')
     },
     // {
     //   path: '/:id',
@@ -31,7 +31,7 @@ const router = createRouter({
     {
       path: '/:type/:id',
       name: 'product',
-      component: () => import('../views/product/ProductPageView.vue'),
+      component: () => import('../views/product/ProductPage.vue'),
       props: true
     },
     // {
@@ -42,40 +42,40 @@ const router = createRouter({
     {
       path: '/section/:sectionId+',
       name: 'section',
-      component: () => import('../views/section/SectionPageView.vue'),
+      component: () => import('../views/product/SectionPage.vue'),
       props: true
     },
     {
       path: '/admin',
       name: 'admin',
-      component: () => import('../views/admin/AdminPanelView.vue')
+      component: () => import('../views/admin/AdminPanelPage.vue')
     },
     {
       path: '/admin/:instance+',
       name: 'instance',
-      component: () => import('../views/admin/ItemActionsView.vue'),
+      component: () => import('../views/admin/InstanceActionsPage.vue'),
       props: true
     },
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('../views/order/CheckoutPageView.vue')
+      component: () => import('../views/user/CheckoutPage.vue')
     },
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/search/SearchPageView.vue'),
+      component: () => import('../views/product/SearchPage.vue'),
       props: true
     },
     {
       path: '/user/orders',
       name: 'orders',
-      component: () => import('../views/order/Orders.vue')
+      component: () => import('../views/user/OrdersPage.vue')
     },
     {
       path: '/user/wishlist',
       name: 'wishlist',
-      component: () => import('../views/user/WishlistView.vue')
+      component: () => import('../views/user/WishlistPage.vue')
     },
     { path: '/:pathMatch(.*)*', component: NotFound }
   ]

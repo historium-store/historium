@@ -24,7 +24,7 @@
             </svg>
           </button>
           <RouterLink to="/" class="flex mx-4 items-center">
-            <img src="/src/assets/logo.png" class="h-12 sm:h-14" alt="Historium Logo" />
+            <img src="/src/assets/historium-logo.svg" class="h-12 sm:h-14" alt="Historium Logo" />
             <span
               class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
             ></span>

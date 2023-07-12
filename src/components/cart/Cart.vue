@@ -48,7 +48,7 @@
         <p class="m-2 p-2 text-xl">{{ cart?.totalPrice }} ₴</p>
       </div>
       <div class="mx-8 border-2 border-turquoise rounded-full mt-2 hover:cursor-pointer">
-        <RouterLink to="/checkout">
+        <RouterLink :to="cart.items.length > 0 ? '/checkout' : ''">
           <p class="py-1 text-center text-xl">Оформити замовлення</p>
         </RouterLink>
       </div>

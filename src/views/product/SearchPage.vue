@@ -4,7 +4,7 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import ProductShowcaseView from '../product/ProductShowcaseView.vue'
+import ProductShowcaseView from './ProductShowcase.vue'
 import { useSearchStore } from '../../stores/search'
 import { useProductStore } from '../../stores/product'
 

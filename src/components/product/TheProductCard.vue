@@ -1,14 +1,16 @@
 <template>
-  <div class="rounded-lg hover:cursor-pointer px-2">
-    <div class="card-poster" @click="viewProduct(good.key, good.type.key)">
+  <div class="rounded-lg group hover:cursor-pointer px-2">
+    <div class="m-2" @click="viewProduct(good.key, good.type.key)">
       <div class="mx-auto w-[182px] md:w-[130px]">
-        <div class="absolute mt-2 ml-[6.4rem] bg-gray-400 w-8 h-8">
+        <div
+          class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-2 ml-[5.5rem] bg-turquoise shadow-xl w-8 h-8"
+        >
           <font-awesome-icon
             @click.stop="addToWishlist"
-            size="xl"
+            size="md"
             :icon="['fas', 'bookmark']"
             :style="{ color: bookmarkColor }"
-            class=""
+            class="mx-auto"
           />
         </div>
         <img
@@ -21,32 +23,30 @@
         ></div>
       </div>
     </div>
-    <div class="card-content min-h-[120px] my-2 flex flex-col mx-auto">
+    <div class="min-h-[140px] my-2 flex flex-col mx-auto">
       <div
         class="card-category flex-col line-clamp-3 hover:line-clamp-none"
         @click="viewProduct(good.key, good.type.key)"
       >
-        <p class="title-label font-rubik text-[14px] text-center text-ellipsis">
-          {{ good?.name }}
+        <p class="font-rubik text-md text-center text-ellipsis">
+          {{ goodTitle }}
         </p>
-        <div class="author-wrapper text-center">
-          <a class="creator-label text-xs text-gray-400">{{ good.creators?.[0] }}</a>
+        <div class="text-center">
+          <a class="text-sm text-gray-400">{{ good.creators?.[0] }}</a>
         </div>
       </div>
-      <div class="mt-auto">
-        <div class="price-wrapper text-center flex">
-          <div class="flex price-display justify-between text-xl mx-auto lg:px-2">
-            <div class="">
-              <span class="">{{ good?.price }}</span>
-              <span class="price-display-currency">₴</span>
+      <div class="mb-3 w-2/3 mx-auto mt-auto">
+        <div>
+          <div class="flex space-x-2 items-center text-2xl">
+            <div class="mr-auto">
+              <span>{{ good?.price }}</span>
+              <span>₴</span>
             </div>
-            <span class="space-x-2">
-              <font-awesome-icon
-                @click.stop="addToCart"
-                size="sm"
-                :icon="['fas', 'cart-shopping']"
-                :style="{ color: cartColor }"
-              />
+            <span
+              @click.stop="addToCart"
+              :class="'flex items-center ms-auto text-lg w-14 h-7 rounded-full  ' + cartButtonColor"
+            >
+              <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-auto ' + cartColor" />
             </span>
           </div>
         </div>
@@ -84,6 +84,16 @@ export default {
         await this.removeFromWishlist(this.good._id)
         this.showAlert('Товар видалено з бажаних')
       }
+    },
+    short(title, maxlength) {
+      let result = ''
+
+      for (let word of title.split(' ')) {
+        if (result.length >= maxlength) return result
+        result += word + ' '
+      }
+
+      return result
     }
   },
   computed: {
@@ -97,10 +107,18 @@ export default {
       return this.cart.items.map((item) => item.product._id).includes(this.good._id)
     },
     cartColor() {
-      return this.isInCart ? '#abea7c' : '#ffffff'
+      return this.isInCart ? 'text-white' : 'text-white'
+    },
+    cartButtonColor() {
+      return this.isInCart ? 'bg-turquoise' : 'border-2 border-white hover:bg-lightturquoise'
     },
     bookmarkColor() {
-      return this.isInWishlist ? '#f2e34c' : '#ffffff'
+      return this.isInWishlist ? '#f2e34c' : 'text-whiteblue'
+    },
+    goodTitle() {
+      const title = this.good.name.split(/\.|:/)[0]
+
+      return title.length < 35 ? title : this.short(title, 35)
     }
   }
 }

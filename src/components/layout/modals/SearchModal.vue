@@ -1,0 +1,83 @@
+<template>
+  <div class="absolute rounded-2xl bg-whiteblue mt-1 z-40" :style="{ width: `${searchWidth}px` }">
+    <ul v-if="hasResults">
+      <li
+        v-for="item in hasMoreResults ? results.slice(0, 5) : results"
+        :key="item._id"
+        class="py-1 hover:cursor-pointer"
+        @click="viewProduct(item.key, item.type.key)"
+      >
+        <div class="flex m-2 items-center">
+          <img class="h-20 rounded-md" :src="item.image" />
+          <div class="product-details pl-4">
+            <p class="text-deepgreen">
+              {{ item.name }}
+            </p>
+            <p class="text-sm text-turquoise">{{ item.creators[0] }}</p>
+            <span class="inline-flex [&>*]:text-sm text-turquoise">
+              <p>{{ item.price }} грн</p>
+              <span class="mx-2">•</span>
+              <p>{{ item.type?.name || item.type }}</p>
+            </span>
+          </div>
+        </div>
+        <hr class="border-[1.5px] rounded-full border-lightturquoise mx-2" />
+      </li>
+      <div class="px-5 py-1.5">
+        <Button
+          v-if="hasMoreResults"
+          @click="showMoreResults"
+          class="w-full py-1.5 border hover:bg-lightturquoise bg-turquoise rounded-full"
+        >
+          <span class="ml-2 text-lg">Показати більше результатів</span>
+        </Button>
+      </div>
+    </ul>
+    <div class="flex h-24 items-center text-deepgreen" v-else>
+      <p class="mx-auto text-xl">Немає результатів</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapWritableState } from 'pinia'
+import { useSearchStore } from '../../../stores/search'
+import { useProductStore } from '../../../stores/product'
+import { useModalStore } from '../../../stores/modal'
+
+export default {
+  props: ['name'],
+  data: () => {
+    return {
+      searchWidth: 0
+    }
+  },
+  mounted() {
+    this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+    window.addEventListener('resize', () => {
+      this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+    })
+  },
+  computed: {
+    ...mapWritableState(useSearchStore, ['results', 'hasResults', 'searchInput']),
+    hasMoreResults() {
+      return this.results.length > 5
+    }
+  },
+  methods: {
+    ...mapActions(useProductStore, { showProduct: 'viewProduct' }),
+    ...mapActions(useModalStore, ['hideModals']),
+    ...mapActions(useSearchStore, ['closeSearch']),
+    async viewProduct(key, type) {
+      // this.hideModals()
+      this.searchInput = ''
+      this.closeSearch()
+      await this.showProduct(key, type)
+    },
+    async showMoreResults() {
+      await this.$router.push({ path: '/search', query: { q: this.searchInput } })
+      this.closeSearch()
+    }
+  }
+}
+</script>

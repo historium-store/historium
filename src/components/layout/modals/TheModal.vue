@@ -40,10 +40,10 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useModalStore } from '../../../stores/modal'
-import LoginView from '../../../components/auth/LoginView.vue'
-import SignUpView from '../../../components/auth/SignUpView.vue'
-import RestoreView from '../../../components/auth/RestoreView.vue'
-import SearchModal from '../../search/SearchModal.vue'
+import LoginView from '../../../components/user/LoginView.vue'
+import SignUpView from '../../../components/user/SignUpView.vue'
+import RestoreView from '../../../components/user/RestoreView.vue'
+import SearchModal from './SearchModal.vue'
 export default {
   components: { LoginView, SignUpView, RestoreView, SearchModal },
   computed: {

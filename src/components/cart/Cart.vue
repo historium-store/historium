@@ -59,7 +59,7 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import CartProductsView from './CartProductsView.vue'
+import CartProductsView from './CartProducts.vue'
 import { useSidebarStore } from '../../stores/sidebar'
 import { useCartStore } from '../../stores/cart'
 export default {

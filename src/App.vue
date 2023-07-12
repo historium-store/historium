@@ -1,6 +1,6 @@
 <template>
-  <TheModal />
-  <TheAlert />
+  <AuthModal />
+  <Alert />
   <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
   <Suspense>
     <router-view v-slot="slotProps">
@@ -17,25 +17,24 @@
   <sections-sidebar />
   <profile-sidebar />
   <cart-sidebar />
+  <filters-sidebar />
   <navigation-bar />
 </template>
 
 <script>
-import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
 import { RouterView } from 'vue-router'
 import { ref } from 'vue'
 import TheHeader from './components/layout/TheHeader.vue'
 import TheFooter from './components/layout/TheFooter.vue'
-import TheAlert from './components/layout/modals/TheAlert.vue'
-import TheModal from './components/layout/modals/TheModal.vue'
+import Alert from './components/layout/modals/Alert.vue'
+import AuthModal from './components/layout/modals/AuthModal.vue'
 import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
 import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
 import ProfileSidebar from './components/layout/sidebars/ProfileSidebar.vue'
+import FiltersSidebar from './components/layout/sidebars/FiltersSidebar.vue'
 import CartSidebar from './components/layout/sidebars/CartSidebar.vue'
 import NavigationBar from './components/layout/sidebars/NavigationBar.vue'
-import LoginView from './components/user/LoginView.vue'
-import SignUpView from './components/user/SignUpView.vue'
-import RestoreView from './components/user/RestoreView.vue'
+
 import { useCartStore } from './stores/cart'
 import { useAuthStore } from './stores/auth'
 export default {
@@ -65,15 +64,11 @@ export default {
     MainSidebar,
     CartSidebar,
     ProfileSidebar,
-    Breadcrumb,
-    TheModal,
-    LoginView,
+    AuthModal,
     RouterView,
-    SignUpView,
-    RestoreView,
-    BreadcrumbItem,
-    TheAlert,
-    NavigationBar
+    Alert,
+    NavigationBar,
+    FiltersSidebar
   }
 }
 </script>

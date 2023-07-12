@@ -42,7 +42,7 @@
 
 <script>
 import { mapActions } from 'pinia'
-import SidebarItem from './SidebarItem.vue'
+import SidebarItem from './SectionSidebarItem.vue'
 import { useSidebarStore } from '../../../stores/sidebar'
 export default {
   components: { SidebarItem },

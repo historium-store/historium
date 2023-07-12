@@ -1,18 +1,14 @@
 <template>
-  <!-- <the-carousel /> -->
-  <the-special-section name="novelties" title="Новинки" :allowShowMore="true"></the-special-section>
-  <the-special-section
-    name="recomendations"
-    title="Рекомендації"
-    :allowShowMore="true"
-  ></the-special-section>
+  <!-- <carousel /> -->
+  <special-section name="novelties" title="Новинки" :allowShowMore="true" />
+  <special-section name="recomendations" title="Рекомендації" :allowShowMore="true" />
   <!-- <product-showcase-view></product-showcase-view> -->
 </template>
 <script>
 // import ProductShowcaseView from '../views/product/ProductShowcaseView.vue'
-import TheSpecialSection from '../components/product/TheSpecialSection.vue'
-import TheCarousel from '../components/layout/TheCarousel.vue'
+import SpecialSection from '../components/layout/sections/SpecialSection.vue'
+import Carousel from '../components/layout/sections/Carousel.vue'
 export default {
-  components: { TheSpecialSection, TheCarousel }
+  components: { SpecialSection, Carousel }
 }
 </script>

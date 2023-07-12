@@ -15,7 +15,8 @@ export const useSidebarStore = defineStore('sidebar', {
       { name: 'navbar', isOpen: false, style: closedLeftSidebarClass, align: 'left' },
       { name: 'sections', isOpen: false, style: closedLeftSidebarClass, align: 'left' },
       { name: 'cart', isOpen: false, style: closedTopSidebarClass, align: 'top' },
-      { name: 'profile', isOpen: false, style: closedTopSidebarClass, align: 'top' }
+      { name: 'profile', isOpen: false, style: closedTopSidebarClass, align: 'top' },
+      { name: 'filters', isOpen: false, style: closedLeftSidebarClass, align: 'left' }
     ]
   }),
   actions: {

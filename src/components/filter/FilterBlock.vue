@@ -2,6 +2,7 @@
   <div class="title">
     <span>{{ title }}</span>
   </div>
+  <!-- {{ isChecked }} -->
   <div class="body px-2 font-rubik text-xs">
     <div v-if="type === 'number'" class="grid grid-cols-2 text-black">
       <div class="items-center p-1">
@@ -27,11 +28,11 @@
       <!-- <label for="min">Від {{ filters['min'] }}</label> -->
       <!-- <label for="max">До {{ filters['max'] }}</label> -->
     </div>
+
     <ul v-else>
       <li v-for="filter in filters" :key="filter">
         <div class="inline-flex items-center w-full py-1">
-          <input v-model="isChecked[filter]" :id="filter" :type="type" />
-
+          <input @change="updateFilters" v-model="isChecked[filter]" :id="filter" :type="type" />
           <label class="pl-3 whitespace-nowrap overflow-hidden text-ellipsis" :for="filter">{{
             filter
           }}</label>
@@ -42,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
 import { useFilterStore } from '../../stores/filter'
 export default {
   props: {
@@ -53,18 +54,19 @@ export default {
       default: 'checkbox'
     }
   },
-  data: () => ({
-    isChecked: {}
-  }),
-  watch: {
-    isChecked: {
-      handler() {
-        this.updateFilters()
-        this.getFiltersQuery()
-      },
-      deep: true
-    }
-  },
+  // data: () => ({
+  //   isChecked: {}
+  // }),
+  // watch: {
+  //   isChecked: {
+  //     handler() {
+  //       console.log('isChecked watch')
+  //       // this.updateFilters()
+  //       // this.getFiltersQuery()
+  //     },
+  //     deep: true
+  //   }
+  // },
   methods: {
     ...mapActions(useFilterStore, ['changeFilters', 'getFiltersQuery']),
     updateFilters() {
@@ -72,7 +74,11 @@ export default {
         .filter((entry) => entry[1])
         .map((entry) => entry[0])
       this.changeFilters(this.filterKey, activeKeys)
+      this.getFiltersQuery()
     }
+  },
+  computed: {
+    ...mapWritableState(useFilterStore, ['isChecked'])
   }
 }
 </script>

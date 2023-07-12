@@ -222,7 +222,7 @@
         </div>
       </div>
     </div>
-    <the-special-section name="history" title="Раніше переглядали" />
+    <special-section name="history" title="Раніше переглядали" />
   </div>
   <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
@@ -231,11 +231,11 @@
 import { mapActions, mapWritableState } from 'pinia'
 import { useProductStore } from '../../stores/product'
 import { useCartStore } from '../../stores/cart'
-import TheSpecialSection from '../../components/product/TheSpecialSection.vue'
+import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
 import { useAlertStore } from '../../stores/alert'
 
 export default {
-  components: { TheSpecialSection },
+  components: { SpecialSection },
   props: ['type', 'id'],
   watch: {
     id: async function () {

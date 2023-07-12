@@ -56,7 +56,7 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import SidebarItem from './SidebarItem.vue'
+import SidebarItem from './SectionSidebarItem.vue'
 import { useSectionStore } from '../../../stores/section'
 import { useSidebarStore } from '../../../stores/sidebar'
 export default {

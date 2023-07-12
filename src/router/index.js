@@ -18,27 +18,17 @@ const router = createRouter({
       component: () => import('../views/GeneralPage.vue')
     },
     {
-      path: '/books',
-      name: 'books',
-      component: () => import('../views/product/ProductShowcase.vue')
+      path: '/:type',
+      name: 'AllProducts',
+      component: () => import('../views/product/ProductShowcasePage.vue'),
+      props: true
     },
-    // {
-    //   path: '/:id',
-    //   name: 'product',
-    //   component: () => import('../views/product/ProductPageView.vue'),
-    //   props: true
-    // },
     {
       path: '/:type/:id',
       name: 'product',
       component: () => import('../views/product/ProductPage.vue'),
       props: true
     },
-    // {
-    //   path: '/section',
-    //   name: 'sectionAll',
-    //   component: () => import('../views/section/SectionPageView.vue')
-    // },
     {
       path: '/section/:sectionId+',
       name: 'section',

@@ -3,7 +3,7 @@
     <div class="m-2" @click="viewProduct(good.key, good.type.key)">
       <div class="mx-auto w-[182px] md:w-[130px]">
         <div
-          class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-2 ml-[5.5rem] bg-turquoise shadow-xl w-8 h-8"
+          class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-3 md:mt-2  ml-[8.5rem] md:ml-[5.5rem] bg-turquoise shadow-xl w-8 h-8"
         >
           <font-awesome-icon
             @click.stop="addToWishlist"
@@ -37,16 +37,16 @@
       </div>
       <div class="mb-3 w-2/3 mx-auto mt-auto">
         <div>
-          <div class="flex space-x-2 items-center text-2xl">
+          <div class="flex space-x-3 items-center text-2xl">
             <div class="mr-auto">
               <span>{{ good?.price }}</span>
               <span>₴</span>
             </div>
             <span
               @click.stop="addToCart"
-              :class="'flex items-center ms-auto text-lg w-14 h-7 rounded-full  ' + cartButtonColor"
+              :class="'flex items-center ms-auto text-lg h-7 rounded-full  ' + cartButtonColor"
             >
-              <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-auto ' + cartColor" />
+              <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-4 ' + cartColor" />
             </span>
           </div>
         </div>
@@ -110,13 +110,15 @@ export default {
       return this.isInCart ? 'text-white' : 'text-white'
     },
     cartButtonColor() {
-      return this.isInCart ? 'bg-turquoise' : 'border-2 border-white hover:bg-lightturquoise'
+      return this.isInCart
+        ? 'border-2 bg-turquoise'
+        : 'border-2 border-white hover:bg-lightturquoise'
     },
     bookmarkColor() {
       return this.isInWishlist ? '#f2e34c' : 'text-whiteblue'
     },
     goodTitle() {
-      const title = this.good.name.split(/\.|:/)[0]
+      const title = this.good?.name?.split(/\.|:/)[0] || ''
 
       return title.length < 35 ? title : this.short(title, 35)
     }

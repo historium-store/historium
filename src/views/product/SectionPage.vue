@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-if="sectionProducts">{{ sectionProducts }}</div> -->
-  <div v-if="isLoaded" class="mr-12">
+  <div v-if="isLoaded" class="">
     <breadcrumb class="m-2" v-if="sections">
       <breadcrumb-item class="hover:cursor-pointer" @click="goto('/')" home
         >Головна</breadcrumb-item
@@ -26,16 +26,15 @@
       </div>
     </div>
 
-    <ProductShowcaseView :products="sectionProducts" :filters="false" />
+    <ProductShowcase :products="sectionProducts" :filters="false" />
   </div>
   <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
 </template>
 
 <script>
-import ProductShowcaseView from './ProductShowcase.vue'
+import ProductShowcase from '../../components/product/ProductShowcase.vue'
 import { mapWritableState, mapActions } from 'pinia'
 import { useSectionStore } from '../../stores/section'
-// import TheProductCard from '../../components/product/TheProductCard.vue'
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
 import { useProductStore } from '../../stores/product'
 import SectionCard from '../../components/section/SectionCard.vue'
@@ -47,7 +46,7 @@ export default {
   async mounted() {
     await this.loadPage()
   },
-  components: { ProductShowcaseView, Breadcrumb, BreadcrumbItem, SectionCard },
+  components: { ProductShowcase, Breadcrumb, BreadcrumbItem, SectionCard },
   methods: {
     ...mapActions(useProductStore, ['viewProduct']),
     ...mapActions(useSectionStore, [

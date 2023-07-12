@@ -1,10 +1,10 @@
 <template>
   <div v-if="wishlistItems" class="h-screen">
-    <the-special-section
+    <special-section
       name="wishlist"
       title="Бажані"
       :items="wishlistItems"
-    ></the-special-section>
+    />
   </div>
 </template>
 
@@ -12,7 +12,7 @@
 import { mapActions, mapWritableState } from 'pinia'
 import { useProductStore } from '../../stores/product'
 import { useUserStore } from '../../stores/user'
-import TheSpecialSection from '../../components/product/TheSpecialSection.vue'
+import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
 export default {
   data: () => {
     return {
@@ -31,7 +31,7 @@ export default {
     ...mapWritableState(useUserStore, ['user'])
   },
   components: {
-    TheSpecialSection
+    SpecialSection
   }
 }
 </script>

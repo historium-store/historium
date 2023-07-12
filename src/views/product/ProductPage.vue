@@ -10,15 +10,15 @@
             <div class="my-4 flex space-x-2 font-rubik text-[13px]">
               <Button
                 id="addToCartButton"
-                @click="addToCart"
                 class="w-1/2 py-1.5 border hover:bg-turquoise border-turquoise rounded-full"
+                @click="addToCart"
               >
                 <font-awesome-icon :icon="['fas', 'cart-shopping']" />
                 <span class="ml-2">До кошика</span>
               </Button>
               <Button
-                @click="checkout"
                 class="w-1/2 py-1.5 border hover:bg-turquoise border-turquoise rounded-full"
+                @click="checkout"
               >
                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                 <span class="ml-2">Купити зараз</span>
@@ -31,7 +31,9 @@
         <div class="grid grid-cols-4">
           <div class="col-span-4 md:col-span-3">
             <div class="mb-5">
-              <h2 class="text-2xl font-body">{{ good.product.name }}</h2>
+              <h2 class="text-2xl font-body">
+                {{ good.product.name }}
+              </h2>
               <span
                 v-for="[i, author] in Object.entries(good.product?.creators || [])"
                 :key="author.id"
@@ -81,11 +83,11 @@
             <p class="text-gray-400">Опис</p>
             <p>«{{ showDescription }}»</p>
             <span class="hover:cursor-pointer text-gray-400" @click="switchDescription">
-              <div class="inline-flex items-center mt-5" v-if="!isExtendedDescription">
+              <div v-if="!isExtendedDescription" class="inline-flex items-center mt-5">
                 <p>Показати ще</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
               </div>
-              <div class="inline-flex items-center mt-5" v-else>
+              <div v-else class="inline-flex items-center mt-5">
                 <p>Приховати</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
               </div>
@@ -143,11 +145,11 @@
               </div>
             </div>
             <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
-              <div class="inline-flex items-center mt-5" v-if="!isExtendedFeature">
+              <div v-if="!isExtendedFeature" class="inline-flex items-center mt-5">
                 <p>Показати ще характеристики</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
               </div>
-              <div class="inline-flex items-center mt-5" v-else>
+              <div v-else class="inline-flex items-center mt-5">
                 <p>Приховати всі характеристики</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
               </div>
@@ -203,11 +205,11 @@
               </div>
             </div>
             <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
-              <div class="inline-flex items-center mt-5" v-if="!isExtendedFeature">
+              <div v-if="!isExtendedFeature" class="inline-flex items-center mt-5">
                 <p>Показати ще характеристики</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
               </div>
-              <div class="inline-flex items-center mt-5" v-else>
+              <div v-else class="inline-flex items-center mt-5">
                 <p>Приховати всі характеристики</p>
                 <font-awesome-icon class="px-3" :icon="['fas', 'chevron-up']" />
               </div>
@@ -224,30 +226,21 @@
     </div>
     <special-section name="history" title="Раніше переглядали" />
   </div>
-  <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
+  <div v-else class="flex">
+    <pulse-loader class="mx-auto mt-6" />
+  </div>
 </template>
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useProductStore } from '../../stores/product'
-import { useCartStore } from '../../stores/cart'
 import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
 import { useAlertStore } from '../../stores/alert'
+import { useCartStore } from '../../stores/cart'
+import { useProductStore } from '../../stores/product'
 
 export default {
   components: { SpecialSection },
   props: ['type', 'id'],
-  watch: {
-    id: async function () {
-      this.isLoaded = false
-      await this.loadProduct(this.id, this.type)
-      this.isLoaded = true
-    }
-  },
-  async mounted() {
-    await this.loadProduct(this.id, this.type)
-    this.isLoaded = true
-  },
   data() {
     return {
       imageIndex: 0,
@@ -256,7 +249,6 @@ export default {
       isExtendedFeature: false
     }
   },
-
   computed: {
     ...mapWritableState(useProductStore, { good: 'product' }),
     currentImage() {
@@ -281,6 +273,19 @@ export default {
       }
     }
   },
+  watch: {
+    id: async function () {
+      this.isLoaded = false
+      await this.loadProduct(this.id, this.type)
+      this.isLoaded = true
+    }
+  },
+
+  async mounted() {
+    await this.loadProduct(this.id, this.type)
+    this.isLoaded = true
+  },
+
   methods: {
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useProductStore, ['loadProduct']),

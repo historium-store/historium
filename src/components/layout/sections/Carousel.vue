@@ -7,7 +7,7 @@
             v-for="(img, i) in images"
             :key="i"
             class="md:w-4 md:h-2 rounded-full cursor-pointer mx-2"
-          ></li>
+          />
         </ol>
       </div>
       <div class="carousel-inner relative overflow-hidden rounded-lg border-[3px]">
@@ -46,6 +46,12 @@ export default {
       interval: null
     }
   },
+  computed: {
+    isSmall() {
+      if (this.windowWidth < 558) return true
+      else return false
+    }
+  },
   mounted() {
     this.interval = setInterval(this.slide, this.timerCountdown)
     window.addEventListener('resize', () => {
@@ -57,12 +63,6 @@ export default {
       if (this.active < this.images.length - 1) {
         this.active++
       } else this.active = 0
-    }
-  },
-  computed: {
-    isSmall() {
-      if (this.windowWidth < 558) return true
-      else return false
     }
   }
 }

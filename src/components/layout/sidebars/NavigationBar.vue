@@ -11,11 +11,11 @@
         <ul class="space-y-10 [&>li]:mx-auto [&>li]:hover:cursor-pointer">
           <li>
             <font-awesome-icon
-              @click="openSidebar('sections')"
               class="w-6"
               size="lg"
               :icon="['fas', 'list']"
               style="color: #ffffff"
+              @click="openSidebar('sections')"
             />
           </li>
           <li>
@@ -87,6 +87,11 @@ export default {
   data: () => {
     return { isScrolled: false }
   },
+  computed: {
+    marginTop() {
+      return this.isScrolled ? 'mt-4' : 'mt-48'
+    }
+  },
   mounted() {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 150) this.isScrolled = true
@@ -95,11 +100,6 @@ export default {
   },
   methods: {
     ...mapActions(useSidebarStore, ['openSidebar'])
-  },
-  computed: {
-    marginTop() {
-      return this.isScrolled ? 'mt-4' : 'mt-48'
-    }
   }
 }
 </script>

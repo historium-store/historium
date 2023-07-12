@@ -82,7 +82,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.component('pulse-loader', SyncLoader)
+app.component('FontAwesomeIcon', FontAwesomeIcon)
+app.component('PulseLoader', SyncLoader)
 
 app.mount('#app')

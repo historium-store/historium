@@ -1,8 +1,8 @@
 import { defineStore, mapActions } from 'pinia'
-import { useApiStore } from './api'
 import router from '../router'
-import { useFilterStore } from './filter'
+import { useApiStore } from './api'
 import { useAuthStore } from './auth'
+import { useFilterStore } from './filter'
 import { useUserStore } from './user'
 
 export const useProductStore = defineStore('product', {

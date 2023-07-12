@@ -1,17 +1,18 @@
 <template>
   <!-- <div v-if="sectionProducts">{{ sectionProducts }}</div> -->
   <div v-if="isLoaded" class="">
-    <breadcrumb class="m-2" v-if="sections">
-      <breadcrumb-item class="hover:cursor-pointer" @click="goto('/')" home
-        >Головна</breadcrumb-item
-      >
+    <breadcrumb v-if="sections" class="m-2">
+      <breadcrumb-item class="hover:cursor-pointer" home @click="goto('/')">
+        Головна
+      </breadcrumb-item>
       <breadcrumb-item
-        class="hover:cursor-pointer"
-        @click="goto('/section/' + sectionId.slice(0, sectionId.indexOf(part) + 1).join('/'))"
         v-for="part in sectionId"
         :key="part"
-        >{{ getSectionByKey(part)?.name }}</breadcrumb-item
+        class="hover:cursor-pointer"
+        @click="goto('/section/' + sectionId.slice(0, sectionId.indexOf(part) + 1).join('/'))"
       >
+        {{ getSectionByKey(part)?.name }}
+      </breadcrumb-item>
     </breadcrumb>
     <div v-if="currentSections?.sections?.length > 0">
       <div
@@ -22,31 +23,42 @@
           :key="section"
           :name="section.name"
           @click="goto(`/section/${sectionId.join('/')}/${section.key}`)"
-        ></section-card>
+        />
       </div>
     </div>
 
     <ProductShowcase :products="sectionProducts" :filters="false" />
   </div>
-  <div v-else class="flex"><pulse-loader class="mx-auto mt-6"></pulse-loader></div>
+  <div v-else class="flex">
+    <pulse-loader class="mx-auto mt-6" />
+  </div>
 </template>
 
 <script>
-import ProductShowcase from '../../components/product/ProductShowcase.vue'
-import { mapWritableState, mapActions } from 'pinia'
-import { useSectionStore } from '../../stores/section'
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
-import { useProductStore } from '../../stores/product'
+import { mapActions, mapWritableState } from 'pinia'
+import ProductShowcase from '../../components/product/ProductShowcase.vue'
 import SectionCard from '../../components/section/SectionCard.vue'
+import { useProductStore } from '../../stores/product'
+import { useSectionStore } from '../../stores/section'
 export default {
+  components: { ProductShowcase, Breadcrumb, BreadcrumbItem, SectionCard },
   props: ['sectionId'],
   data() {
     return { isLoaded: false }
   },
+  computed: {
+    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSections']),
+    ...mapWritableState(useProductStore, ['products'])
+  },
+  watch: {
+    sectionId: async function () {
+      await this.loadPage()
+    }
+  },
   async mounted() {
     await this.loadPage()
   },
-  components: { ProductShowcase, Breadcrumb, BreadcrumbItem, SectionCard },
   methods: {
     ...mapActions(useProductStore, ['viewProduct']),
     ...mapActions(useSectionStore, [
@@ -70,15 +82,6 @@ export default {
     async goto(path) {
       await this.$router.push({ path })
     }
-  },
-  watch: {
-    sectionId: async function () {
-      await this.loadPage()
-    }
-  },
-  computed: {
-    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSections']),
-    ...mapWritableState(useProductStore, ['products'])
   }
 }
 </script>

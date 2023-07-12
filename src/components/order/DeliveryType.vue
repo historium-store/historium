@@ -14,13 +14,15 @@
         />
       </div>
       <div class="flex-col w-10/12">
-        <p class="text-lg">{{ type.name }}</p>
+        <p class="text-lg">
+          {{ type.name }}
+        </p>
         <p class="">{{ type.price }} ₴</p>
       </div>
       <font-awesome-icon
-        @click="pickDeliveryType(type)"
         class="text-xl w-1/12"
         :icon="['fas', 'chevron-down']"
+        @click="pickDeliveryType(type)"
       />
     </div>
     <div v-if="type === delivery.pickedType" class="grid grid-cols-2 my-5">

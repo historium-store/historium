@@ -7,7 +7,9 @@
     </aside>
     <div class="w-full rounded-2xl bg-background_light">
       <div class="m-2 mb-0 rounded-t-2xl bg-background_light">
-        <p class="p-3 font-rubik text-lg">{{ goodsQuantityLabel }}</p>
+        <p class="p-3 font-rubik text-lg">
+          {{ goodsQuantityLabel }}
+        </p>
         <div class="p-3 pt-0 inline-flex space-x-2">
           <div :class="filterLabelStyle" @click="openSidebar('filters')">
             <p>Усі фільтри</p>
@@ -33,29 +35,25 @@
         class="m-2 mt-0 min-h-[500px] rounded-2xl grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 p-6"
       >
         <product-card
-          :good="good"
-          :isAvailable="isAvailable(good)"
           v-for="good in products"
           :key="good.key"
-        ></product-card>
+          :good="good"
+          :is-available="isAvailable(good)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import Filters from '../../components/filter/Filters.vue'
+import ProductCard from '../../components/product/ProductCard.vue'
 import { useProductStore } from '../../stores/product'
 import { useSidebarStore } from '../../stores/sidebar'
-import { mapActions } from 'pinia'
-import ProductCard from '../../components/product/ProductCard.vue'
-import Filters from '../../components/filter/Filters.vue'
 export default {
-  props: ['products', 'filters'],
   components: { ProductCard, Filters },
-  methods: {
-    ...mapActions(useProductStore, ['isAvailable', 'viewProduct']),
-    ...mapActions(useSidebarStore, ['openSidebar'])
-  },
+  props: ['products', 'filters'],
   computed: {
     goodsQuantityLabel() {
       const goodsQuantityLabel =
@@ -72,6 +70,10 @@ export default {
     filterLabelStyle() {
       return 'w-fit p-3 py-1.5 font-rubik text-md bg-turquoise rounded-full hover:cursor-pointer'
     }
+  },
+  methods: {
+    ...mapActions(useProductStore, ['isAvailable', 'viewProduct']),
+    ...mapActions(useSidebarStore, ['openSidebar'])
   }
 }
 </script>

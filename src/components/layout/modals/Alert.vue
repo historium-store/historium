@@ -6,7 +6,7 @@
       color
     "
     :title="title"
-  ></alert>
+  />
 </template>
 
 <script>
@@ -15,11 +15,11 @@ import { mapActions, mapState } from 'pinia'
 import { useAlertStore } from '../../../stores/alert'
 export default {
   components: { Alert },
-  methods: {
-    ...mapActions(useAlertStore, ['showAlert'])
-  },
   computed: {
     ...mapState(useAlertStore, ['title', 'color'])
+  },
+  methods: {
+    ...mapActions(useAlertStore, ['showAlert'])
   }
 }
 </script>

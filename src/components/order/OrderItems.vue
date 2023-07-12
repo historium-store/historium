@@ -10,8 +10,8 @@
         />
         <div class="product-details pl-4 flex flex-col">
           <p
-            @click="viewProduct(item.product.key, item.product.type.key)"
             class="hover:cursor-pointer text:sm md:text-lg font-body"
+            @click="viewProduct(item.product.key, item.product.type.key)"
           >
             {{ item.product?.name }}
           </p>
@@ -21,7 +21,9 @@
               :key="creator"
               class="rounded-lg border-1 bg-deepgreen px-2"
             >
-              <p class="text-xs">{{ creator }}</p>
+              <p class="text-xs">
+                {{ creator }}
+              </p>
             </div>
           </div>
 

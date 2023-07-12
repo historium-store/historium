@@ -10,16 +10,16 @@
           <th class="border-2 p-3">Edit</th>
           <th class="border-2 p-3">Remove</th>
           <th
-            class="border-2 p-3"
             v-for="key in Object.keys(instanceItems?.[0]).splice(1)"
             :key="key"
+            class="border-2 p-3"
           >
             {{ key }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr class="" v-for="instanceItem in instanceItems" :key="instanceItem">
+        <tr v-for="instanceItem in instanceItems" :key="instanceItem" class="">
           <td class="border-2 p-3 text-center hover:cursor-pointer">
             <font-awesome-icon class="text-xl text-yellow-600" :icon="['fas', 'pencil']" />
           </td>
@@ -31,17 +31,19 @@
             :key="field"
             class="border-2 p-3"
           >
-            <div v-if="['string', 'number'].includes(typeof field)">{{ field }}</div>
-            <div v-else-if="(Array.isArray(field) && typeof field[0] !== 'string')">
+            <div v-if="['string', 'number'].includes(typeof field)">
+              {{ field }}
+            </div>
+            <div v-else-if="Array.isArray(field) && typeof field[0] !== 'string'">
               <table>
                 <thead>
-                  <th class="border-2 p-3" v-for="key in Object.keys(field[0] || [])" :key="key">
+                  <th v-for="key in Object.keys(field[0] || [])" :key="key" class="border-2 p-3">
                     {{ key }}
                   </th>
                 </thead>
                 <tbody>
                   <tr v-for="item in field" :key="item">
-                    <td class="border-2 p-3" v-for="value in Object.values(item)" :key="value">
+                    <td v-for="value in Object.values(item)" :key="value" class="border-2 p-3">
                       {{ value }}
                     </td>
                   </tr>
@@ -96,10 +98,7 @@ export default {
     console.log(this.instanceItems)
   },
   methods: {
-    ...mapActions(useAdminStore, ['getAllInstance']),
-    table(array) {
-      return 'd'
-    }
+    ...mapActions(useAdminStore, ['getAllInstance'])
   }
 }
 </script>

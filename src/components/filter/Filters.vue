@@ -11,14 +11,14 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import FilterBlock from './FilterBlock.vue'
 import { useFilterStore } from '../../stores/filter'
+import FilterBlock from './FilterBlock.vue'
 export default {
+  components: { FilterBlock },
+  computed: { ...mapWritableState(useFilterStore, ['filters']) },
   async mounted() {
     await this.loadFilters()
   },
-  components: { FilterBlock },
-  computed: { ...mapWritableState(useFilterStore, ['filters']) },
   methods: {
     ...mapActions(useFilterStore, ['loadFilters'])
   }

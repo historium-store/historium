@@ -3,76 +3,76 @@
     Реестрація
   </h1>
   <VeeForm
-    as="div"
     v-slot="{ handleSubmit }"
+    as="div"
     class="mt-12 [&>div>input]:pl-5"
     :validation-schema="schema"
   >
     <form @submit="handleSubmit($event, registerSubmit)">
       <Field v-slot="{ field, meta, handleChange }" name="firstName">
         <input
-          @input="handleChange"
+          id="firstName"
+          v-model.trim="field.value"
           type="text"
           name="firstName"
-          id="firstName"
           :class="inputStyle(meta)"
           placeholder="Введіть ваше ім'я"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
       <Field v-slot="{ field, meta, handleChange }" name="lastName">
         <input
-          @input="handleChange"
+          id="lastName"
+          v-model.trim="field.value"
           type="text"
           name="lastName"
-          id="lastName"
           :class="inputStyle(meta)"
           placeholder="Введіть ваше прізвище"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
       <Field v-slot="{ field, meta, handleChange }" name="phoneNumber">
         <input
-          @input="handleChange"
+          id="phoneNumber"
+          v-model.trim="field.value"
           type="text"
           name="phoneNumber"
-          id="phoneNumber"
           :class="inputStyle(meta)"
           placeholder="Введіть ваше номер телефону"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
       <Field v-slot="{ field, meta, handleChange }" name="email">
         <input
-          @input="handleChange"
+          id="email"
+          v-model.trim="field.value"
           type="text"
           name="email"
-          id="email"
           :class="inputStyle(meta)"
           placeholder="Введіть вашу пошту"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
       <Field v-slot="{ field, meta, handleChange }" name="password">
         <input
-          @input="handleChange"
+          id="password"
+          v-model.trim="field.value"
           type="password"
           name="password"
-          id="password"
           placeholder="Введіть пароль"
           :class="inputStyle(meta)"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
-      <div class="flex justify-end px-4">
+      <div class="flex justify-end px-4 mt-1">
         <p
-          @click="showModal('restore')"
           class="text-sm font-medium hover:underline hover:cursor-pointer"
+          @click="showModal('restore')"
         >
           Забули пароль?
         </p>
@@ -85,7 +85,7 @@
       </button>
       <p class="text-sm text-center font-light text-gray-500">
         Вже маєте акаунт?
-        <button @click="showModal('login')" class="font-medium text-white hover:underline">
+        <button class="font-medium text-white hover:underline" @click="showModal('login')">
           Увійти
         </button>
       </p>

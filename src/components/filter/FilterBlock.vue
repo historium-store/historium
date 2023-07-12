@@ -32,7 +32,7 @@
     <ul v-else>
       <li v-for="filter in filters" :key="filter">
         <div class="inline-flex items-center w-full py-1">
-          <input @change="updateFilters" v-model="isChecked[filter]" :id="filter" :type="type" />
+          <input :id="filter" v-model="isChecked[filter]" :type="type" @change="updateFilters" />
           <label class="pl-3 whitespace-nowrap overflow-hidden text-ellipsis" :for="filter">{{
             filter
           }}</label>
@@ -54,19 +54,9 @@ export default {
       default: 'checkbox'
     }
   },
-  // data: () => ({
-  //   isChecked: {}
-  // }),
-  // watch: {
-  //   isChecked: {
-  //     handler() {
-  //       console.log('isChecked watch')
-  //       // this.updateFilters()
-  //       // this.getFiltersQuery()
-  //     },
-  //     deep: true
-  //   }
-  // },
+  computed: {
+    ...mapWritableState(useFilterStore, ['isChecked'])
+  },
   methods: {
     ...mapActions(useFilterStore, ['changeFilters', 'getFiltersQuery']),
     updateFilters() {
@@ -76,9 +66,6 @@ export default {
       this.changeFilters(this.filterKey, activeKeys)
       this.getFiltersQuery()
     }
-  },
-  computed: {
-    ...mapWritableState(useFilterStore, ['isChecked'])
   }
 }
 </script>

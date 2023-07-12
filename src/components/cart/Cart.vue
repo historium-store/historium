@@ -14,11 +14,11 @@
           "
         >
           <font-awesome-icon
-            @click="closeSidebar('cart')"
             size="xl"
             class="max-sm:text-xl mx-auto"
             :icon="['fas', 'xmark']"
             style="color: #0e6060"
+            @click="closeSidebar('cart')"
           />
         </div>
         <!-- <button
@@ -31,17 +31,14 @@
           <div class="inline-flex items-center w-full justify-between py-2">
             <p class="ps-2 text-[17px]">{{ cart?.totalQuantity }} шт.</p>
             <div class="border-[1.5px] rounded-full border-turquoise mr-2">
-              <p @click="clearCart" class="hover:cursor-pointer px-3">Видалити все</p>
+              <p class="hover:cursor-pointer px-3" @click="clearCart">Видалити все</p>
             </div>
           </div>
         </li>
         <hr class="border-[1.5px] rounded-full border-turquoise" />
       </ul>
-      <cart-products-view
-        class="overflow-y-auto max-h-[60vh] min-h-[200px]"
-        :cart="cart"
-      ></cart-products-view>
-      <div class="-mt-4 bg-transparent h-4 bg-gradient-to-b from-transparent to-cart-lighter"></div>
+      <cart-products-view class="overflow-y-auto max-h-[60vh] min-h-[200px]" :cart="cart" />
+      <div class="-mt-4 bg-transparent h-4 bg-gradient-to-b from-transparent to-cart-lighter" />
       <hr class="mx-2 mt-6 border-[1.5px] rounded-full border-turquoise" />
       <div class="inline-flex justify-between items-center mt-auto mx-1">
         <p class="m-2 p-2 text-xl">Всього:</p>
@@ -59,18 +56,18 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import CartProductsView from './CartProducts.vue'
-import { useSidebarStore } from '../../stores/sidebar'
 import { useCartStore } from '../../stores/cart'
+import { useSidebarStore } from '../../stores/sidebar'
+import CartProductsView from './CartProducts.vue'
 export default {
-  props: ['isSidebar'],
   components: { CartProductsView },
+  props: ['isSidebar'],
+  computed: {
+    ...mapWritableState(useCartStore, ['cart'])
+  },
   methods: {
     ...mapActions(useSidebarStore, ['closeSidebar']),
     ...mapActions(useCartStore, ['clearCart'])
-  },
-  computed: {
-    ...mapWritableState(useCartStore, ['cart'])
   }
 }
 </script>

@@ -10,12 +10,14 @@
         />
         <div class="product-details pl-4 flex flex-col">
           <p
-            @click="viewProduct(item.product.key, item.product.type.key)"
             class="text-d hover:cursor-pointer"
+            @click="viewProduct(item.product.key, item.product.type.key)"
           >
             {{ item.product?.name }}
           </p>
-          <p class="text-xs">{{ item.product.creators?.[0] }}</p>
+          <p class="text-xs">
+            {{ item.product.creators?.[0] }}
+          </p>
           <span class="inline-flex items-center mt-auto">
             <p class="text-xl">{{ item.product?.price }} ₴</p>
             <span class="mx-2 text-xl">•</span>
@@ -24,11 +26,11 @@
         </div>
         <div class="ml-auto flex flex-col justify-between">
           <font-awesome-icon
-            @click="removeAll(item.product._id)"
             size="xl"
             class="max-sm:text-xl ms-auto hover:cursor-pointer"
             :icon="['fas', 'trash-can']"
             style="color: #0e6060"
+            @click="removeAll(item.product._id)"
           />
           <div
             class="product-actions select-none inline-flex items-center border-2 border-turquoise rounded-full"
@@ -40,10 +42,10 @@
               <p class="text-center text-white -mt-0.5">-</p>
             </div>
             <input
+              v-model.number="item.quantity"
+              class="bg-transparent w-8 text-xl text-center rounded-md"
               @blur="change(item.product._id, item.quantity)"
               @keydown="quantityChangeEnter($event, item.product._id)"
-              class="bg-transparent w-8 text-xl text-center rounded-md"
-              v-model.number="item.quantity"
             />
             <div
               class="bg-deepgreen rounded-full w-6 h-6 m-1 text-2xl hover:cursor-pointer"

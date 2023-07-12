@@ -3,40 +3,40 @@
     Вхід до акаунту
   </h1>
   <VeeForm
-    as="div"
     v-slot="{ handleSubmit }"
+    as="div"
     class="mt-12 [&>div>input]:pl-5"
     :validation-schema="schema"
   >
     <form @submit="handleSubmit($event, loginSubmit)">
       <Field v-slot="{ field, meta, handleChange }" name="login">
         <input
-          @input="handleChange"
+          id="login"
+          v-model.trim="field.value"
           type="text"
           name="login"
-          id="login"
           :class="inputStyle(meta)"
           placeholder="Введіть номер або email"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
       <Field v-slot="{ field, meta, handleChange }" name="password">
         <input
-          @input="handleChange"
+          id="password"
+          v-model.trim="field.value"
           type="password"
           name="password"
-          id="password"
           placeholder="Введіть пароль"
           :class="inputStyle(meta)"
-          v-model.trim="field.value"
+          @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
-      <div class="flex justify-end px-4">
+      <div class="flex justify-end px-4 mt-1">
         <p
-          @click="showModal('restore')"
           class="text-sm font-medium hover:underline hover:cursor-pointer"
+          @click="showModal('restore')"
         >
           Забули пароль?
         </p>
@@ -49,7 +49,7 @@
       </button>
       <p class="text-sm text-center font-light text-gray-500">
         Немає акаунту?
-        <button @click="showModal('signup')" class="font-medium hover:underline text-white">
+        <button class="font-medium hover:underline text-white" @click="showModal('signup')">
           Зареєструватися
         </button>
       </p>

@@ -6,7 +6,7 @@
       getStyle
     "
   >
-    <Cart isSidebar="_" />
+    <Cart is-sidebar="_" />
     <!-- <img v-if="isDarkMode" src="../../../assets/cart-bottom-dark.png" /> -->
     <!-- <img src="../../../assets/cart-bottom.png" /> -->
   </aside>
@@ -15,20 +15,12 @@
 <script>
 // import SidebarItem from './SidebarItem.vue'
 import { mapActions } from 'pinia'
-import { useSidebarStore } from '../../../stores/sidebar'
 import { useCartStore } from '../../../stores/cart'
 import { useProductStore } from '../../../stores/product'
+import { useSidebarStore } from '../../../stores/sidebar'
 import Cart from '../../cart/Cart.vue'
 export default {
-  async mounted() {
-    await this.updateCart()
-  },
   components: { Cart },
-  methods: {
-    ...mapActions(useProductStore, ['viewProduct']),
-    ...mapActions(useSidebarStore, ['closeSidebar', 'openSidebar', 'getSidebar', 'closeSidebars']),
-    ...mapActions(useCartStore, ['updateCart', 'updateLocalCart', 'clearCart'])
-  },
   computed: {
     getStyle() {
       return this.getSidebar('cart').style
@@ -36,6 +28,14 @@ export default {
     isDarkMode() {
       return window.matchMedia('(prefers-color-scheme: dark)').matches
     }
+  },
+  async mounted() {
+    await this.updateCart()
+  },
+  methods: {
+    ...mapActions(useProductStore, ['viewProduct']),
+    ...mapActions(useSidebarStore, ['closeSidebar', 'openSidebar', 'getSidebar', 'closeSidebars']),
+    ...mapActions(useCartStore, ['updateCart', 'updateLocalCart', 'clearCart'])
   }
 }
 </script>

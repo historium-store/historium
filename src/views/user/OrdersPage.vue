@@ -2,8 +2,8 @@
   <div class="p-3 md:w-4/5 mx-auto my-6">
     <p class="text-center text-2xl">Мої замовлення</p>
     <div v-if="orders.length > 0">
-      <div class="" v-for="order in orders" :key="order._id">
-        <order-history :order="order"></order-history>
+      <div v-for="order in orders" :key="order._id" class="">
+        <order-history :order="order" />
       </div>
     </div>
     <div v-else>
@@ -15,19 +15,19 @@
 </template>
 
 <script>
+import { mapActions, mapWritableState } from 'pinia'
 import OrderHistory from '../../components/order/OrderHistory.vue'
 import { useOrderStore } from '../../stores/order'
-import { mapActions, mapWritableState } from 'pinia'
 
 export default {
   components: { OrderHistory },
+  computed: {
+    ...mapWritableState(useOrderStore, ['orders'])
+  },
   async mounted() {
     await this.getOrders()
   },
 
-  computed: {
-    ...mapWritableState(useOrderStore, ['orders'])
-  },
   methods: {
     ...mapActions(useOrderStore, ['getOrders'])
   }

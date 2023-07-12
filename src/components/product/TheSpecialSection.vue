@@ -9,13 +9,13 @@
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
     >
-      <product-card
+      <the-product-card
         v-for="good in items ? items : homeSpecialSections?.[name]?.slice(0, sliceCount)"
         :key="good.key"
         :good="good"
         :is-available="isAvailable(good)"
         @click="viewProduct(good.key, good.type.key)"
-      />
+      ></the-product-card>
     </div>
     <span
       v-if="!isExtended && allowShowMore"
@@ -30,8 +30,8 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useProductStore } from '../../../stores/product'
-import ProductCard from '../../product/ProductCard.vue'
+import { useProductStore } from '../../stores/product'
+import TheProductCard from './TheProductCard.vue'
 
 const breakpoints = {
   2: 768,
@@ -40,7 +40,7 @@ const breakpoints = {
 }
 
 export default {
-  components: { ProductCard },
+  components: { TheProductCard },
   props: ['name', 'title', 'allowShowMore', 'items'],
   data() {
     return {

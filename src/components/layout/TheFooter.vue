@@ -29,9 +29,9 @@
             <p class="text-teal-500 text-xl">+38 (093) 534 22 55</p>
           </div>
           <div class="flex items-center justify-center space-x-6 mt-3">
-            <div class="w-8 h-8 rounded-full bg-slate-100"></div>
-            <div class="w-8 h-8 rounded-full bg-slate-100"></div>
-            <div class="w-8 h-8 rounded-full bg-slate-100"></div>
+            <div class="w-8 h-8 rounded-full bg-slate-100" />
+            <div class="w-8 h-8 rounded-full bg-slate-100" />
+            <div class="w-8 h-8 rounded-full bg-slate-100" />
           </div>
         </div>
       </div>

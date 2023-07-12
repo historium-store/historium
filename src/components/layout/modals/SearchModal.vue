@@ -13,7 +13,9 @@
             <p class="text-deepgreen">
               {{ item.name }}
             </p>
-            <p class="text-sm text-turquoise">{{ item.creators[0] }}</p>
+            <p class="text-sm text-turquoise">
+              {{ item.creators[0] }}
+            </p>
             <span class="inline-flex [&>*]:text-sm text-turquoise">
               <p>{{ item.price }} грн</p>
               <span class="mx-2">•</span>
@@ -26,14 +28,14 @@
       <div class="px-5 py-1.5">
         <Button
           v-if="hasMoreResults"
-          @click="showMoreResults"
           class="w-full py-1.5 border hover:bg-lightturquoise bg-turquoise rounded-full"
+          @click="showMoreResults"
         >
           <span class="ml-2 text-lg">Показати більше результатів</span>
         </Button>
       </div>
     </ul>
-    <div class="flex h-24 items-center text-deepgreen" v-else>
+    <div v-else class="flex h-24 items-center text-deepgreen">
       <p class="mx-auto text-xl">Немає результатів</p>
     </div>
   </div>
@@ -41,9 +43,9 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useSearchStore } from '../../../stores/search'
-import { useProductStore } from '../../../stores/product'
 import { useModalStore } from '../../../stores/modal'
+import { useProductStore } from '../../../stores/product'
+import { useSearchStore } from '../../../stores/search'
 
 export default {
   props: ['name'],
@@ -52,18 +54,19 @@ export default {
       searchWidth: 0
     }
   },
-  mounted() {
-    this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
-    window.addEventListener('resize', () => {
-      this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
-    })
-  },
   computed: {
     ...mapWritableState(useSearchStore, ['results', 'hasResults', 'searchInput']),
     hasMoreResults() {
       return this.results.length > 5
     }
   },
+  mounted() {
+    this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+    window.addEventListener('resize', () => {
+      this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+    })
+  },
+
   methods: {
     ...mapActions(useProductStore, { showProduct: 'viewProduct' }),
     ...mapActions(useModalStore, ['hideModals']),

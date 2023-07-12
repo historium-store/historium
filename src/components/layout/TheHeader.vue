@@ -4,9 +4,9 @@
       <div class="flex flex-wrap justify-between mx-auto max-w-screen-xl">
         <div class="flex flex-wrap items-center">
           <button
-            @click="openSidebar('main')"
             type="button"
             class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            @click="openSidebar('main')"
           >
             <span class="sr-only">Open sidebar</span>
             <svg
@@ -20,24 +20,24 @@
                 clip-rule="evenodd"
                 fill-rule="evenodd"
                 d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-              ></path>
+              />
             </svg>
           </button>
           <RouterLink to="/" class="flex mx-4 items-center">
             <img src="/src/assets/historium-logo.svg" class="h-12 sm:h-14" alt="Historium Logo" />
-            <span
-              class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-            ></span>
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white" />
           </RouterLink>
         </div>
-        <the-search name="pc" class="max-[550px]:hidden"></the-search>
+        <the-search name="pc" class="max-[550px]:hidden" />
         <div class="flex flex-wrap items-center">
           <div class="flex">
             <RouterLink :to="isAuthenticated ? '/user/wishlist' : ''" class="bookmark px-2">
               <div
                 class="ml-2 top-6 w-5 h-5 sm:w-4 sm:h-4 rounded-full bg-turquoise items-center flex absolute"
               >
-                <p class="mx-auto mt-1 sm:mt-0 sm:text-xs">{{ wishlistItemsQuantity }}</p>
+                <p class="mx-auto mt-1 sm:mt-0 sm:text-xs">
+                  {{ wishlistItemsQuantity }}
+                </p>
               </div>
 
               <font-awesome-icon
@@ -47,7 +47,7 @@
                 style="color: #ffffff"
               />
             </RouterLink>
-            <span @click="openSidebar('cart')" class="px-2 hover:cursor-pointer">
+            <span class="px-2 hover:cursor-pointer" @click="openSidebar('cart')">
               <div
                 class="ml-3 top-6 w-5 h-5 sm:w-4 sm:h-4 rounded-full bg-turquoise items-center flex absolute"
               >
@@ -73,10 +73,12 @@
           </div>
         </div>
       </div>
-      <the-search name="phone" class="mt-5 min-[550px]:hidden"></the-search>
+      <the-search name="phone" class="mt-5 min-[550px]:hidden" />
       <div class="flex justify-center xs:max-sm:hidden">
         <ul class="flex items-center my-3 [&>li]:px-3 [&>li]:hover:cursor-pointer">
-          <li><RouterLink to="/">Головна</RouterLink></li>
+          <li>
+            <RouterLink to="/"> Головна </RouterLink>
+          </li>
           <li @click="scrollTo('novelties')">Новинки</li>
           <li @click="scrollTo('recomendations')">Хіти продажів</li>
           <li>Про компанію</li>
@@ -100,13 +102,18 @@ import { useModalStore } from '../../stores/modal'
 import { useCartStore } from '../../stores/cart'
 import { useUserStore } from '../../stores/user'
 export default {
+  components: { TheSearch },
   props: ['openModal', 'switchModal'],
   setup() {
     const authStore = useAuthStore()
     const querySearch = ref('')
     return { authStore, querySearch }
   },
-  components: { TheSearch },
+  computed: {
+    ...mapWritableState(useCartStore, ['cart']),
+    ...mapWritableState(useUserStore, ['user', 'wishlistItemsQuantity']),
+    ...mapWritableState(useAuthStore, ['isAuthenticated'])
+  },
   methods: {
     ...mapActions(useSidebarStore, ['openSidebar']),
     ...mapActions(useModalStore, ['showModal']),
@@ -124,11 +131,6 @@ export default {
         window.scrollBy({ behavior: 'smooth', top: -12 })
       }, 400)
     }
-  },
-  computed: {
-    ...mapWritableState(useCartStore, ['cart']),
-    ...mapWritableState(useUserStore, ['user', 'wishlistItemsQuantity']),
-    ...mapWritableState(useAuthStore, ['isAuthenticated'])
   }
 }
 </script>

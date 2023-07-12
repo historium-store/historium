@@ -18,11 +18,11 @@
             class="flex items-center w-8 h-8 hover:cursor-pointer hover:bg-lightturquoise rounded-full absolute top-18 right-12"
           >
             <font-awesome-icon
-              @click="closeSidebar('profile')"
               size="xl"
               class="max-sm:text-xl mx-auto"
               :icon="['fas', 'xmark']"
               style="color: #ffffff"
+              @click="closeSidebar('profile')"
             />
           </div>
         </div>
@@ -37,8 +37,12 @@
             />
           </div>
           <div class="">
-            <p class="text-lg">{{ fullName }}</p>
-            <p class="tracking-widest">{{ user?.phoneNumber }}</p>
+            <p class="text-lg">
+              {{ fullName }}
+            </p>
+            <p class="tracking-widest">
+              {{ user?.phoneNumber }}
+            </p>
           </div>
         </div>
         <hr class="" />
@@ -117,7 +121,12 @@
             <hr class="" />
 
             <li class="px-3">
-              <div class="inline-flex space-x-3 items-center">
+              <router-link
+                :to="{
+                  name: 'account'
+                }"
+                class="inline-flex space-x-3 items-center"
+              >
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
@@ -126,7 +135,7 @@
                   />
                 </div>
                 <p>Налаштування</p>
-              </div>
+              </router-link>
             </li>
             <hr class="" />
             <li class="px-3">
@@ -157,12 +166,19 @@
 
 <script>
 import { mapActions, mapState } from 'pinia'
-import { useSidebarStore } from '../../../stores/sidebar'
-import { useAuthStore } from '../../../stores/auth'
 import { useAlertStore } from '../../../stores/alert'
+import { useAuthStore } from '../../../stores/auth'
+import { useSidebarStore } from '../../../stores/sidebar'
 import { useUserStore } from '../../../stores/user'
 
 export default {
+  computed: {
+    ...mapState(useAuthStore, ['isAuthenticated']),
+    ...mapState(useUserStore, ['user', 'fullName']),
+    getStyle() {
+      return this.getSidebar('profile').style
+    }
+  },
   methods: {
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useSidebarStore, ['closeSidebar', 'openSidebar', 'getSidebar', 'closeSidebars']),
@@ -171,13 +187,6 @@ export default {
       this.closeSidebars()
       this.showAlert('Успішний вихід з аккаунту', 'bg-red-400')
       await this.authLogout()
-    }
-  },
-  computed: {
-    ...mapState(useAuthStore, ['isAuthenticated']),
-    ...mapState(useUserStore, ['user', 'fullName']),
-    getStyle() {
-      return this.getSidebar('profile').style
     }
   }
 }

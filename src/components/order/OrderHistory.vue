@@ -7,7 +7,7 @@
     </div>
     <hr class="mx-4 border-[1.5px] rounded-full" />
     <div>
-      <order-items :order="order"></order-items>
+      <order-items :order="order" />
     </div>
     <div v-if="isExtended" class="p-3">
       <div class="flex justify-between my-3">
@@ -46,7 +46,7 @@
       </div>
       <hr />
     </div>
-    <div @click="extendInfoToggle" class="flex justify-between hover:cursor-pointer">
+    <div class="flex justify-between hover:cursor-pointer" @click="extendInfoToggle">
       <div class="inline-flex space-x-1 text-lg p-3">
         <p>Всього:</p>
         <p>{{ order.totalPrice }} ₴</p>
@@ -54,9 +54,9 @@
       <div class="inline-flex items-center space-x-2 p-3">
         <p class="text-xs">Детальніше</p>
         <font-awesome-icon
-          @click="pickDeliveryType(type)"
           class="text-xl w-1/12"
           :icon="['fas', 'chevron-down']"
+          @click="pickDeliveryType(type)"
         />
       </div>
     </div>
@@ -66,21 +66,12 @@
 <script>
 import OrderItems from '../order/OrderItems.vue'
 export default {
+  components: { OrderItems },
   props: ['order'],
   data: () => ({
     orderDate: '',
     isExtended: false
   }),
-  mounted() {
-    const orderDate = new Date(this.order.createdAt).toString().split(' ')
-    this.orderDate = `${orderDate[2]} ${orderDate[1]} ${orderDate[3]}`
-  },
-  methods: {
-    extendInfoToggle() {
-      this.isExtended = !this.isExtended
-    }
-  },
-  components: { OrderItems },
   computed: {
     totalQuantityLabel() {
       const totalQuantityLabel =
@@ -93,6 +84,15 @@ export default {
           : 'товарів'
 
       return `${this.order.items.length} ${totalQuantityLabel}`
+    }
+  },
+  mounted() {
+    const orderDate = new Date(this.order.createdAt).toString().split(' ')
+    this.orderDate = `${orderDate[2]} ${orderDate[1]} ${orderDate[3]}`
+  },
+  methods: {
+    extendInfoToggle() {
+      this.isExtended = !this.isExtended
     }
   }
 }

@@ -4,17 +4,16 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useProductStore } from '../../stores/product'
 import ProductShowcase from '../../components/product/ProductShowcase.vue'
+import { useProductStore } from '../../stores/product'
 export default {
-  props: ['type'],
-
-  async mounted() {
-    await this.loadProducts(this.type)
-  },
   components: { ProductShowcase },
+  props: ['type'],
   computed: {
     ...mapWritableState(useProductStore, ['products'])
+  },
+  async mounted() {
+    await this.loadProducts(this.type)
   },
   methods: {
     ...mapActions(useProductStore, ['loadProducts'])

@@ -8,13 +8,13 @@
   >
     <div v-show="loginInput">
       <input
+        id="login"
+        v-model.trim="login"
         type="text"
         name="login"
-        id="login"
         class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         placeholder="Введіть номер або email"
         required=""
-        v-model.trim="login"
       />
       <!-- <label for="text" class="block mt-2 pl-2 text-sm font-medium text-gray-900 dark:text-white"
         >Номер телефону або електронна пошта <sup>*</sup></label
@@ -25,12 +25,12 @@
         >Введіть код який ми відправили вам на пошту<sup>*</sup></label
       >
       <input
+        id="code"
+        v-model.trim="code"
         type="text"
         name="code"
-        id="code"
         class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         placeholder="Введіть код"
-        v-model.trim="code"
       />
     </div>
     <div v-show="newPasswordInput">
@@ -38,12 +38,12 @@
         >Введіть новий пароль для вашого акаунту<sup>*</sup></label
       >
       <input
+        id="password"
+        v-model.trim="newPassword"
         type="password"
         name="password"
-        id="password"
         class="border sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30"
         placeholder="Введіть пароль"
-        v-model.trim="newPassword"
       />
     </div>
     <button
@@ -78,6 +78,20 @@ export default {
       newPassword: '',
       userId: null,
       currentStep: RestoreSteps.restoreRequest
+    }
+  },
+  computed: {
+    loginInput() {
+      return this.currentStep === RestoreSteps.restoreRequest
+    },
+    codeInput() {
+      return this.currentStep === RestoreSteps.restoreConfirm
+    },
+    newPasswordInput() {
+      return this.currentStep === RestoreSteps.passwordUpdate
+    },
+    buttonLabel() {
+      return this.loginInput ? 'Відновити' : 'Підтвердити'
     }
   },
   methods: {
@@ -117,20 +131,6 @@ export default {
           this.showModal('login')
         }
       }
-    }
-  },
-  computed: {
-    loginInput() {
-      return this.currentStep === RestoreSteps.restoreRequest
-    },
-    codeInput() {
-      return this.currentStep === RestoreSteps.restoreConfirm
-    },
-    newPasswordInput() {
-      return this.currentStep === RestoreSteps.passwordUpdate
-    },
-    buttonLabel() {
-      return this.loginInput ? 'Відновити' : 'Підтвердити'
     }
   }
 }

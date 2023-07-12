@@ -2,28 +2,28 @@
   <div :id="`search-block-${name}`" class="flex-1 flex-col px-6 items-center z-[45]">
     <div class="flex flex-1 mt-3">
       <input
-        @keydown="searchInputTrigger"
-        @change="searchInputTrigger"
+        v-model.trim="searchInput"
         type="search"
         class="relative block w-max min-w-0 flex-auto rounded-2xl border border-solid border-white bg-transparent bg-clip-padding px-3 py-[0.25rem] text-sm font-normal leading-[1.8] text-white outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:outline-none"
         placeholder="Знайти книгу"
         aria-label="Знайти книгу"
         aria-describedby="button-addon2"
-        v-model.trim="searchInput"
+        @keydown="searchInputTrigger"
+        @change="searchInputTrigger"
       />
       <span
         class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal hover:cursor-pointer"
       >
         <font-awesome-icon
-          @click="search"
           size="lg"
           class="max-sm:text-2xl"
           :icon="['fas', 'search']"
           style="color: #ffffff"
+          @click="search"
         />
       </span>
     </div>
-    <search-modal :name="name" v-if="searchInput"></search-modal>
+    <search-modal v-if="searchInput" :name="name" />
   </div>
 </template>
 <script>
@@ -32,8 +32,8 @@ import { useSearchStore } from '../../stores/search'
 import SearchModal from './modals/SearchModal.vue'
 
 export default {
-  props: ['name'],
   components: { SearchModal },
+  props: ['name'],
   computed: {
     ...mapWritableState(useSearchStore, ['searchInput', 'results'])
   },

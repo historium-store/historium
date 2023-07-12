@@ -67,6 +67,11 @@ const router = createRouter({
       name: 'wishlist',
       component: () => import('../views/user/WishlistPage.vue')
     },
+    {
+      path: '/user/account',
+      name: 'account',
+      component: () => import('../views/user/AccountPage.vue')
+    },
     { path: '/:pathMatch(.*)*', component: NotFound }
   ]
 })

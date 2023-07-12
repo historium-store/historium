@@ -1,11 +1,11 @@
 <template>
   <AuthModal />
   <Alert />
-  <the-header :switchModal="switchModalState" :openModal="openModal"></the-header>
+  <the-header :switch-modal="switchModalState" :open-modal="openModal" />
   <Suspense>
     <router-view v-slot="slotProps">
       <div class="xl:ml-48">
-        <component :is="slotProps.Component"></component>
+        <component :is="slotProps.Component" />
       </div>
       <!-- <transition name="route" mode="out-in">
         <component :is="slotProps.Component"></component>
@@ -38,25 +38,6 @@ import NavigationBar from './components/layout/sidebars/NavigationBar.vue'
 import { useCartStore } from './stores/cart'
 import { useAuthStore } from './stores/auth'
 export default {
-  setup() {
-    const authStates = ['login', 'signup', 'restore']
-    const isShowModal = ref(false)
-    const modalState = ref(authStates[0])
-    return { isShowModal, modalState, authStates }
-  },
-  async mounted() {
-    const authStore = useAuthStore()
-    const cartStore = useCartStore()
-    if (authStore.isAuthenticated) {
-      await cartStore.updateCart()
-    }
-    return { cartStore }
-  },
-  computed: {
-    alertStyle() {
-      return 'translate-y-[150px]'
-    }
-  },
   components: {
     SectionsSidebar,
     TheHeader,
@@ -69,6 +50,25 @@ export default {
     Alert,
     NavigationBar,
     FiltersSidebar
+  },
+  setup() {
+    const authStates = ['login', 'signup', 'restore']
+    const isShowModal = ref(false)
+    const modalState = ref(authStates[0])
+    return { isShowModal, modalState, authStates }
+  },
+  computed: {
+    alertStyle() {
+      return 'translate-y-[150px]'
+    }
+  },
+  async mounted() {
+    const authStore = useAuthStore()
+    const cartStore = useCartStore()
+    if (authStore.isAuthenticated) {
+      await cartStore.updateCart()
+    }
+    return { cartStore }
   }
 }
 </script>

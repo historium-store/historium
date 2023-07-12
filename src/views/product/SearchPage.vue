@@ -1,21 +1,20 @@
 <template>
-  <product-showcase-view :products="products" :filters="true"></product-showcase-view>
+  <product-showcase-view :products="products" :filters="true" />
 </template>
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import ProductShowcaseView from './ProductShowcase.vue'
-import { useSearchStore } from '../../stores/search'
 import { useProductStore } from '../../stores/product'
+import ProductShowcaseView from './ProductShowcase.vue'
 
 export default {
-  async mounted() {
-    await this.loadProducts()
-  },
   components: { ProductShowcaseView },
   computed: {
     ...mapWritableState(useProductStore, ['products'])
     // ...mapWritableState(useSearchStore, ['results'])
+  },
+  async mounted() {
+    await this.loadProducts()
   },
   methods: {
     ...mapActions(useProductStore, ['loadProducts'])

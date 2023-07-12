@@ -95,7 +95,6 @@ export default {
   },
   async mounted() {
     this.instanceItems = await this.getAllInstance(this.instance[0])
-    console.log(this.instanceItems)
   },
   methods: {
     ...mapActions(useAdminStore, ['getAllInstance'])

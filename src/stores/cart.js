@@ -33,8 +33,6 @@ export const useCartStore = defineStore('cart', {
       }
     },
     async updateCart() {
-      console.log('updateCart')
-
       if (!this.isAuthenticated) {
         await this.loadCartFromLS()
         return
@@ -43,16 +41,13 @@ export const useCartStore = defineStore('cart', {
       this.cart = response.data
     },
     async loadCartFromLS() {
-      console.log('loadCartFromLS')
       const localCart = JSON.parse(cookieStorage.getItem('cart')) || cartTemplate
       this.cart = { ...localCart }
     },
     saveCartToLS() {
-      console.log('saveCartToLS')
       cookieStorage.setItem('cart', JSON.stringify(this.cart))
     },
     async addItem(itemId) {
-      console.log('addItem')
       if (this.isAuthenticated) {
         await this.post('cart-item', { product: itemId }, null, true)
       } else {

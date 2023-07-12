@@ -1,8 +1,8 @@
 import { defineStore, mapActions } from 'pinia'
-import { useApiStore } from './api'
-import { useCartStore } from './cart'
 import { useAlertStore } from './alert'
+import { useApiStore } from './api'
 import { useAuthStore } from './auth'
+import { useCartStore } from './cart'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -48,10 +48,27 @@ export const useUserStore = defineStore('user', {
         alertStore.showAlert('Увійдіть щоб додавати товари до бажаних', 'bg-turquoise')
       }
     },
+    async pushInWaitlist(id) {
+      console.log('pushInWaitlist')
+      if (this.authStore.isAuthenticated) {
+        await this.post('user/waitlist', { product: id }, null, true)
+        await this.getUser()
+      } else {
+        const alertStore = useAlertStore()
+        alertStore.showAlert('Увійдіть щоб додавати товари до очыкуванних', 'bg-turquoise')
+      }
+    },
     async removeFromWishlist(id) {
       console.log('removeFromWishlist')
       if (this.authStore.isAuthenticated) {
         await this.delete('user/wishlist', { product: id }, null, true)
+        await this.getUser()
+      }
+    },
+    async removeFromWaitlist(id) {
+      console.log('removeFromWaitlist')
+      if (this.authStore.isAuthenticated) {
+        await this.delete('user/waitlist', { product: id }, null, true)
         await this.getUser()
       }
     },

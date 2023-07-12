@@ -13,10 +13,7 @@ export const useSectionStore = defineStore('section', {
   actions: {
     ...mapActions(useApiStore, ['get']),
     async loadSectionNames() {
-      console.log('>>> loadSectionNames')
-
       const response = await this.get(`section`)
-      console.log(response.data)
       this.sections = response.data
       this.currentSections = this.sections
     },
@@ -24,7 +21,6 @@ export const useSectionStore = defineStore('section', {
       console.log('>>> loadSectionProducts')
       if (!this.currentSections) await this.loadSectionNames()
       const response = await this.get(`section/${this.currentSections.key}/products`, false)
-      console.log(response)
       this.sectionProducts = response.data.result
     },
     async back() {
@@ -32,7 +28,6 @@ export const useSectionStore = defineStore('section', {
       if (this.params.length > 0) {
         let pick = this.getSectionByKey(this.params[0])
         for (let key of this.params.slice(1)) {
-          // console.log(this.params)
           pick = pick.sections.find((section) => section.key === key)
         }
         this.currentSections = pick.sections

@@ -305,11 +305,6 @@ export default {
       return `${this.cart.totalQuantity} ${totalQuantityLabel}`
     }
   },
-  watch: {
-    isLoading: function () {
-      console.log('change')
-    }
-  },
   async mounted() {
     if (this.authUser) {
       const { firstName, lastName, phoneNumber, email } = this.authUser
@@ -355,7 +350,6 @@ export default {
       const response = await this.post('order', payload, null, true)
       if (response.status === 201) {
         await this.clearCart()
-        console.log(response)
         this.showAlert('Заказ успішний', 'bg-green-500')
         this.$router.push({ name: 'orders' })
       } else this.showAlert('Щось пішло не так', 'bg-red-500')

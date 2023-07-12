@@ -4,13 +4,13 @@
       <div class="mx-auto w-[182px] md:w-[130px]">
         <div
           class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-3 md:mt-2 ml-[8.5rem] md:ml-[5.5rem] bg-turquoise shadow-xl w-8 h-8"
+          @click.stop="addToWishlist"
         >
           <font-awesome-icon
             size="md"
             :icon="['fas', 'bookmark']"
             :style="{ color: bookmarkColor }"
             class="mx-auto"
-            @click.stop="addToWishlist"
           />
         </div>
         <img
@@ -62,7 +62,7 @@ import { useCartStore } from '../../stores/cart'
 import { useProductStore } from '../../stores/product'
 import { useUserStore } from '../../stores/user'
 export default {
-  props: ['good', 'isAvailable'],
+  props: ['good'],
   computed: {
     ...mapWritableState(useAuthStore, ['isAuthenticated']),
     ...mapWritableState(useCartStore, ['cart']),

@@ -22,8 +22,6 @@ export const useProductStore = defineStore('product', {
       return product?.quantity > 0
     },
     async getAbstractProductById(id, isPreview = true) {
-      console.log(`>>> getAbstractProductById ${id} `)
-
       const response = await this.get(`product/${id}`, false, isPreview ? { preview: true } : {})
       return response.data
     },

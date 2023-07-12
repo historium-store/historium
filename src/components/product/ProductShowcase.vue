@@ -38,7 +38,6 @@
           v-for="good in products"
           :key="good.key"
           :good="good"
-          :is-available="isAvailable(good)"
         />
       </div>
     </div>

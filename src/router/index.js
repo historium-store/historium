@@ -68,9 +68,19 @@ const router = createRouter({
       component: () => import('../views/user/WishlistPage.vue')
     },
     {
+      path: '/user/waitlist',
+      name: 'waitlist',
+      component: () => import('../views/user/WaitlistPage.vue')
+    },
+    {
       path: '/user/account',
       name: 'account',
       component: () => import('../views/user/AccountPage.vue')
+    },
+    {
+      path: '/user/library',
+      name: 'library',
+      component: () => import('../views/user/LibraryPage.vue')
     },
     { path: '/:pathMatch(.*)*', component: NotFound }
   ]

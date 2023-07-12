@@ -1,10 +1,10 @@
 <template>
-  <div v-if="wishlistItems.length" class="h-screen">
-    <special-section name="wishlist" title="Бажані" :items="wishlistItems" />
+  <div v-if="waitlistItems.length" class="h-screen">
+    <special-section name="waitlist" title="В очікувванні" :items="waitlistItems" />
   </div>
   <div v-else class="p-3 md:w-4/5 mx-auto my-6">
     <div class="flex bg-whiteblue rounded-2xl mt-6 bg-opacity-10 h-32 items-center">
-      <p class="mx-auto">Бажаних немає</p>
+      <p class="mx-auto">Очікуванних немає</p>
     </div>
   </div>
 </template>
@@ -20,15 +20,15 @@ export default {
   },
   data: () => {
     return {
-      wishlistItems: []
+      waitlistItems: []
     }
   },
   computed: {
     ...mapWritableState(useUserStore, ['user'])
   },
   async mounted() {
-    for (const id of this.user.wishlist) {
-      this.wishlistItems.push(await this.getAbstractProductById(id))
+    for (const id of this.user.waitlist) {
+      this.waitlistItems.push(await this.getAbstractProductById(id))
     }
   },
   methods: {

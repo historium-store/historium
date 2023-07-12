@@ -13,7 +13,6 @@
         v-for="good in items ? items : homeSpecialSections?.[name]?.slice(0, sliceCount)"
         :key="good.key"
         :good="good"
-        :is-available="isAvailable(good)"
         @click="viewProduct(good.key, good.type.key)"
       />
     </div>

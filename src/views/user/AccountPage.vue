@@ -84,8 +84,7 @@
             v-if="changeMode.name"
             v-slot="{ handleSubmit }"
             as="div"
-            :validation-schema="schema"
-            class=""
+            :validation-schema="schemaName"
           >
             <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
               <div class="col-span-5 md:col-span-3">
@@ -121,18 +120,18 @@
                 </Field>
               </div>
               <div class="col-span-5 md:col-span-2 flex">
-                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full bg-black">
+                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
                   <button
                     type="submit"
                     class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
                   >
-                    Зберегти
+                    <p class="mx-auto">Зберегти</p>
                   </button>
                   <button
-                    class="w-1/2 flex border-1 mx-auto items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
                     @click="switchChangeMode('name')"
                   >
-                    Скасувати
+                    <p class="mx-auto">Скасувати</p>
                   </button>
                 </div>
               </div>
@@ -149,7 +148,50 @@
             </div>
           </div>
 
-          <div class="w-full flex justify-between items-center">
+          <VeeForm
+            v-if="changeMode.email"
+            v-slot="{ handleSubmit }"
+            as="div"
+            :validation-schema="schemaEmail"
+          >
+            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
+              <div class="col-span-5 md:col-span-3">
+                <Field
+                  v-slot="{ meta, handleChange, value }"
+                  v-model.trim="formData.user.email"
+                  name="email"
+                >
+                  <input
+                    id="email"
+                    :value="value"
+                    type="text"
+                    name="email"
+                    :class="inputStyle(meta)"
+                    placeholder="Введіть вашу пошту"
+                    @input="handleChange"
+                  />
+                </Field>
+              </div>
+              <div class="col-span-5 md:col-span-2 flex">
+                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
+                  <button
+                    type="submit"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                  >
+                    <p class="mx-auto">Зберегти</p>
+                  </button>
+                  <button
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    @click="switchChangeMode('email')"
+                  >
+                    <p class="mx-auto">Скасувати</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <hr class="mb-3 md:my-3" />
+          </VeeForm>
+          <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Електронна пошта</p>
               <p>{{ user.email }}</p>
@@ -158,7 +200,51 @@
               <p class="text-xs hover:cursor-pointer" @click="switchChangeMode('email')">Змінити</p>
             </div>
           </div>
-          <div class="w-full flex justify-between items-center">
+
+          <VeeForm
+            v-if="changeMode.phoneNumber"
+            v-slot="{ handleSubmit }"
+            as="div"
+            :validation-schema="schemaPhone"
+          >
+            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
+              <div class="col-span-5 md:col-span-3">
+                <Field
+                  v-slot="{ meta, handleChange, value }"
+                  v-model.trim="formData.user.phoneNumber"
+                  name="phoneNumber"
+                >
+                  <input
+                    id="phoneNumber"
+                    :value="value"
+                    type="text"
+                    name="phoneNumber"
+                    :class="inputStyle(meta)"
+                    placeholder="Введіть ваш номер телефону"
+                    @input="handleChange"
+                  />
+                </Field>
+              </div>
+              <div class="col-span-5 md:col-span-2 flex">
+                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
+                  <button
+                    type="submit"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                  >
+                    <p class="mx-auto">Зберегти</p>
+                  </button>
+                  <button
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    @click="switchChangeMode('phoneNumber')"
+                  >
+                    <p class="mx-auto">Скасувати</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <hr class="mb-3 md:my-3" />
+          </VeeForm>
+          <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Номер телефону</p>
               <p>{{ user.phoneNumber }}</p>
@@ -169,7 +255,51 @@
               </p>
             </div>
           </div>
-          <div class="w-full flex justify-between items-center">
+
+          <VeeForm
+            v-if="changeMode.password"
+            v-slot="{ handleSubmit }"
+            as="div"
+            :validation-schema="schemaPassword"
+          >
+            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
+              <div class="col-span-5 md:col-span-3">
+                <Field
+                  v-slot="{ value, meta, handleChange }"
+                  v-model.trim="formData.user.password"
+                  name="password"
+                >
+                  <input
+                    id="password"
+                    :value="value"
+                    type="password"
+                    name="password"
+                    :class="inputStyle(meta)"
+                    placeholder="Введіть пароль"
+                    @input="handleChange"
+                  />
+                </Field>
+              </div>
+              <div class="col-span-5 md:col-span-2 flex">
+                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
+                  <button
+                    type="submit"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                  >
+                    <p class="mx-auto">Зберегти</p>
+                  </button>
+                  <button
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    @click="switchChangeMode('password')"
+                  >
+                    <p class="mx-auto">Скасувати</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <hr class="mb-3 md:my-3" />
+          </VeeForm>
+          <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Пароль</p>
               <p>********</p>
@@ -207,29 +337,39 @@
 </template>
 
 <script>
-import { Form as VeeForm, Field } from 'vee-validate'
-import * as yup from 'yup'
-import validator from 'validator'
 import { mapWritableState } from 'pinia'
+import validator from 'validator'
+import { Field, Form as VeeForm } from 'vee-validate'
+import * as yup from 'yup'
 import { useUserStore } from '../../stores/user'
 
 export default {
   components: { VeeForm, Field },
   setup() {
-    const schema = yup.object({
+    const schemaName = yup.object({
       firstName: yup.string().min(2).max(50).required(),
-      lastName: yup.string().min(2).max(50).required(),
+      lastName: yup.string().min(2).max(50).required()
+    })
+    const schemaEmail = yup.object({
+      email: yup.string().email().required()
+    })
+    const schemaPhone = yup.object({
       phoneNumber: yup
         .string()
         .test({
           test: (value) => validator.isMobilePhone(value, 'uk-UA'),
           message: 'Невірний формат мобільного'
         })
-        .required(),
-      email: yup.string().email().required()
+        .required()
+    })
+    const schemaPassword = yup.object({
+      password: yup.string().required().min(2).max(50)
+    })
+    const schemaBirthDate = yup.object({
+      password: yup.string().required().min(2).max(50)
     })
 
-    return { schema }
+    return { schemaName, schemaEmail, schemaPhone, schemaPassword, schemaBirthDate }
   },
   data() {
     return {
@@ -268,20 +408,10 @@ export default {
 
   methods: {
     async updateUser() {
-      console.log('herr')
+      console.log('submit')
     },
     switchChangeMode(forField) {
       this.changeMode[forField] = !this.changeMode[forField]
-      //   switch (forField) {
-      //     case 'name':
-      //       break
-      //     case 'email':
-      //       break
-      //     case 'phoneNumber':
-      //       break
-      //     case 'password':
-      //       break
-      //   }
     },
     inputStyle(meta) {
       return (

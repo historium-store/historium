@@ -9,7 +9,6 @@ export const useAuthStore = defineStore('auth', {
   }),
   getters: {
     isAuthenticated(state) {
-      console.log(state.token)
       return !!state.token
     },
     getAuthToken() {
@@ -30,12 +29,10 @@ export const useAuthStore = defineStore('auth', {
     async setToken(token) {
       localStorage.setItem('token', token)
       this.token = token
-      console.log('token: ' + token)
+      // console.log('token: ' + token)
       await this.getUser()
     },
     async signup(payload) {
-      console.log('>>> signup')
-
       await this.post('signup', payload)
       return true
     },
@@ -61,22 +58,16 @@ export const useAuthStore = defineStore('auth', {
     // Password restoration
 
     async restorePasswordRequest(payload) {
-      console.log('>>> restorePasswordRequest')
-
       const response = this.post('password-restore', payload)
       console.log(response.status)
       return true
     },
     async restorePasswordConfirm(payload) {
-      console.log('>>> restorePasswordConfirm')
-
       const response = this.post('verify-restore', payload)
       console.log(response.status)
       return response
     },
     async updatePassword(payload) {
-      console.log('>>> updatePassword')
-
       const { userId, password } = payload
       const response = this.patch(`user/${userId}`, { password })
       console.log(response.status)

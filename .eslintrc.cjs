@@ -3,15 +3,7 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  extends: [
-    // 'plugin:vue/vue3-essential',
-    // 'eslint:recommended',
-    // '@vue/eslint-config-prettier/index',
-    // 'prettier'
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 'latest'
   },

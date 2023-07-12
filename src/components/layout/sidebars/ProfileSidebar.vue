@@ -6,10 +6,6 @@
       getStyle
     "
   >
-    <!-- <div class="fixed">
-      <img class="" src="src/assets/profile-border.png" alt="" />
-    </div> -->
-
     <div class="px-3 py-4 bg-turquoise">
       <div class="border-t-2 border-x-2 rounded-t-2xl p-4 space-y-5 flex flex-col">
         <div class="inline-flex mx-auto mt-4">
@@ -83,7 +79,12 @@
               </router-link>
             </li>
             <li class="px-3">
-              <div class="inline-flex space-x-3 items-center">
+              <router-link
+                :to="{
+                  name: 'waitlist'
+                }"
+                class="inline-flex space-x-3 items-center"
+              >
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
@@ -92,10 +93,15 @@
                   />
                 </div>
                 <p>Товари в очікуванні</p>
-              </div>
+              </router-link>
             </li>
             <li class="px-3">
-              <div class="inline-flex space-x-3 items-center">
+              <router-link
+                :to="{
+                  name: 'library'
+                }"
+                class="inline-flex space-x-3 items-center"
+              >
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
@@ -104,22 +110,9 @@
                   />
                 </div>
                 <p>Моя бібліотека</p>
-              </div>
+              </router-link>
             </li>
-            <!-- <li class="px-3">
-              <div class="inline-flex space-x-3 items-center">
-                <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
-                  <font-awesome-icon
-                    class="max-sm:text-xl mx-auto"
-                    :icon="['fas', 'gift']"
-                    style="color: #0e6060"
-                  />
-                </div>
-                <p>Бонуси</p>
-              </div>
-            </li> -->
             <hr class="" />
-
             <li class="px-3">
               <router-link
                 :to="{
@@ -138,8 +131,8 @@
               </router-link>
             </li>
             <hr class="" />
-            <li class="px-3">
-              <div class="inline-flex space-x-3 items-center" @click="logout">
+            <li class="px-3" @click="logout">
+              <div class="inline-flex space-x-3 items-center">
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
@@ -152,12 +145,6 @@
             </li>
           </ul>
         </div>
-        <!-- <button
-        class="p-2 w-full rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-        @click="logout"
-      >
-        Вихід
-      </button> -->
       </div>
     </div>
     <img class="max-md:w-full" src="../../../assets/profile-bottom.png" alt="" />

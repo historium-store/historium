@@ -27,9 +27,8 @@ export const useUserStore = defineStore('user', {
     ...mapActions(useApiStore, ['post', 'get', 'patch', 'delete']),
     ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
     async updateUserInfo(payload) {
-      const response = await this.patch(`user/${this.user._id}`, payload)
-      this.user = response.data
-      localStorage.setItem('user', JSON.stringify(response.data))
+      this.user = await this.patch(`user/${this.user._id}`, payload)
+      localStorage.setItem('user', JSON.stringify(this.user))
       const alertStore = useAlertStore()
       alertStore.showAlert('Дані успішно оновлені')
     },
@@ -82,9 +81,9 @@ export const useUserStore = defineStore('user', {
       }
     },
     async getUser() {
-      const response = await this.get('user/account', true)
-      this.user = response.data
-      localStorage.setItem('user', JSON.stringify(response.data))
+      this.user = await this.get('user/account', true)
+      localStorage.setItem('user', JSON.stringify(this.user))
+      return this.user
     }
   }
 })

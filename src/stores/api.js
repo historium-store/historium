@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import router from '../router'
+import { useAlertStore } from './alert'
 import { useAuthStore } from './auth'
 
 export const useApiStore = defineStore('api', {
@@ -10,9 +11,16 @@ export const useApiStore = defineStore('api', {
   }),
   actions: {
     async responseMiddleware(response) {
-      console.log(response.statusText)
-      if (['OK', 'No Content', 'Created'].includes(response.statusText)) return response
-      if (['Not Found', 'Internal Server Error'].includes(response.statusText)) {
+      const alertStore = useAlertStore()
+      console.log(response)
+      if (['OK', 'No Content', 'Created'].includes(response.statusText)) return response.data
+      else if (
+        ['Bad Request'].includes(response.statusText) ||
+        ['login', 'signup', 'restore'].includes(response?.request?.responseURL?.split('/').at(-1))
+      ) {
+        alertStore.showAlert(response.data.message, 'bg-red-500')
+        return false
+      } else if (['Not Found', 'Internal Server Error'].includes(response.statusText)) {
         await router.push({ name: 'NotFound' })
         return false
       }
@@ -22,8 +30,7 @@ export const useApiStore = defineStore('api', {
         'Access-Control-Allow-Origin': '*'
       }
       if (isNeedAuth) {
-        const token = this.authStore.getAuthToken
-        headers['Authorization'] = token
+        headers['Authorization'] = this.authStore.getAuthToken
       }
       return {
         headers

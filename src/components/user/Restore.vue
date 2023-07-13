@@ -110,26 +110,20 @@ export default {
 
         this.currentStep++
       } else if (this.currentStep === RestoreSteps.restoreConfirm) {
-        const response = await this.restorePasswordConfirm({
+        const data = await this.restorePasswordConfirm({
           login: this.login,
           restorationToken: this.code
         })
 
-        this.userId = response.data.id
-
-        await this.setToken(response.data.token)
-
+        this.userId = data._id
+        await this.setToken(data.token)
         this.currentStep++
       } else {
-        const response = await this.updatePassword({
+        await this.updatePassword({
           userId: this.userId,
           password: this.newPassword
         })
-
-        if (response) {
-          console.log('password was succesfully updated')
-          this.showModal('login')
-        }
+        this.showModal('login')
       }
     }
   }

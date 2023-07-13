@@ -1,7 +1,9 @@
-import { defineStore, mapActions, mapWritableState } from 'pinia'
+import { defineStore, mapActions, mapState } from 'pinia'
 import router from '../router'
+import { useAlertStore } from './alert'
 import { useApiStore } from './api'
 import { useCartStore } from './cart'
+import { useModalStore } from './modal'
 import { useUserStore } from './user'
 
 export const useAuthStore = defineStore('auth', {
@@ -20,32 +22,39 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   computed: {
-    ...mapWritableState(useUserStore, ['user'])
+    ...mapState(useUserStore, ['user'])
   },
   actions: {
     ...mapActions(useApiStore, ['post', 'get', 'patch']),
     ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
     ...mapActions(useUserStore, ['getUser']),
+    ...mapActions(useAlertStore, ['showAlert']),
+    ...mapActions(useModalStore, ['hideModals']),
     // Authorization
     async setToken(token) {
       localStorage.setItem('token', token)
       this.token = token
-      // console.log('token: ' + token)
       await this.getUser()
     },
     async signup(payload) {
-      return await this.post('signup', payload)
+      const data = await this.post('signup', payload)
+      if (data) {
+        this.login({ login: payload.email, password: payload.password })
+        this.hideModals()
+      }
     },
     async login(payload) {
-      const response = await this.post('login', payload)
-      if (response.statusText == 'OK') {
-        await this.setToken(response.data.token)
+      const data = await this.post('login', payload)
+      if (data) {
+        await this.setToken(data.token)
+
         this.saveCartToLS()
         await this.synchronizeCarts()
         await this.updateCart()
-        await this.getUser()
-        return true
-      } else return response
+
+        this.hideModals()
+        this.showAlert(`Вітаю, ${(await this.getUser()).firstName}!`)
+      }
     },
     async logout() {
       localStorage.removeItem('token')

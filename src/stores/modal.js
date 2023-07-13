@@ -41,7 +41,7 @@ export const useModalStore = defineStore('modal', {
       if (adminModal) adminModal.classList.add('hidden')
 
       document.body.classList.remove('overflow-hidden')
-      document.body.removeChild(overflow)
+      if (document.body.contains(overflow)) document.body.removeChild(overflow)
     }
   }
 })

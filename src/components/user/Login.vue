@@ -60,10 +60,10 @@
 <script>
 import { useAuthStore } from '@/stores/auth'
 import { mapActions, mapWritableState } from 'pinia'
-import { useModalStore } from '../../stores/modal'
-import { Form as VeeForm, Field } from 'vee-validate'
+import { Field, Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useAlertStore } from '../../stores/alert'
+import { useModalStore } from '../../stores/modal'
 import { useUserStore } from '../../stores/user'
 export default {
   components: { VeeForm, Field },
@@ -80,17 +80,8 @@ export default {
   },
   methods: {
     ...mapActions(useModalStore, ['hideModals', 'showModal']),
-    ...mapActions(useAuthStore, { authLogin: 'login' }),
+    ...mapActions(useAuthStore, { loginSubmit: 'login' }),
     ...mapActions(useAlertStore, ['showAlert']),
-    async loginSubmit(values) {
-      const response = await this.authLogin(values)
-      if (response === true) {
-        this.hideModals()
-        this.showAlert(`Вітаю, ${this.user.firstName}!`)
-      } else {
-        this.showAlert(response.data.message, 'bg-red-500')
-      }
-    },
     inputStyle(meta) {
       return (
         'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +

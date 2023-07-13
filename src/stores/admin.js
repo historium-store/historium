@@ -11,8 +11,8 @@ export const useAdminStore = defineStore('admin', {
     ...mapActions(useModalStore, ['showModal']),
     async getAllEntity(name) {
       console.log(name)
-      const response = await this.get(name, true)
-      return ['product'].includes(name) ? response.data.result : response.data
+      const data = await this.get(name, true)
+      return ['product'].includes(name) ? data.result : data
     },
     async create() {
       // console.log('create', name)

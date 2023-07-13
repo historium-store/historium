@@ -12,16 +12,16 @@ export const useSectionStore = defineStore('section', {
   actions: {
     ...mapActions(useApiStore, ['get']),
     async loadSectionNames() {
-      const response = await this.get(`section`)
-      this.sections = response.data
-      this.currentSections = response.data
+      
+      this.sections = await this.get(`section`)
+      this.currentSections = this.sections
     },
     async loadSectionProducts() {
       console.log('>>> loadSectionProducts')
       // if (!this.currentSections) await this.loadSectionNames()
       console.log('get', this.currentSections.key)
-      const response = await this.get(`section/${this.currentSections.key}/products`, false)
-      this.sectionProducts = response.data.result
+      const data = await this.get(`section/${this.currentSections.key}/products`, false)
+      this.sectionProducts = data.result
     },
     async back() {
       this.params.splice(-1, 1)

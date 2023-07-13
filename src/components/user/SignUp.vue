@@ -83,7 +83,7 @@
       >
         Реестрація
       </button>
-      <p class="text-sm text-center font-light text-gray-500">
+      <p class="text-sm text-center font-light text-gray-500 mt-3">
         Вже маєте акаунт?
         <button class="font-medium text-white hover:underline" @click="showModal('login')">
           Увійти
@@ -100,7 +100,6 @@ import validator from 'validator'
 import { Field, Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useModalStore } from '../../stores/modal'
-import { useAlertStore } from '../../stores/alert'
 
 export default {
   components: { VeeForm, Field },
@@ -122,17 +121,8 @@ export default {
     return { schema }
   },
   methods: {
-    ...mapActions(useAuthStore, ['signup', 'login']),
+    ...mapActions(useAuthStore, { registerSubmit: 'signup' }),
     ...mapActions(useModalStore, ['showModal', 'hideModals']),
-    // ...mapActions(useAlertStore, ['showAlert']),
-    async registerSubmit(values) {
-      const success = await this.signup(values)
-      console.log(success)
-      if (success) {
-        await this.login({ login: values.email, password: values.password })
-        this.hideModals()
-      }
-    },
     inputStyle(meta) {
       return (
         'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +

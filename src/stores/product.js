@@ -25,8 +25,7 @@ export const useProductStore = defineStore('product', {
       return product?.quantity > 0
     },
     async getAbstractProductById(id, isPreview = true) {
-      const response = await this.get(`product/${id}`, false, isPreview ? { preview: true } : {})
-      return response.data
+      return await this.get(`product/${id}`, false, isPreview ? { preview: true } : {})
     },
     async viewProduct(id, type = 'product') {
       if (this.isAllowedType(type)) {
@@ -40,40 +39,38 @@ export const useProductStore = defineStore('product', {
         await router.push({ name: 'NotFound' })
       }
       const filterStore = useFilterStore()
-      const response = await this.get(type, false, filterStore.getFiltersQuery())
-      console.log(response)
-      this.products = response.data.result
+      const data = await this.get(type, false, filterStore.getFiltersQuery())
+      this.products = data.result
     },
     async loadProduct(key, type = 'product') {
       console.log(`>>> loadProduct ${type}/${key} `)
       if (this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
-      const response = await this.get(`${type}/${key}`)
-      this.product = response.data
+      this.product = await this.get(`${type}/${key}`)
       await this.pushInHistory(this.product?.product?._id)
     },
     async loadNovelties() {
-      const response = await this.get(`product`, false, {
+      const data = await this.get(`product`, false, {
         orderBy: 'createdAt',
         limit: 12
       })
-      this.homeSpecialSections.novelties = response.data.result
+      this.homeSpecialSections.novelties = data.result
     },
     async loadRecomendations() {
-      const response = await this.get(`product`, false, {
+      const data = await this.get(`product`, false, {
         orderBy: 'createdAt',
         order: 'desc',
         limit: 12
       })
-      this.homeSpecialSections.recomendations = response.data.result
+      this.homeSpecialSections.recomendations = data.result
     },
     async loadHistory() {
       const authStore = useAuthStore()
       let userHistory
       if (authStore.isAuthenticated) {
-        const response = await this.get(`user/account`, true)
-        userHistory = response.data.history
+        const data = await this.get(`user/account`, true)
+        userHistory = data.history
       } else {
         userHistory = JSON.parse(localStorage.getItem('history')) || []
       }

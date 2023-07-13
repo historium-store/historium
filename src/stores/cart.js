@@ -28,8 +28,7 @@ export const useCartStore = defineStore('cart', {
         this.cart.items.map((item) =>
           items.push({ quantity: item.quantity, product: item.product._id })
         )
-        const response = await this.patch('cart', { items })
-        this.cart = response.data
+        this.cart = await this.patch('cart', { items })
       }
     },
     async updateCart() {
@@ -37,8 +36,7 @@ export const useCartStore = defineStore('cart', {
         await this.loadCartFromLS()
         return
       }
-      const response = await this.get('cart', true)
-      this.cart = response.data
+      this.cart = await this.get('cart', true)
     },
     async loadCartFromLS() {
       const localCart = JSON.parse(cookieStorage.getItem('cart')) || cartTemplate
@@ -55,9 +53,9 @@ export const useCartStore = defineStore('cart', {
         if (index != -1) {
           this.cart.items[index].quantity++
         } else {
-          const response = await this.get(`product/${itemId}`, false, { preview: true })
+          const data = await this.get(`product/${itemId}`, false, { preview: true })
           this.cart.items.push({
-            product: response.data,
+            product: data,
             quantity: 1,
             createdAt: Date.now()
           })

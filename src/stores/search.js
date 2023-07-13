@@ -11,8 +11,8 @@ export const useSearchStore = defineStore('seacrh', {
     ...mapActions(useApiStore, ['get']),
     ...mapActions(useModalStore, ['showModal']),
     async search(q = this.searchInput) {
-      const response = await this.get('search', null, { q })
-      this.results = response.data.result
+      const data = await this.get('search', null, { q })
+      this.results = data.result
     },
     openSearch() {
       if (!document.body.classList.contains('overflow-hidden')) {

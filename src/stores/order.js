@@ -29,22 +29,20 @@ export const useOrderStore = defineStore('order', {
       await this.getDeliveryTypes()
     },
     async createOrder(orderPayload) {
-      const response = await this.post('order', orderPayload)
-      this.orders.push(response.data)
+      this.orders.push(await this.post('order', orderPayload))
     },
     async getOrders() {
-      const response = await this.get('user/orders', true)
-      this.orders = response.data
+      this.orders = await this.get('user/orders', true)
     },
     async getCountries() {
-      const response = await this.get('country')
-      this.countries = response.data
+      const data = await this.get('country')
+      this.countries = data
       this.cities = this.countries?.[0].cities
     },
     async getDeliveryTypes() {
-      const response = await this.get('delivery-type')
-      this.delivery.types = response.data
-      this.delivery.pickedType = response.data[0]
+      const data = await this.get('delivery-type')
+      this.delivery.types = data
+      this.delivery.pickedType = data[0]
     },
     pickCountry(country) {
       this.pickedCountry = country

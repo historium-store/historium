@@ -4,7 +4,7 @@
   <the-header :switch-modal="switchModalState" :open-modal="openModal" />
   <Suspense>
     <router-view v-slot="slotProps">
-      <div class="xl:ml-48">
+      <div class="xl:ml-48 min-h-[600px]">
         <component :is="slotProps.Component" />
       </div>
       <!-- <transition name="route" mode="out-in">
@@ -22,21 +22,21 @@
 </template>
 
 <script>
-import { RouterView } from 'vue-router'
 import { ref } from 'vue'
-import TheHeader from './components/layout/TheHeader.vue'
+import { RouterView } from 'vue-router'
 import TheFooter from './components/layout/TheFooter.vue'
+import TheHeader from './components/layout/TheHeader.vue'
 import Alert from './components/layout/modals/Alert.vue'
 import AuthModal from './components/layout/modals/AuthModal.vue'
-import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
-import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
-import ProfileSidebar from './components/layout/sidebars/ProfileSidebar.vue'
-import FiltersSidebar from './components/layout/sidebars/FiltersSidebar.vue'
 import CartSidebar from './components/layout/sidebars/CartSidebar.vue'
+import FiltersSidebar from './components/layout/sidebars/FiltersSidebar.vue'
+import MainSidebar from './components/layout/sidebars/MainSidebar.vue'
 import NavigationBar from './components/layout/sidebars/NavigationBar.vue'
+import ProfileSidebar from './components/layout/sidebars/ProfileSidebar.vue'
+import SectionsSidebar from './components/layout/sidebars/SectionsSidebar.vue'
 
-import { useCartStore } from './stores/cart'
 import { useAuthStore } from './stores/auth'
+import { useCartStore } from './stores/cart'
 export default {
   components: {
     SectionsSidebar,

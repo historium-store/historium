@@ -75,7 +75,7 @@
       </div>
       <the-search name="phone" class="mt-5 min-[550px]:hidden" />
       <div class="flex justify-center xs:max-sm:hidden">
-        <ul class="flex items-center my-3 [&>li]:px-3 [&>li]:hover:cursor-pointer">
+        <ul class="flex items-center my-3 [&>li]:px-4 [&>li]:hover:cursor-pointer">
           <li>
             <RouterLink to="/"> Головна </RouterLink>
           </li>
@@ -93,14 +93,14 @@
 
 <script>
 // import { Modal } from 'flowbite-vue'
-import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
-import TheSearch from '../layout/TheSearch.vue'
-import { useSidebarStore } from '../../stores/sidebar'
 import { mapActions, mapWritableState } from 'pinia'
-import { useModalStore } from '../../stores/modal'
+import { ref } from 'vue'
 import { useCartStore } from '../../stores/cart'
+import { useModalStore } from '../../stores/modal'
+import { useSidebarStore } from '../../stores/sidebar'
 import { useUserStore } from '../../stores/user'
+import TheSearch from '../layout/TheSearch.vue'
 export default {
   components: { TheSearch },
   props: ['openModal', 'switchModal'],

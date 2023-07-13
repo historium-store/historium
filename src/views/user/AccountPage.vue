@@ -86,8 +86,8 @@
             as="div"
             :validation-schema="schemaName"
           >
-            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
-              <div class="col-span-5 md:col-span-3">
+            <form class="grid grid-cols-12 space-x-2" @submit="handleSubmit($event, updateUser)">
+              <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ meta, handleChange, value }"
                   v-model.trim="formData.user.firstName"
@@ -119,16 +119,16 @@
                   />
                 </Field>
               </div>
-              <div class="col-span-5 md:col-span-2 flex">
+              <div class="col-span-12 md:col-span-5 flex">
                 <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
                   <button
                     type="submit"
-                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-xs rounded-3xl px-3 bg-whiteblue"
                   >
                     <p class="mx-auto">Зберегти</p>
                   </button>
                   <button
-                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
                     @click="switchChangeMode('name')"
                   >
                     <p class="mx-auto">Скасувати</p>

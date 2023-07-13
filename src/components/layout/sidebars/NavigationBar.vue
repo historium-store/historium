@@ -2,12 +2,11 @@
   <aside
     id="navigation-sidebar"
     :class="
-      'fixed top-0 left-0 z-20 w-full sm:w-44 h-screen transition-transform hidden xl:flex ' +
-      getStyle
+      'fixed top-0 left-0 z-20 w-full sm:w-44 h-screen hidden ease-linear xl:flex ' + getStyle
     "
   >
-    <div :class="'w-full mb-auto flex overflow-y-auto ml-14 ' + marginTop">
-      <div class="border-[3px] rounded-full px-5 py-20 mx-auto bg-background">
+    <div :class="'w-full mb-auto flex overflow-y-auto ml-14 mt-8 ' + marginTop">
+      <div class="border-[3px] rounded-full px-5 py-[65px] mx-auto bg-background">
         <ul class="space-y-10 [&>li]:mx-auto [&>li]:hover:cursor-pointer">
           <li>
             <font-awesome-icon
@@ -89,12 +88,15 @@ export default {
   },
   computed: {
     marginTop() {
-      return this.isScrolled ? 'mt-4' : 'mt-48'
+      // return this.isScrolled ? 'mt-4' : 'mt-48'
+      return this.isScrolled
+        ? ' transform translate-y-0 duration-300 '
+        : ' transform translate-y-36 duration-300 '
     }
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 150) this.isScrolled = true
+      if (window.scrollY > 145) this.isScrolled = true
       else this.isScrolled = false
     })
   },

@@ -33,15 +33,14 @@ export const useApiStore = defineStore('api', {
         })
     },
     async get(route, isNeedAuth, query) {
-      return await axios
-        .get(
-          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
-          this.getHeader(isNeedAuth)
-        )
-        .catch((error) => {
-          console.log(error.response.data.message)
-          return error.response
-        })
+      const requestUrl = query
+        ? `${this.API}${route}?${new URLSearchParams(query)}`
+        : `${this.API}${route}`
+      console.log(requestUrl)
+      return await axios.get(requestUrl, this.getHeader(isNeedAuth)).catch((error) => {
+        console.log(error.response.data.message)
+        return error.response
+      })
     },
     async patch(route, body, query) {
       query = new URLSearchParams(query)

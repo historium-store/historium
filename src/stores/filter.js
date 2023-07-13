@@ -12,6 +12,7 @@ export const useFilterStore = defineStore('filter', {
     ...mapActions(useApiStore, ['get']),
     async loadFilters() {
       const response = await this.get('book/filters')
+      console.log(response)
       this.filters = response.data
     },
     async changeFilters(filterKey, values) {

@@ -2,12 +2,17 @@
   <aside
     id="profile-sidebar"
     :class="
-      'fixed right-0 sm:right-10 z-50 w-full sm:w-[350px] transition-transform duration-500 ' +
+      'fixed right-0 sm:right-10 z-50 w-full sm:w-[360px] transition-transform duration-500 ' +
       getStyle
     "
   >
+    <img
+      class="absolute px-4 pt-4 w-full pointer-events-none"
+      src="../../../assets/profile-border.png"
+      alt=""
+    />
     <div class="px-3 py-4 bg-turquoise">
-      <div class="border-t-2 border-x-2 rounded-t-2xl p-4 space-y-5 flex flex-col">
+      <div class="rounded-t-2xl p-4 space-y-5 flex flex-col">
         <div class="inline-flex mx-auto mt-4">
           <span><h1 class="text-2xl">Профіль</h1></span>
           <div
@@ -55,7 +60,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'truck']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Мої замовлення</p>
@@ -72,7 +77,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'bookmark']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Бажані товари</p>
@@ -89,7 +94,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'list-check']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Товари в очікуванні</p>
@@ -106,7 +111,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'book']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Моя бібліотека</p>
@@ -124,7 +129,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'gear']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Налаштування</p>
@@ -137,7 +142,7 @@
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
                     :icon="['fas', 'arrow-right-from-bracket']"
-                    style="color: #0e6060"
+                    style="color: #209393"
                   />
                 </div>
                 <p>Вихід</p>

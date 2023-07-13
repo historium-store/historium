@@ -12,7 +12,9 @@
           step="50"
           :min="filters['min']"
           :type="type"
-          :value="filters['min']"
+          :placeholder="filters['min']"
+          :value="isChecked['min']"
+          @change="updateFilters"
         />
       </div>
       <div class="items-center p-1">
@@ -22,11 +24,12 @@
           step="50"
           :max="filters['max']"
           :type="type"
-          :value="filters['max']"
+          :placeholder="filters['max']"
+          :value="isChecked['max']"
+          
+          @change="updateFilters"
         />
       </div>
-      <!-- <label for="min">Від {{ filters['min'] }}</label> -->
-      <!-- <label for="max">До {{ filters['max'] }}</label> -->
     </div>
 
     <ul v-else>

@@ -1,7 +1,7 @@
 <template>
   <p class="text-center text-2xl my-6">Бажані товари</p>
   <div v-if="wishlistItems.length">
-    <special-section name="wishlist" title="Бажані" :items="wishlistItems" />
+    <special-section class="mx-6" name="wishlist" title="Бажані" :items="wishlistItems" />
   </div>
   <div v-else class="p-3 md:w-4/5 mx-auto my-6">
     <div class="flex bg-whiteblue rounded-2xl mt-6 bg-opacity-10 h-32 items-center">

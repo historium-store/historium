@@ -1,4 +1,5 @@
 import { defineStore, mapActions, mapWritableState } from 'pinia'
+import router from '../router'
 import { useApiStore } from './api'
 import { useCartStore } from './cart'
 import { useUserStore } from './user'
@@ -33,8 +34,7 @@ export const useAuthStore = defineStore('auth', {
       await this.getUser()
     },
     async signup(payload) {
-      await this.post('signup', payload)
-      return true
+      return await this.post('signup', payload)
     },
     async login(payload) {
       const response = await this.post('login', payload)
@@ -53,24 +53,24 @@ export const useAuthStore = defineStore('auth', {
       useUserStore().$reset()
       this.$reset()
       await this.clearCart()
+      await router.push('/')
     },
 
     // Password restoration
 
     async restorePasswordRequest(payload) {
-      const response = this.post('password-restore', payload)
+      const response = await this.post('password-restore', payload)
       console.log(response.status)
       return true
     },
     async restorePasswordConfirm(payload) {
-      const response = this.post('verify-restore', payload)
+      const response = await this.post('verify-restore', payload)
       console.log(response.status)
       return response
     },
     async updatePassword(payload) {
       const { userId, password } = payload
-      const response = this.patch(`user/${userId}`, { password })
-      console.log(response.status)
+      await this.patch(`user/${userId}`, { password })
       return true
     }
   }

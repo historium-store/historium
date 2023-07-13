@@ -18,12 +18,21 @@ export const useUserStore = defineStore('user', {
     },
     wishlistItemsQuantity() {
       return this.user?.wishlist.length || 0
+    },
+    isAdmin() {
+      return this.user?.role === 'admin'
     }
   },
   actions: {
     ...mapActions(useApiStore, ['post', 'get', 'patch', 'delete']),
     ...mapActions(useCartStore, ['clearCart', 'updateCart', 'saveCartToLS', 'synchronizeCarts']),
-
+    async updateUserInfo(payload) {
+      const response = await this.patch(`user/${this.user._id}`, payload)
+      this.user = response.data
+      localStorage.setItem('user', JSON.stringify(response.data))
+      const alertStore = useAlertStore()
+      alertStore.showAlert('Дані успішно оновлені')
+    },
     async pushInHistory(id) {
       console.log('pushInHistory')
       if (this.authStore.isAuthenticated) {

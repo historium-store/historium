@@ -7,7 +7,7 @@
     "
   >
     <img
-      class="absolute px-4 pt-4 w-full pointer-events-none"
+      class="absolute px-4 pt-4 pb-8 w-full h-full pointer-events-none"
       src="../../../assets/profile-border.png"
       alt=""
     />
@@ -27,7 +27,7 @@
             />
           </div>
         </div>
-        <hr class="" />
+        <hr class="mx-3" />
         <div class="inline-flex space-x-8 items-center px-3">
           <div class="flex items-center bg-slate-600 rounded-full w-14 h-14">
             <font-awesome-icon
@@ -46,9 +46,28 @@
             </p>
           </div>
         </div>
-        <hr class="" />
+        <hr class="mx-3" />
         <div>
           <ul class="space-y-3 [&>li]:hover:cursor-pointer">
+            <li class="px-3">
+              <router-link
+                v-if="isAdmin"
+                :to="{
+                  name: 'admin'
+                }"
+                class="inline-flex space-x-3 items-center"
+              >
+                <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
+                  <font-awesome-icon
+                    class="max-sm:text-xl mx-auto"
+                    :icon="['fas', 'user']"
+                    style="color: #209393"
+                  />
+                </div>
+                <p>Адмін панель</p>
+              </router-link>
+            </li>
+            <hr class="mx-3" />
             <li class="px-3">
               <router-link
                 :to="{
@@ -117,7 +136,7 @@
                 <p>Моя бібліотека</p>
               </router-link>
             </li>
-            <hr class="" />
+            <hr class="mx-3" />
             <li class="px-3">
               <router-link
                 :to="{
@@ -135,7 +154,7 @@
                 <p>Налаштування</p>
               </router-link>
             </li>
-            <hr class="" />
+            <hr class="mx-3" />
             <li class="px-3" @click="logout">
               <div class="inline-flex space-x-3 items-center">
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
@@ -166,7 +185,7 @@ import { useUserStore } from '../../../stores/user'
 export default {
   computed: {
     ...mapState(useAuthStore, ['isAuthenticated']),
-    ...mapState(useUserStore, ['user', 'fullName']),
+    ...mapState(useUserStore, ['user', 'fullName', 'isAdmin']),
     getStyle() {
       return this.getSidebar('profile').style
     }

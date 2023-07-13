@@ -2,7 +2,7 @@
   <aside
     id="filters-sidebar"
     :class="
-      'overflow-y-auto fixed top-0 left-0 z-50 h-full w-full sm:w-64 transition-transform bg-background_light ' +
+      'overflow-y-auto fixed top-0 left-0 z-50 h-full w-full sm:w-80 transition-transform bg-background_light ' +
       getStyle
     "
   >

@@ -96,10 +96,11 @@
 <script>
 import { useAuthStore } from '@/stores/auth'
 import { mapActions } from 'pinia'
-import { useModalStore } from '../../stores/modal'
-import { Form as VeeForm, Field } from 'vee-validate'
-import * as yup from 'yup'
 import validator from 'validator'
+import { Field, Form as VeeForm } from 'vee-validate'
+import * as yup from 'yup'
+import { useModalStore } from '../../stores/modal'
+import { useAlertStore } from '../../stores/alert'
 
 export default {
   components: { VeeForm, Field },
@@ -123,8 +124,10 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['signup', 'login']),
     ...mapActions(useModalStore, ['showModal', 'hideModals']),
+    // ...mapActions(useAlertStore, ['showAlert']),
     async registerSubmit(values) {
       const success = await this.signup(values)
+      console.log(success)
       if (success) {
         await this.login({ login: values.email, password: values.password })
         this.hideModals()

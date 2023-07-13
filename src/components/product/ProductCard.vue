@@ -3,14 +3,13 @@
     <div class="m-2" @click="viewProduct(good.key, good.type.key)">
       <div class="mx-auto w-[182px] md:w-[130px]">
         <div
-          class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-3 md:mt-2 ml-[8.5rem] md:ml-[5.5rem] bg-turquoise shadow-xl w-8 h-8"
+          class="hover:transition-opacity duration-300 opacity-0 group-hover:opacity-100 absolute flex rounded-full items-center mt-3 md:mt-2 ml-[8.5rem] md:ml-[5.5rem] bg-lightturquoise shadow-xl w-8 h-8"
           @click.stop="addToWishlist"
         >
           <font-awesome-icon
-            size="md"
+            size="lg"
             :icon="['fas', 'bookmark']"
-            :style="{ color: bookmarkColor }"
-            class="mx-auto"
+            :class="'mx-auto ' + bookmarkColor"
           />
         </div>
         <img
@@ -43,7 +42,10 @@
               <span>₴</span>
             </div>
             <span
-              :class="'flex items-center ms-auto text-lg h-7 rounded-full  ' + cartButtonColor"
+              :class="
+                'flex items-center transition-colors ease-out duration-200 ms-auto text-lg h-7 rounded-full  ' +
+                cartButtonColor
+              "
               @click.stop="addToCart"
             >
               <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-4 ' + cartColor" />
@@ -82,7 +84,7 @@ export default {
         : 'border-2 border-white hover:bg-lightturquoise'
     },
     bookmarkColor() {
-      return this.isInWishlist ? '#f2e34c' : 'text-whiteblue'
+      return this.isInWishlist ? 'text-turquoise' : 'text-whiteblue'
     },
     goodTitle() {
       const title = this.good?.name?.split(/\.|:/)[0] || ''

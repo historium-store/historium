@@ -1,7 +1,7 @@
 <template>
   <div v-if="products" class="min-h-screen m-2 flex">
     <aside
-      class="w-0 xl:w-64 transition-transform invisible xl:visible xl:transform-none xl:mr-2 rounded-2xl bg-lightturquoise bg-opacity-50 xl:border-[3px]"
+      class="w-0 xl:w-64 transition-transform invisible xl:visible xl:transform-none xl:mr-4 rounded-2xl bg-lightturquoise bg-opacity-50 xl:border-[3px]"
     >
       <filters v-if="filters" />
     </aside>

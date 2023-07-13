@@ -2,10 +2,10 @@
   <aside
     id="navigation-sidebar"
     :class="
-      'fixed top-0 left-0 z-20 w-full sm:w-44 h-screen hidden ease-linear xl:flex ' + getStyle
+      'fixed top-0 left-0 z-20 w-full sm:w-40 h-screen hidden ease-linear xl:flex ' + getStyle
     "
   >
-    <div :class="'w-full mb-auto flex overflow-y-auto ml-14 mt-8 ' + marginTop">
+    <div :class="'w-full mb-auto flex overflow-y-auto ml-10 mt-8 ' + marginTop">
       <div class="border-[3px] rounded-full px-5 py-[65px] mx-auto bg-background">
         <ul class="space-y-10 [&>li]:mx-auto [&>li]:hover:cursor-pointer">
           <li>

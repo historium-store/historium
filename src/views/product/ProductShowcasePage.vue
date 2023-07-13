@@ -1,5 +1,5 @@
 <template>
-  <product-showcase class="mt-6" :products="products" :filters="true" />
+  <product-showcase class="my-6" :products="products" :filters="true" />
 </template>
 
 <script>

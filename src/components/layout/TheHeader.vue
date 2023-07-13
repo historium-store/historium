@@ -77,13 +77,12 @@
       <div class="flex justify-center xs:max-sm:hidden">
         <ul class="flex items-center my-3 [&>li]:px-4 [&>li]:hover:cursor-pointer">
           <li>
-            <RouterLink to="/"> Головна </RouterLink>
+            <RouterLink to="/">Головна</RouterLink>
           </li>
           <li @click="scrollTo('novelties')">Новинки</li>
           <li @click="scrollTo('recomendations')">Хіти продажів</li>
-          <li>Про компанію</li>
-          <li>Акції</li>
-          <li>Контакти</li>
+          <li><RouterLink to="/about">Про компанію</RouterLink></li>
+          <li><RouterLink to="/contacts">Контакти</RouterLink></li>
         </ul>
       </div>
     </nav>
@@ -125,7 +124,11 @@ export default {
         this.loginClick()
       } else this.openSidebar('profile')
     },
-    scrollTo(section) {
+    async scrollTo(section) {
+      console.log(window.location.pathname)
+      if (window.location.pathname != '/') {
+        await this.$router.push('/')
+      }
       document.getElementById(section).scrollIntoView({ behavior: 'smooth', block: 'start' })
       setTimeout(() => {
         window.scrollBy({ behavior: 'smooth', top: -12 })

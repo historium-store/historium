@@ -86,7 +86,11 @@
             as="div"
             :validation-schema="schemaName"
           >
-            <form class="grid grid-cols-12 space-x-2" @submit="handleSubmit($event, updateUser)">
+            <form
+              id="name"
+              class="grid grid-cols-12 space-x-2"
+              @submit="handleSubmit($event, updateUser)"
+            >
               <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ meta, handleChange, value }"
@@ -154,8 +158,12 @@
             as="div"
             :validation-schema="schemaEmail"
           >
-            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
-              <div class="col-span-5 md:col-span-3">
+            <form
+              id="email"
+              class="grid grid-cols-12 space-x-2"
+              @submit="handleSubmit($event, updateUser)"
+            >
+              <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ meta, handleChange, value }"
                   v-model.trim="formData.user.email"
@@ -172,16 +180,16 @@
                   />
                 </Field>
               </div>
-              <div class="col-span-5 md:col-span-2 flex">
+              <div class="col-span-12 md:col-span-5 flex">
                 <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
                   <button
                     type="submit"
-                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-xs rounded-3xl px-3 bg-whiteblue"
                   >
                     <p class="mx-auto">Зберегти</p>
                   </button>
                   <button
-                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
                     @click="switchChangeMode('email')"
                   >
                     <p class="mx-auto">Скасувати</p>
@@ -207,8 +215,12 @@
             as="div"
             :validation-schema="schemaPhone"
           >
-            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
-              <div class="col-span-5 md:col-span-3">
+            <form
+              id="phoneNumber"
+              class="grid grid-cols-12 space-x-2"
+              @submit="handleSubmit($event, updateUser)"
+            >
+              <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ meta, handleChange, value }"
                   v-model.trim="formData.user.phoneNumber"
@@ -225,16 +237,16 @@
                   />
                 </Field>
               </div>
-              <div class="col-span-5 md:col-span-2 flex">
+              <div class="col-span-12 md:col-span-5 flex">
                 <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
                   <button
                     type="submit"
-                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-xs rounded-3xl px-3 bg-whiteblue"
                   >
                     <p class="mx-auto">Зберегти</p>
                   </button>
                   <button
-                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
                     @click="switchChangeMode('phoneNumber')"
                   >
                     <p class="mx-auto">Скасувати</p>
@@ -262,8 +274,12 @@
             as="div"
             :validation-schema="schemaPassword"
           >
-            <form class="grid grid-cols-5 space-x-2" @submit="handleSubmit($event, updateUser)">
-              <div class="col-span-5 md:col-span-3">
+            <form
+              id="password"
+              class="grid grid-cols-12 space-x-2"
+              @submit="handleSubmit($event, updateUser)"
+            >
+              <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ value, meta, handleChange }"
                   v-model.trim="formData.user.password"
@@ -280,16 +296,16 @@
                   />
                 </Field>
               </div>
-              <div class="col-span-5 md:col-span-2 flex">
+              <div class="col-span-12 md:col-span-5 flex">
                 <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
                   <button
                     type="submit"
-                    class="w-1/2 flex border-1 items-center text-turquoise text-sm rounded-3xl px-3 bg-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-xs rounded-3xl px-3 bg-whiteblue"
                   >
                     <p class="mx-auto">Зберегти</p>
                   </button>
                   <button
-                    class="w-1/2 flex border-1 items-center text-whiteblue text-sm rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
                     @click="switchChangeMode('password')"
                   >
                     <p class="mx-auto">Скасувати</p>
@@ -321,13 +337,62 @@
               знижку у 10% на будь-який товар!
             </p>
           </div>
-          <div class="w-full flex justify-between items-center">
+          <VeeForm
+            v-if="changeMode.birthdayDate"
+            v-slot="{ handleSubmit }"
+            as="div"
+            :validation-schema="schemaBirthDate"
+          >
+            <form
+              id="birthDate"
+              class="grid grid-cols-12 space-x-2"
+              @submit="handleSubmit($event, updateUser)"
+            >
+              <div class="col-span-12 md:col-span-7">
+                <Field
+                  v-slot="{ value, meta, handleChange }"
+                  v-model.trim="formData.user.birthdayDate"
+                  name="birthdayDate"
+                >
+                  <input
+                    id="birthdayDate"
+                    :value="value"
+                    type="date"
+                    name="birthdayDate"
+                    :class="inputStyle(meta)"
+                    placeholder="Введіть вашу дату народження"
+                    @input="handleChange"
+                  />
+                </Field>
+              </div>
+              <div class="col-span-12 md:col-span-5 flex">
+                <div class="flex my-3 md:my-0 md:mt-auto space-x-2 md:mx-auto md:w-full">
+                  <button
+                    type="submit"
+                    class="w-1/2 flex border-1 items-center text-turquoise text-xs rounded-3xl px-3 bg-whiteblue"
+                  >
+                    <p class="mx-auto">Зберегти</p>
+                  </button>
+                  <button
+                    class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
+                    @click="switchChangeMode('birthdayDate')"
+                  >
+                    <p class="mx-auto">Скасувати</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <hr class="mb-3 md:my-3" />
+          </VeeForm>
+          <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Дата народження</p>
               <p>{{ user.birthdayDate || 'Не вказано' }}</p>
             </div>
             <div>
-              <p class="text-xs hover:cursor-pointer" @click="switchChangeMode">Змінити</p>
+              <p class="text-xs hover:cursor-pointer" @click="switchChangeMode('birthdayDate')">
+                Змінити
+              </p>
             </div>
           </div>
         </div>
@@ -337,7 +402,7 @@
 </template>
 
 <script>
-import { mapWritableState } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
 import validator from 'validator'
 import { Field, Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
@@ -366,7 +431,7 @@ export default {
       password: yup.string().required().min(2).max(50)
     })
     const schemaBirthDate = yup.object({
-      password: yup.string().required().min(2).max(50)
+      birthdayDate: yup.string().required().min(2).max(50)
     })
 
     return { schemaName, schemaEmail, schemaPhone, schemaPassword, schemaBirthDate }
@@ -407,15 +472,17 @@ export default {
   },
 
   methods: {
-    async updateUser() {
-      console.log('submit')
+    ...mapActions(useUserStore, ['updateUserInfo']),
+    async updateUser(data, info) {
+      await this.updateUserInfo(data)
+      this.switchChangeMode(info.evt.target.id)
     },
     switchChangeMode(forField) {
       this.changeMode[forField] = !this.changeMode[forField]
     },
     inputStyle(meta) {
       return (
-        'border mt-2 rounded-2xl block w-full p-3 bg-transparent h-12 ' +
+        'border mt-2 rounded-2xl block w-full p-3 bg-transparent h-10 ' +
         (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
       )
     }

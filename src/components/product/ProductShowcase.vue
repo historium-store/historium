@@ -22,29 +22,7 @@
               <p>Фільтри</p>
             </div>
           </span>
-          <!-- </div> -->
-          <!-- <p class="p-3 font-rubik text-lg">
-          {{ goodsQuantityLabel }}
-        </p> -->
-          <!-- <div class="p-3 pt-0 inline-flex space-x-2">
-          <div :class="filterLabelStyle"">
-            <p>Усі фільтри</p>
-          </div> -->
-          <!-- <div :class="filterLabelStyle">
-            <p>Тип книги</p>
-          </div>
-          <div :class="filterLabelStyle">
-            <p>Видавництво</p>
-          </div>
-          <div :class="filterLabelStyle">
-            <p>Мова</p>
-          </div>
-          <div :class="filterLabelStyle">
-            <p>Автори</p>
-          </div>
-          <div :class="filterLabelStyle">
-            <p>Ціна</p>
-          </div> -->
+
         </div>
       </div>
       <div

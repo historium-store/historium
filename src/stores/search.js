@@ -10,8 +10,8 @@ export const useSearchStore = defineStore('seacrh', {
   actions: {
     ...mapActions(useApiStore, ['get']),
     ...mapActions(useModalStore, ['showModal']),
-    async search() {
-      const response = await this.get('search', null, { q: this.searchInput })
+    async search(q = this.searchInput) {
+      const response = await this.get('search', null, { q })
       this.results = response.data.result
     },
     openSearch() {

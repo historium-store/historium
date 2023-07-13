@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useSidebarStore } from '../stores/sidebar'
+import { useUserStore } from '../stores/user'
 
 // function prefixRoutes(prefix, routes) {
 //   return routes.map((route) => (route.path = prefix + '/' + route.path))
 // }
 
-const NotFound = { template: '<h2>Page Not Found</h2>' }
+const NoAccess = { template: '<h2>No Access</h2>' }
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior: () => {
@@ -43,7 +45,7 @@ const router = createRouter({
     {
       path: '/admin/:instance+',
       name: 'instance',
-      component: () => import('../views/admin/InstanceActionsPage.vue'),
+      component: () => import('../views/admin/EntityActionsPage.vue'),
       props: true
     },
     {
@@ -82,15 +84,28 @@ const router = createRouter({
       name: 'library',
       component: () => import('../views/user/LibraryPage.vue')
     },
-    { path: '/:pathMatch(.*)*', component: NotFound }
+    {
+      name: 'NotFound',
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/NotFoundPage.vue')
+    }
   ]
 })
 
-router.beforeEach(() => {
+const secureRoutes = ['admin']
+router.beforeEach(async (to, from) => {
+  // const authStore = useAuthStore()
+  const userStore = useUserStore()
   const sidebarStore = useSidebarStore()
+  // console.log('to', to)
+  // console.log('from', from)
   sidebarStore.closeSidebar('cart')
   sidebarStore.closeSidebar('main')
   sidebarStore.closeSidebar('profile')
+
+  if (secureRoutes.includes(to.name) && userStore?.user?.role !== 'admin') {
+    return { name: 'NotFound' }
+  }
 })
 
 export default router

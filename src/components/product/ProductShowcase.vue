@@ -1,19 +1,35 @@
 <template>
   <div v-if="products" class="min-h-screen m-2 flex">
     <aside
-      class="w-0 xl:w-64 transition-transform invisible xl:visible xl:transform-none mr-2 rounded-2xl bg-background_light"
+      class="w-0 xl:w-64 transition-transform invisible xl:visible xl:transform-none xl:mr-2 rounded-2xl bg-lightturquoise bg-opacity-50 xl:border-[3px]"
     >
       <filters v-if="filters" />
     </aside>
-    <div class="w-full rounded-2xl bg-background_light">
-      <div class="m-2 mb-0 rounded-t-2xl bg-background_light">
-        <p class="p-3 font-rubik text-lg">
+    <div class="w-full rounded-2xl border-[3px]">
+      <div class="m-2 mb-0 rounded-t-2xl">
+        <div class="flex justify-items-center">
+          <span
+            class="relative tracking-wide -mt-6 ms-6 bg-turquoise min-w-[120px] border-[3px] rounded-3xl text-center text-[18px]"
+          >
+            {{ goodsQuantityLabel }}
+          </span>
+          <span
+            class="relative tracking-wider flex -mt-6 ms-6 bg-turquoise min-w-[120px] border-[3px] rounded-3xl text-[18px] hover:cursor-pointer"
+            @click="openSidebar('filters')"
+          >
+            <div class="mx-auto space-x-2 flex items-center">
+              <font-awesome-icon size="sm" :icon="['fas', 'filter']" style="color: #ffffff" />
+              <p>Фільтри</p>
+            </div>
+          </span>
+          <!-- </div> -->
+          <!-- <p class="p-3 font-rubik text-lg">
           {{ goodsQuantityLabel }}
-        </p>
-        <div class="p-3 pt-0 inline-flex space-x-2">
-          <div :class="filterLabelStyle" @click="openSidebar('filters')">
+        </p> -->
+          <!-- <div class="p-3 pt-0 inline-flex space-x-2">
+          <div :class="filterLabelStyle"">
             <p>Усі фільтри</p>
-          </div>
+          </div> -->
           <!-- <div :class="filterLabelStyle">
             <p>Тип книги</p>
           </div>
@@ -34,11 +50,7 @@
       <div
         class="m-2 mt-0 min-h-[500px] rounded-2xl grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 p-6"
       >
-        <product-card
-          v-for="good in products"
-          :key="good.key"
-          :good="good"
-        />
+        <product-card v-for="good in products" :key="good.key" :good="good" />
       </div>
     </div>
   </div>

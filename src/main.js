@@ -23,6 +23,7 @@ import {
   faClipboard,
   faCloudArrowDown,
   faEllipsis,
+  faFilter,
   faGear,
   faGift,
   faHeadphones,
@@ -79,7 +80,9 @@ library.add(
   faSearch,
   faInstagram,
   faTelegram,
-  faFacebook
+  faFacebook,
+  faFilter
+
 )
 
 const app = createApp(App)

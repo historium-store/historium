@@ -1,18 +1,18 @@
 <template>
   <div
-    id="modal"
+    id="admin-modal"
     class="flex xs:h-screen overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center hidden"
-    @click.self="hideModals"
+    @click.self="hideModal(currentModal, 'admin-modal')"
   >
     <div
       class="relative p-4 w-full h-full md:h-auto max-w-2xl md:border-4 rounded-3xl shadow bg-gray-900 bg-opacity-60 border-gray-200 dark:border-white"
     >
       <div class="relative">
-        <div v-if="currentModal !== 'search'" class="p-4 flex justify-between items-center">
+        <div class="p-4 flex justify-between items-center">
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            @click="hideModal('login')"
+            @click="hideModal(currentModal, 'admin-modal')"
           >
             <svg
               class="w-7 h-7"
@@ -29,18 +29,7 @@
           </button>
         </div>
       </div>
-      <div v-if="currentModal === 'login'" class="p-6 pt-0">
-        <LoginView />
-      </div>
-      <div v-else-if="currentModal === 'signup'" class="p-6 pt-0">
-        <SignUpView />
-      </div>
-      <div v-else-if="currentModal === 'restore'" class="p-6 pt-0">
-        <RestoreView />
-      </div>
-      <div v-else-if="currentModal === 'search'" class="p-6 pt-0">
-        <SearchModal />
-      </div>
+      <create-entity />
     </div>
   </div>
 </template>
@@ -48,12 +37,10 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useModalStore } from '../../../stores/modal'
-import LoginView from '../../user/Login.vue'
-import SignUpView from '../../user/SignUp.vue'
-import RestoreView from '../../user/Restore.vue'
-import SearchModal from '../../user/Search.vue'
+import CreateEntity from '../../admin/CreateEntity.vue'
+
 export default {
-  components: { LoginView, SignUpView, RestoreView, SearchModal },
+  components: { CreateEntity },
   computed: {
     ...mapState(useModalStore, ['currentModal'])
   },

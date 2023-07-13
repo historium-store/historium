@@ -29,7 +29,7 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia'
 import { useSearchStore } from '../../stores/search'
-import SearchModal from './modals/SearchModal.vue'
+import SearchModal from '../user/Search.vue'
 
 export default {
   components: { SearchModal },

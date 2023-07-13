@@ -1,5 +1,6 @@
 import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
+import { useModalStore } from './modal'
 
 export const useAdminStore = defineStore('admin', {
   state() {
@@ -7,10 +8,15 @@ export const useAdminStore = defineStore('admin', {
   },
   actions: {
     ...mapActions(useApiStore, ['get', 'post', 'patch', 'delete']),
-    async getAllInstance(name) {
+    ...mapActions(useModalStore, ['showModal']),
+    async getAllEntity(name) {
       console.log(name)
       const response = await this.get(name, true)
       return ['product'].includes(name) ? response.data.result : response.data
+    },
+    async create() {
+      // console.log('create', name)
+      this.showModal('createEntity', 'admin-modal')
     }
   }
 })

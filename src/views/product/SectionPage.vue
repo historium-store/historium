@@ -26,7 +26,7 @@
         />
       </div>
     </div>
-    <ProductShowcase :products="sectionProducts" :filters="false" />
+    <product-showcase :products="sectionProducts" :filters="false" />
   </div>
   <div v-else class="flex">
     <pulse-loader class="mx-auto mt-6" />

@@ -43,9 +43,9 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useModalStore } from '../../../stores/modal'
-import { useProductStore } from '../../../stores/product'
-import { useSearchStore } from '../../../stores/search'
+import { useModalStore } from '../../stores/modal'
+import { useProductStore } from '../../stores/product'
+import { useSearchStore } from '../../stores/search'
 
 export default {
   props: ['name'],

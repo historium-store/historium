@@ -1,5 +1,5 @@
 <template>
-  <div :id="name" class="my-12 mx-6 border-[3px] rounded-3xl">
+  <div v-if="isLoaded" :id="name" class="my-12 border-[3px] rounded-3xl">
     <div class="flex justify-items-center">
       <span
         class="relative -mt-4 ms-8 bg-turquoise min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
@@ -25,6 +25,11 @@
       <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
     </span>
   </div>
+  <div v-else class="fixed top-0 left-0 right-0 bottom-0 z-50 bg-black bg-opacity-40">
+    <div class="h-screen w-full flex">
+      <pulse-loader class="m-auto" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -43,6 +48,7 @@ export default {
   props: ['name', 'title', 'allowShowMore', 'items'],
   data() {
     return {
+      isLoaded: false,
       windowWidth: window.innerWidth,
       isExtended: false
     }
@@ -60,6 +66,7 @@ export default {
     }
   },
   async mounted() {
+    this.isLoaded = false
     const productStore = useProductStore()
     if (!this.items) {
       switch (this.name) {
@@ -74,6 +81,7 @@ export default {
           break
       }
     }
+    this.isLoaded = true
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth
     })

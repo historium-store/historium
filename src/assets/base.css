@@ -1,4 +1,5 @@
 /* color palette from <https://github.com/vuejs/theme> */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -78,14 +79,15 @@ body {
 }
 
 .background {
-  /* min-height: 100vh; */
   position: relative;
-  /* background: #031425; */
-  background: #fff;
   background-image: url('../assets/background.svg');
-  /* background-repeat: repeat-x; */
   background-size: cover;
+  /* width: 98vw; */
+}
   /* background-attachment: fixed; */
   /* background-position: top; */
   /* background-size: 100% 100%; */
-}
+  /* background-repeat: repeat-x; */
+  /* background: #031425; */
+  /* background: #fff; */
+  /* min-height: 100vh; */

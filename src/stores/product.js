@@ -1,12 +1,12 @@
 import { defineStore, mapActions } from 'pinia'
-import router from '../router'
+import { default as router } from '../router'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
 import { useFilterStore } from './filter'
 import { useUserStore } from './user'
-
 export const useProductStore = defineStore('product', {
   state: () => ({
+    allowedTypes: ['product', 'book', 'board-game'],
     products: undefined,
     product: undefined,
     homeSpecialSections: {
@@ -18,6 +18,9 @@ export const useProductStore = defineStore('product', {
   actions: {
     ...mapActions(useApiStore, ['get']),
     ...mapActions(useUserStore, ['pushInHistory']),
+    isAllowedType(type) {
+      return !this.allowedTypes.includes(type)
+    },
     isAvailable(product) {
       return product?.quantity > 0
     },
@@ -26,25 +29,26 @@ export const useProductStore = defineStore('product', {
       return response.data
     },
     async viewProduct(id, type = 'product') {
+      if (this.isAllowedType(type)) {
+        await router.push({ name: 'NotFound' })
+      }
       await router.push({ name: 'product', params: { id, type } })
     },
     async loadProducts(type = 'product') {
       console.log('>>> loadProducts')
+      if (this.isAllowedType(type)) {
+        await router.push({ name: 'NotFound' })
+      }
       const filterStore = useFilterStore()
       const response = await this.get(type, false, filterStore.getFiltersQuery())
       console.log(response)
       this.products = response.data.result
     },
-    async loadProductOld(key) {
-      console.log('>>> loadProduct ' + key)
-
-      const response = await this.get(`product/${key}`)
-      this.product = response.data
-      console.log(this.product)
-    },
     async loadProduct(key, type = 'product') {
       console.log(`>>> loadProduct ${type}/${key} `)
-
+      if (this.isAllowedType(type)) {
+        await router.push({ name: 'NotFound' })
+      }
       const response = await this.get(`${type}/${key}`)
       this.product = response.data
       await this.pushInHistory(this.product?.product?._id)

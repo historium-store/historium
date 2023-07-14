@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoaded" :id="name" class="my-12 border-[3px] rounded-3xl">
+  <div :id="name" class="my-12 border-[3px] rounded-3xl">
     <div class="flex justify-items-center">
       <span
         class="relative -mt-4 ms-8 bg-turquoise min-w-[160px] border-[3px] rounded-3xl text-center text-[18px]"
@@ -7,6 +7,7 @@
       >
     </div>
     <div
+      v-if="isLoaded"
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
     >
       <product-card
@@ -16,6 +17,9 @@
         @click="viewProduct(good.key, good.type.key)"
       />
     </div>
+    <div v-else class="flex my-12">
+      <pulse-loader class="m-auto" />
+    </div>
     <span
       v-if="!isExtended && allowShowMore"
       class="inline-flex items-center p-2 hover:cursor-pointer"
@@ -24,11 +28,6 @@
       <p class="ms-4">Показати ще</p>
       <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
     </span>
-  </div>
-  <div v-else class="fixed top-0 left-0 right-0 bottom-0 z-50 bg-black bg-opacity-40">
-    <div class="h-screen w-full flex">
-      <pulse-loader class="m-auto" />
-    </div>
   </div>
 </template>
 

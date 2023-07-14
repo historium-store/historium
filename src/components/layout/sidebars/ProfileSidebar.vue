@@ -112,7 +112,7 @@
                 <div class="rounded-full w-8 h-8 bg-white flex mx-auto items-center">
                   <font-awesome-icon
                     class="max-sm:text-xl mx-auto"
-                    :icon="['fas', 'list-check']"
+                    :icon="['fas', 'clock']"
                     style="color: #209393"
                   />
                 </div>

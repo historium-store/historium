@@ -11,8 +11,8 @@
           <p class="text-lightturquoise mt-3">Наша адреса</p>
           <p class="tracking-widest">м. Одеса, вул. Казкова, 17</p>
           <p class="text-lightturquoise mt-3">Режим роботи</p>
-          <p class="text-md tracking-widest">Пн-Пт: 09:00-20:00</p>
-          <p class="text-md tracking-widest">Сб-Нд: 10:00-19:00</p>
+          <p class="text-base tracking-widest">Пн-Пт: 09:00-20:00</p>
+          <p class="text-base tracking-widest">Сб-Нд: 10:00-19:00</p>
         </div>
         <div class="mx-auto">
           <p class="text-whiteblue text-2xl">Інформація</p>

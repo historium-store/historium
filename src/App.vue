@@ -1,6 +1,6 @@
 <template>
   <auth-modal />
-  <alert />
+  <alert id="alert" />
   <the-header :switch-modal="switchModalState" :open-modal="openModal" />
   <Suspense>
     <router-view v-slot="slotProps">

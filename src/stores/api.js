@@ -12,18 +12,17 @@ export const useApiStore = defineStore('api', {
   actions: {
     async responseMiddleware(response) {
       const alertStore = useAlertStore()
-      console.log(response)
-      if (['OK', 'No Content', 'Created'].includes(response.statusText)) return response.data
+      if (['OK', 'No Content', 'Created'].includes(response.statusText))
+        return response.data || true
       else if (
         ['Bad Request'].includes(response.statusText) ||
         ['login', 'signup', 'restore'].includes(response?.request?.responseURL?.split('/').at(-1))
       ) {
         alertStore.showAlert(response.data.message, 'bg-red-500')
-        return false
       } else if (['Not Found', 'Internal Server Error'].includes(response.statusText)) {
         await router.push({ name: 'NotFound' })
-        return false
       }
+      return false
     },
     getHeader(isNeedAuth) {
       let headers = {
@@ -52,7 +51,7 @@ export const useApiStore = defineStore('api', {
       const requestUrl = query
         ? `${this.API}${route}?${new URLSearchParams(query)}`
         : `${this.API}${route}`
-      console.log(requestUrl)
+      // console.log(requestUrl)
 
       const response = await axios.get(requestUrl, this.getHeader(isNeedAuth)).catch((error) => {
         return this.responseMiddleware(error.response)

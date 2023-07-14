@@ -23,6 +23,7 @@
     "validator": "^13.9.0",
     "vee-validate": "^4.9.6",
     "vue": "^3.3.2",
+    "vue-cloneya": "^1.0.14",
     "vue-router": "^4.2.0",
     "vue-spinner": "^1.0.4",
     "vue-validate": "^1.0.1",

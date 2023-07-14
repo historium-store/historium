@@ -6,7 +6,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-// import { useValidateField, useField } from 'vee-validate'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFacebook, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -21,6 +20,7 @@ import {
   faChevronDown,
   faChevronUp,
   faClipboard,
+  faClock,
   faCloudArrowDown,
   faEllipsis,
   faFilter,
@@ -44,6 +44,7 @@ import {
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import SyncLoader from 'vue-spinner/src/SyncLoader.vue'
 
 library.add(
@@ -81,8 +82,8 @@ library.add(
   faInstagram,
   faTelegram,
   faFacebook,
-  faFilter
-
+  faFilter,
+  faClock
 )
 
 const app = createApp(App)

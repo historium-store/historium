@@ -1,6 +1,5 @@
 <template>
   <alert
-    id="alert"
     :class="
       'fixed z-50 -bottom-16 right-10 w-max transition duration-500 shadow-md shadow-black px-6 ' +
       color
@@ -17,6 +16,9 @@ export default {
   components: { Alert },
   computed: {
     ...mapState(useAlertStore, ['title', 'color'])
+  },
+  updated() {
+    console.log('updateAlert')
   },
   methods: {
     ...mapActions(useAlertStore, ['showAlert'])

@@ -6,7 +6,7 @@ import { useFilterStore } from './filter'
 import { useUserStore } from './user'
 export const useProductStore = defineStore('product', {
   state: () => ({
-    allowedTypes: ['product', 'book', 'board-game'],
+    allowedTypes: ['product', 'book', 'board-game', 'e-book'],
     products: undefined,
     product: undefined,
     homeSpecialSections: {
@@ -19,7 +19,7 @@ export const useProductStore = defineStore('product', {
     ...mapActions(useApiStore, ['get']),
     ...mapActions(useUserStore, ['pushInHistory']),
     isAllowedType(type) {
-      return !this.allowedTypes.includes(type)
+      return this.allowedTypes.includes(type)
     },
     isAvailable(product) {
       return product?.quantity > 0
@@ -28,14 +28,14 @@ export const useProductStore = defineStore('product', {
       return await this.get(`product/${id}`, false, isPreview ? { preview: true } : {})
     },
     async viewProduct(id, type = 'product') {
-      if (this.isAllowedType(type)) {
+      if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
       await router.push({ name: 'product', params: { id, type } })
     },
     async loadProducts(type = 'product') {
       console.log('>>> loadProducts')
-      if (this.isAllowedType(type)) {
+      if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
       const filterStore = useFilterStore()
@@ -44,7 +44,7 @@ export const useProductStore = defineStore('product', {
     },
     async loadProduct(key, type = 'product') {
       console.log(`>>> loadProduct ${type}/${key} `)
-      if (this.isAllowedType(type)) {
+      if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
       this.product = await this.get(`${type}/${key}`)

@@ -57,7 +57,7 @@ export default {
       return `${this.products.length} ${goodsQuantityLabel}`
     },
     filterLabelStyle() {
-      return 'w-fit p-3 py-1.5 font-rubik text-md bg-turquoise rounded-full hover:cursor-pointer'
+      return 'w-fit p-3 py-1.5 font-rubik text-base bg-turquoise rounded-full hover:cursor-pointer'
     }
   },
   methods: {

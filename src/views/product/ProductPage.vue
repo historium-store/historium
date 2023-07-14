@@ -276,13 +276,13 @@ export default {
   watch: {
     id: async function () {
       this.isLoaded = false
-      await this.loadProduct(this.id, this.type)
+      await this.loadProduct(this.id, this.typeMiddlewar(this.type))
       this.isLoaded = true
     }
   },
 
   async mounted() {
-    await this.loadProduct(this.id, this.type)
+    await this.loadProduct(this.id, this.typeMiddlewar(this.type))
     this.isLoaded = true
   },
 
@@ -290,6 +290,10 @@ export default {
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useProductStore, ['loadProduct']),
     ...mapActions(useCartStore, ['addItem']),
+    typeMiddlewar(type) {
+      if (['e-book', 'audio-book'].includes(type)) return 'book'
+      return type
+    },
     pickImage(event) {
       if (event.originalTarget.id < this.good.images.length) {
         this.imageIndex = event.originalTarget.id

@@ -24,14 +24,20 @@
     </div>
     <div class="min-h-[140px] my-2 flex flex-col mx-auto">
       <div
-        class="card-category flex-col line-clamp-3 hover:line-clamp-none"
+        class="card-category flex-col line-clamp-4 hover:line-clamp-none"
         @click="viewProduct(good.key, good.type.key)"
       >
-        <p class="font-rubik text-md text-center text-ellipsis">
+        <p class="text-base text-center text-ellipsis">
           {{ goodTitle }}
         </p>
         <div class="text-center">
           <a class="text-sm text-gray-400">{{ good.creators?.[0] }}</a>
+        </div>
+        <div class="flex items-center">
+          <div :class="'mx-auto space-x-1 ' + availabilityColor">
+            <font-awesome-icon :icon="['fas', availabilityIcon]" size="xs" />
+            <a class="text-xs">{{ availability }}</a>
+          </div>
         </div>
       </div>
       <div class="mb-3 w-2/3 mx-auto mt-auto">
@@ -42,6 +48,7 @@
               <span>₴</span>
             </div>
             <span
+              v-if="isEBook || isAvailable"
               :class="
                 'flex items-center transition-colors ease-out duration-200 ms-auto text-lg h-7 rounded-full  ' +
                 cartButtonColor
@@ -49,6 +56,16 @@
               @click.stop="addToCart"
             >
               <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-4 ' + cartColor" />
+            </span>
+            <span
+              v-else
+              :class="
+                'flex items-center transition-colors ease-out duration-200 ms-auto text-lg h-7 rounded-full  ' +
+                waitingButtonColor
+              "
+              @click.stop="addToWaitlist"
+            >
+              <font-awesome-icon :icon="['fas', 'clock']" :class="'mx-4 ' + waitingColor" />
             </span>
           </div>
         </div>
@@ -69,6 +86,9 @@ export default {
     ...mapWritableState(useAuthStore, ['isAuthenticated']),
     ...mapWritableState(useCartStore, ['cart']),
     ...mapWritableState(useUserStore, ['user']),
+    isInWaitlist() {
+      return this.isAuthenticated && this.user?.waitlist.map((item) => item).includes(this.good._id)
+    },
     isInWishlist() {
       return this.isAuthenticated && this.user?.wishlist.map((item) => item).includes(this.good._id)
     },
@@ -86,20 +106,64 @@ export default {
     bookmarkColor() {
       return this.isInWishlist ? 'text-turquoise' : 'text-whiteblue'
     },
+    waitingColor() {
+      return this.isInWaitlist ? 'text-white' : 'text-white'
+    },
+    waitingButtonColor() {
+      return this.isInWaitlist
+        ? 'border-2 bg-turquoise'
+        : 'border-2 border-white hover:bg-lightturquoise'
+    },
     goodTitle() {
       const title = this.good?.name?.split(/\.|:/)[0] || ''
 
       return title.length < 35 ? title : this.short(title, 35)
+    },
+    isAvailable() {
+      return this.good?.quantity > 0
+    },
+    isEBook() {
+      return this.good.type.key === 'e-book'
+    },
+    availability() {
+      if (this.isEBook) {
+        return 'Електронна'
+      }
+      return this.isAvailable ? 'В наявності' : 'Немає в наявності'
+    },
+    availabilityIcon() {
+      return this.isEBook ? 'cloud-arrow-down' : 'truck'
+    },
+    availabilityColor() {
+      return this.isEBook ? 'text-whiteblue' : this.isAvailable ? 'text-turquoise' : 'text-red-300'
     }
   },
   methods: {
     ...mapActions(useCartStore, ['addItem']),
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useProductStore, ['viewProduct']),
-    ...mapActions(useUserStore, ['pushInWishlist', 'removeFromWishlist']),
+    ...mapActions(useUserStore, [
+      'pushInWishlist',
+      'removeFromWishlist',
+      'pushInWaitlist',
+      'removeFromWaitlist'
+    ]),
     async addToCart() {
       await this.addItem(this.good._id)
       this.showAlert('Товар додано у кошик')
+    },
+    async addToWaitlist() {
+      if (!this.isAuthenticated) {
+        this.showAlert('Увійдіть в акаунт', 'bg-red-500')
+        return
+      }
+      if (!this.isInWaitlist) {
+        await this.pushInWaitlist(this.good._id)
+        this.showAlert('Товар додано до очікування')
+      } else {
+        await this.removeFromWaitlist(this.good._id)
+        this.showAlert('Товар видалено з очікуванних')
+      }
     },
     async addToWishlist() {
       if (!this.isAuthenticated) {

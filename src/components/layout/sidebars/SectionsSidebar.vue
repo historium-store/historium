@@ -31,14 +31,14 @@
           v-if="sections != currentSections"
           icon="arrow-left"
           title="Назад"
-          title-style="text-md"
+          title-style="text-base"
           class="bg-deepgreen"
           @click="back"
         />
         <sidebar-item
           v-if="sections != currentSections"
           title="Показати всі"
-          title-style="text-md"
+          title-style="text-base"
           class="bg-deepgreen"
           @click="showAll"
         />
@@ -46,7 +46,7 @@
           v-for="section in currentSections"
           :key="section.key"
           :title="section.name"
-          title-style="text-md"
+          title-style="text-base"
           @click="pickSection(section.key)"
         />
       </ul>

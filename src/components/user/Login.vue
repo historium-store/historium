@@ -43,7 +43,7 @@
       </div>
       <button
         type="submit"
-        class="flex border-2 flex-col mx-auto items-center min-w-[180px] text-md focus:outline-none font-medium rounded-3xl px-3 py-2 mb-4 bg-background bg-opacity-60"
+        class="flex border-2 flex-col mx-auto items-center min-w-[180px] text-base focus:outline-none font-medium rounded-3xl px-3 py-2 mb-4 bg-background bg-opacity-60"
       >
         Увійти
       </button>

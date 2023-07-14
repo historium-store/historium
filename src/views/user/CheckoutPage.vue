@@ -305,16 +305,11 @@ export default {
       return `${this.cart.totalQuantity} ${totalQuantityLabel}`
     }
   },
+  updated() {
+    this.getUserData()
+  },
   async mounted() {
-    if (this.authUser) {
-      const { firstName, lastName, phoneNumber, email } = this.authUser
-      this.formData.contactInfo = {
-        firstName,
-        lastName,
-        phoneNumber,
-        email
-      }
-    }
+    this.getUserData()
     await this.getCountries()
     await this.getDeliveryTypes()
   },
@@ -335,6 +330,17 @@ export default {
         (meta.validated ? (meta.valid ? 'border-cart-light' : 'border-red-600') : 'border-white')
       )
     },
+    getUserData() {
+      if (this.authUser) {
+        const { firstName, lastName, phoneNumber, email } = this.authUser
+        this.formData.contactInfo = {
+          firstName,
+          lastName,
+          phoneNumber,
+          email
+        }
+      }
+    },
     async orderSubmit() {
       this.formData.deliveryInfo.type = this.delivery.pickedType.name
       const payload = {
@@ -346,13 +352,14 @@ export default {
         items: this.cart.items,
         description: this.formData.description
       }
+
       this.isLoading = true
-      const response = await this.post('order', payload, null, true)
-      if (response.status === 201) {
+      if (await this.post('order', payload, null, true)) {
         await this.clearCart()
         this.showAlert('Заказ успішний')
         this.$router.push({ name: 'orders' })
       } else this.showAlert('Щось пішло не так', 'bg-red-500')
+
       this.isLoading = false
     }
   }

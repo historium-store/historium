@@ -22,12 +22,9 @@
         />
       </div>
     </div>
-    <div class="min-h-[140px] my-2 flex flex-col mx-auto">
-      <div
-        class="card-category flex-col line-clamp-4 hover:line-clamp-none"
-        @click="viewProduct(good.key, good.type.key)"
-      >
-        <p class="text-base text-center text-ellipsis">
+    <div class="min-h-[130px] my-2 flex flex-col mx-auto">
+      <div class="card-category flex-col" @click="viewProduct(good.key, good.type.key)">
+        <p class="text-base line-clamp-1 hover:line-clamp-none text-center text-ellipsis">
           {{ goodTitle }}
         </p>
         <div class="text-center">

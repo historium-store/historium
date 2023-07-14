@@ -69,15 +69,11 @@ export const useProductStore = defineStore('product', {
       const authStore = useAuthStore()
       let userHistory
       if (authStore.isAuthenticated) {
-        const data = await this.get(`user/account`, true)
-        userHistory = data.history
+        userHistory = await this.get(`user/history`, true)
       } else {
         userHistory = JSON.parse(localStorage.getItem('history')) || []
       }
-      this.homeSpecialSections.history = []
-      userHistory.forEach(async (id) => {
-        this.homeSpecialSections.history.push(await this.getAbstractProductById(id))
-      })
+      this.homeSpecialSections.history = userHistory
     }
   }
 })

@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { Field } from 'vee-validate'
+// import { Field } from 'vee-validate'
 
 export default {
-  components: { Field },
+  components: {  },
   props: ['name', 'model', 'placeholder', 'type'],
   methods: {
     inputStyle(meta) {

@@ -5,7 +5,7 @@
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-background">
       <div class="inline-flex">
-        <img src="../../../assets/wb-logo.png" class="ps-2 h-10" alt="Historium Logo" />
+        <img src="../../../assets/historium-logo.svg" class="ps-2 h-10" alt="Historium Logo" />
         <button
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           @click="closeSidebar('main')"
@@ -29,12 +29,16 @@
       <ul class="space-y-2 font-medium mt-6">
         <sidebar-item title="Категорії книг" icon="list" @click="openSidebar('sections')" />
         <sidebar-item title="Кошик" icon="cart-shopping" @click="openSidebar('cart')" />
-        <sidebar-item title="0-800-335-400" icon="phone" description="Без вихідних, з 8 до 21" />
         <hr />
-        <sidebar-item title="Паперові книги" icon="book" />
-        <sidebar-item title="Електронні книги" icon="cloud-arrow-down" />
-        <sidebar-item title="Аудіокниги" icon="headphones" />
-        <sidebar-item title="Інше" icon="ellipsis" description="Ігри, аксесуари, подарунки тощо" />
+        <sidebar-item title="Паперові книги" link="book" icon="book" />
+        <sidebar-item title="Електронні книги" link="e-book" icon="cloud-arrow-down" />
+        <sidebar-item title="Аудіокниги" link="audio-book" icon="headphones" />
+        <sidebar-item
+          title="Інше"
+          icon="ellipsis"
+          link="board-game"
+          description="Ігри, аксесуари, подарунки тощо"
+        />
       </ul>
     </div>
   </aside>

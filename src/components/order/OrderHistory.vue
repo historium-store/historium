@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-turquoise rounded-3xl my-4 p-1 md:p-3 font-rubik">
+  <div
+    v-if="filterKey === 'all' || filterKey === order.status.key"
+    :class="'rounded-3xl my-4 p-1 md:p-3 font-rubik bg-turquoise ' + orderHistoryStyle"
+  >
     <div class="flex justify-between p-3">
       <p>№ {{ order.number }}</p>
       <p>{{ orderDate }}</p>
@@ -67,9 +70,10 @@
 import OrderItems from '../order/OrderItems.vue'
 export default {
   components: { OrderItems },
-  props: ['order'],
+  props: ['order', 'filterKey'],
   data: () => ({
     orderDate: '',
+    orderStatus: '',
     isExtended: false
   }),
   computed: {
@@ -84,11 +88,19 @@ export default {
           : 'товарів'
 
       return `${this.order.items.length} ${totalQuantityLabel}`
+    },
+    orderHistoryStyle() {
+      return this.orderStatus === 'active'
+        ? 'bg-opacity-100'
+        : this.orderStatus === 'completed'
+        ? 'bg-opacity-70'
+        : 'bg-opacity-40'
     }
   },
   mounted() {
     const orderDate = new Date(this.order.createdAt).toString().split(' ')
     this.orderDate = `${orderDate[2]} ${orderDate[1]} ${orderDate[3]}`
+    this.orderStatus = this.order.status.key
   },
   methods: {
     extendInfoToggle() {

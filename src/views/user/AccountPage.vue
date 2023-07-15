@@ -338,7 +338,7 @@
             </p>
           </div>
           <VeeForm
-            v-if="changeMode.birthdayDate"
+            v-if="changeMode.birthDate"
             v-slot="{ handleSubmit }"
             as="div"
             :validation-schema="schemaBirthDate"
@@ -351,14 +351,14 @@
               <div class="col-span-12 md:col-span-7">
                 <Field
                   v-slot="{ value, meta, handleChange }"
-                  v-model.trim="formData.user.birthdayDate"
-                  name="birthdayDate"
+                  v-model.trim="formData.user.birthDate"
+                  name="birthDate"
                 >
                   <input
-                    id="birthdayDate"
+                    id="birthDate"
                     :value="value"
                     type="date"
-                    name="birthdayDate"
+                    name="birthDate"
                     :class="inputStyle(meta)"
                     placeholder="Введіть вашу дату народження"
                     @input="handleChange"
@@ -375,7 +375,7 @@
                   </button>
                   <button
                     class="w-1/2 flex border-1 items-center text-whiteblue text-xs py-1 rounded-3xl px-3 border-[1.5px] border-whiteblue"
-                    @click="switchChangeMode('birthdayDate')"
+                    @click="switchChangeMode('birthDate')"
                   >
                     <p class="mx-auto">Скасувати</p>
                   </button>
@@ -387,10 +387,10 @@
           <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Дата народження</p>
-              <p>{{ user.birthdayDate || 'Не вказано' }}</p>
+              <p>{{ new Date(user.birthDate).toLocaleDateString() || 'Не вказано' }}</p>
             </div>
             <div>
-              <p class="text-xs hover:cursor-pointer" @click="switchChangeMode('birthdayDate')">
+              <p class="text-xs hover:cursor-pointer" @click="switchChangeMode('birthDate')">
                 Змінити
               </p>
             </div>
@@ -431,7 +431,7 @@ export default {
       password: yup.string().required().min(2).max(50)
     })
     const schemaBirthDate = yup.object({
-      birthdayDate: yup.string().required().min(2).max(50)
+      birthDate: yup.date().required().min('1923-01-01').max(new Date())
     })
 
     return { schemaName, schemaEmail, schemaPhone, schemaPassword, schemaBirthDate }
@@ -450,7 +450,7 @@ export default {
           lastName: '',
           phoneNumber: '',
           email: '',
-          birthdayDate: ''
+          birthDate: ''
         }
       }
     }
@@ -460,13 +460,13 @@ export default {
   },
   async mounted() {
     if (this.user) {
-      const { firstName, lastName, phoneNumber, email, birthdayDate } = this.user
+      const { firstName, lastName, phoneNumber, email, birthDate } = this.user
       this.formData.user = {
         firstName,
         lastName,
         phoneNumber,
         email,
-        birthdayDate
+        birthDate: new Date(birthDate).toLocaleDateString()
       }
     }
   },
@@ -474,6 +474,7 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['updateUserInfo']),
     async updateUser(data, info) {
+      if (data.birthDate) data.birthDate = new Date(data.birthDate).getTime()
       await this.updateUserInfo(data)
       this.switchChangeMode(info.evt.target.id)
     },

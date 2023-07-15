@@ -3,6 +3,7 @@ import { useAlertStore } from './alert'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
+import { useProductStore } from './product'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -31,20 +32,6 @@ export const useUserStore = defineStore('user', {
       localStorage.setItem('user', JSON.stringify(this.user))
       const alertStore = useAlertStore()
       alertStore.showAlert('Дані успішно оновлені')
-    },
-    async pushInHistory(id) {
-      console.log('pushInHistory')
-      if (this.authStore.isAuthenticated) {
-        await this.post('user/history', { product: id }, null, true)
-      } else {
-        const history = JSON.parse(localStorage.getItem('history')) || []
-        const index = history.indexOf(id)
-        if (index > -1) {
-          history.splice(index, 1)
-        }
-        history.unshift(id)
-        localStorage.setItem('history', JSON.stringify(history))
-      }
     },
     async pushInWishlist(id) {
       console.log('pushInWishlist')

@@ -1,13 +1,15 @@
 import { defineStore, mapActions } from 'pinia'
 import { useApiStore } from './api'
+import { useAuthStore } from './auth'
 
 export const useOrderStore = defineStore('order', {
   state() {
     return {
       orders: [],
+      statuses: [],
       countries: [],
-      pickedCountry: undefined,
       cities: [],
+      pickedCountry: undefined,
       delivery: {
         types: undefined,
         pickedType: undefined,
@@ -29,10 +31,18 @@ export const useOrderStore = defineStore('order', {
       await this.getDeliveryTypes()
     },
     async createOrder(orderPayload) {
-      this.orders.push(await this.post('order', orderPayload))
+      const authStore = useAuthStore()
+      const data = await this.post('order', orderPayload, null, authStore.isAuthenticated)
+      if (data) {
+        this.orders.push(data)
+        return data
+      }
     },
     async getOrders() {
       this.orders = await this.get('user/orders', true)
+    },
+    async getOrderStatuses() {
+      this.statuses = await this.get('order/statuses')
     },
     async getCountries() {
       const data = await this.get('country')

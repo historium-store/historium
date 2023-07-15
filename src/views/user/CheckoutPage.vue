@@ -322,7 +322,8 @@ export default {
       'getCountries',
       'getDeliveryTypes',
       'pickCountry',
-      'pickPaymentType'
+      'pickPaymentType',
+      'createOrder'
     ]),
     inputStyle(meta) {
       return (
@@ -345,7 +346,7 @@ export default {
       this.formData.deliveryInfo.type = this.delivery.pickedType.name
       const payload = {
         contactInfo: this.formData.contactInfo,
-        receiverInfo: this.formData.contactInfo,
+        // receiverInfo: this.formData.contactInfo,
         callback: true,
         deliveryInfo: { ...this.formData.deliveryInfo, address: this.delivery.address },
         paymentType: this.delivery.pickedPaymentType,
@@ -354,12 +355,14 @@ export default {
       }
 
       this.isLoading = true
-      if (await this.post('order', payload, null, true)) {
+      const order = await this.createOrder(payload)
+      if (order) {
         await this.clearCart()
         this.showAlert('Заказ успішний')
-        this.$router.push({ name: 'orders' })
-      } else this.showAlert('Щось пішло не так', 'bg-red-500')
-
+        this.isLoading = false
+        console.log(order)
+        await this.$router.push({ name: 'submit-order', params: { orderNumber: order.number } })
+      }
       this.isLoading = false
     }
   }

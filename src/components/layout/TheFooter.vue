@@ -9,10 +9,10 @@
         <div class="mx-auto">
           <p class="text-whiteblue text-2xl">Контакти</p>
           <p class="text-lightturquoise mt-3">Наша адреса</p>
-          <p class="tracking-widest">м. Одеса, вул. Казкова, 17</p>
+          <p class="tracking-wide">м. Одеса, вул. Казкова, 17</p>
           <p class="text-lightturquoise mt-3">Режим роботи</p>
-          <p class="text-base tracking-widest">Пн-Пт: 09:00-20:00</p>
-          <p class="text-base tracking-widest">Сб-Нд: 10:00-19:00</p>
+          <p class="text-base tracking-wider">Пн-Пт: 09:00-20:00</p>
+          <p class="text-base tracking-wider">Сб-Нд: 10:00-19:00</p>
         </div>
         <div class="mx-auto">
           <p class="text-whiteblue text-2xl">Інформація</p>
@@ -24,9 +24,9 @@
           </div>
         </div>
         <div class="mx-auto col-span-2 mt-8 md:mt-0 md:col-span-1">
-          <div class="md:space-y-2 md:block inline-flex space-x-5 md:space-x-0">
-            <p class="text-whiteblue text-xl tracking-wider">+38 (096) 324 23 23</p>
-            <p class="text-whiteblue text-xl tracking-wider">+38 (093) 534 22 55</p>
+          <div class="md:space-y-2 md:block sm:inline-flex sm:space-x-5 md:space-x-0">
+            <p class="text-whiteblue text-xl tracking-wider">+38 (096) 324 14 88</p>
+            <p class="text-whiteblue text-xl tracking-wider">+38 (093) 534 14 88</p>
           </div>
           <div class="flex items-center justify-center space-x-6 mt-10">
             <div class="w-8 h-8 rounded-full flex items-center bg-slate-100">

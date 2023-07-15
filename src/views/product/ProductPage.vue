@@ -188,10 +188,6 @@
                 </span>
               </div>
               <div>
-                <p class="text-gray-400">Палітурка</p>
-                <p>{{ good.article }}</p>
-              </div>
-              <div>
                 <p class="text-gray-400">Мова</p>
                 <p>{{ good.languages[0] }}</p>
               </div>

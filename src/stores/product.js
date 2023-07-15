@@ -3,7 +3,6 @@ import { default as router } from '../router'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
 import { useFilterStore } from './filter'
-import { useUserStore } from './user'
 export const useProductStore = defineStore('product', {
   state: () => ({
     allowedTypes: ['product', 'book', 'board-game', 'e-book'],
@@ -16,8 +15,7 @@ export const useProductStore = defineStore('product', {
     }
   }),
   actions: {
-    ...mapActions(useApiStore, ['get']),
-    ...mapActions(useUserStore, ['pushInHistory']),
+    ...mapActions(useApiStore, ['get', 'post']),
     isAllowedType(type) {
       return this.allowedTypes.includes(type)
     },
@@ -74,6 +72,20 @@ export const useProductStore = defineStore('product', {
         userHistory = JSON.parse(localStorage.getItem('history')) || []
       }
       this.homeSpecialSections.history = userHistory
+    },
+    async pushInHistory(id) {
+      const authStore = useAuthStore()
+      if (authStore.isAuthenticated) {
+        await this.post('user/history', { product: id }, null, true)
+      } else {
+        const history = JSON.parse(localStorage.getItem('history')) || []
+        const index = history.findIndex((item) => item._id === id)
+        if (index > -1) {
+          history.splice(index, 1)
+        }
+        history.unshift(await this.getAbstractProductById(id))
+        localStorage.setItem('history', JSON.stringify(history))
+      }
     }
   }
 })

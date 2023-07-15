@@ -52,7 +52,7 @@
               "
               @click.stop="addToCart"
             >
-              <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-4 ' + cartColor" />
+              <font-awesome-icon :icon="['fas', 'cart-shopping']" :class="'mx-4 text-white'" />
             </span>
             <span
               v-else
@@ -62,7 +62,7 @@
               "
               @click.stop="addToWaitlist"
             >
-              <font-awesome-icon :icon="['fas', 'clock']" :class="'mx-4 ' + waitingColor" />
+              <font-awesome-icon :icon="['fas', 'clock']" :class="'mx-4 text-white'" />
             </span>
           </div>
         </div>
@@ -92,9 +92,9 @@ export default {
     isInCart() {
       return this.cart.items.map((item) => item.product._id).includes(this.good._id)
     },
-    cartColor() {
-      return this.isInCart ? 'text-white' : 'text-white'
-    },
+    // cartColor() {
+    //   return this.isInCart ? 'text-white' : 'text-white'
+    // },
     cartButtonColor() {
       return this.isInCart
         ? 'border-2 bg-turquoise'
@@ -103,9 +103,9 @@ export default {
     bookmarkColor() {
       return this.isInWishlist ? 'text-turquoise' : 'text-whiteblue'
     },
-    waitingColor() {
-      return this.isInWaitlist ? 'text-white' : 'text-white'
-    },
+    // waitingColor() {
+    //   return this.isInWaitlist ? 'text-white' : 'text-white'
+    // },
     waitingButtonColor() {
       return this.isInWaitlist
         ? 'border-2 bg-turquoise'
@@ -120,7 +120,7 @@ export default {
       return this.good?.quantity > 0
     },
     isEBook() {
-      return this.good.type.key === 'e-book'
+      return this.good?.type?.key === 'e-book'
     },
     availability() {
       if (this.isEBook) {

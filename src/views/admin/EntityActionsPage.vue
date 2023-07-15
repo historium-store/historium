@@ -4,46 +4,50 @@
     <p class="font-rubik">Назад</p>
   </div>
   <div
-    class="flex border-2 space-x-3 p-3 m-5 font-rubik items-center w-1/4 hover:cursor-pointer"
+    class="flex border-2 space-x-3 p-3 m-5 font-rubik items-center md:w-1/4 hover:cursor-pointer"
     @click="create"
   >
-    <p>Add new {{ instance[0] }}</p>
+    <p>Add new {{ entity[0] }}</p>
     <font-awesome-icon class="text-xl text-green-600" :icon="['fas', 'plus']" />
   </div>
-  <div v-if="instanceItems" class="m-5 overflow-x-scroll font-rubik text-[12px]">
+  <div v-if="entityItems" class="m-5 overflow-x-scroll font-rubik text-[12px]">
     <table class="table-auto w-max border-collapse">
       <thead>
         <tr>
           <th class="border-2 p-3">Edit</th>
           <th class="border-2 p-3">Remove</th>
-          <th v-for="key in instanceKeys.slice(1)" :key="key" class="border-2 p-3">
+          <th v-for="key in entityKeys.slice(1)" :key="key" class="border-2 p-3">
             {{ key }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="instanceItem in instanceItems" :key="instanceItem" class="">
+        <tr v-for="entityItem in entityItems" :key="entityItem" class="">
           <td class="border-2 p-3 text-center hover:cursor-pointer">
             <font-awesome-icon class="text-lg text-yellow-600" :icon="['fas', 'pencil']" />
           </td>
           <td class="border-2 p-3 text-center hover:cursor-pointer">
             <font-awesome-icon class="text-lg text-red-600" :icon="['fas', 'trash-can']" />
           </td>
-          <td v-for="key in instanceKeys.slice(1)" :key="key" class="border-2 px-3 py-1">
-            <!-- {{ instanceItem[key] }} -->
-            <div v-if="Array.isArray(instanceItem[key])">
-              <div v-for="field in beautifyArray(instanceItem[key])" :key="field">
+          <td v-for="key in entityKeys.slice(1)" :key="key" class="border-2 px-3 py-1">
+            <div>
+              <div v-for="field in beautifyEntity(entityItem[key])" :key="field">
                 {{ field }}
               </div>
             </div>
-            <div v-else-if="typeof instanceItem[key] === 'object'">
-              <div v-for="field in beautifyObject(instanceItem[key])" :key="field">
+            <!-- <div v-if="Array.isArray(entityItem[key])">
+              <div v-for="field in beautifyArray(entityItem[key])" :key="field">
+                {{ field }}
+              </div>
+            </div>
+            <div v-else-if="typeof entityItem[key] === 'object'">
+              <div v-for="field in beautifyObject(entityItem[key])" :key="field">
                 {{ field }}
               </div>
             </div>
             <div v-else>
-              {{ instanceItem[key].toString().replaceAll('{"', '') }}
-            </div>
+              {{ entityItem[key] }}
+            </div> -->
           </td>
         </tr>
       </tbody>
@@ -65,24 +69,32 @@ import AdminModal from '../../components/layout/modals/AdminModal.vue'
 import { useAdminStore } from '../../stores/admin'
 export default {
   components: { AdminModal },
-  props: ['instance'],
+  props: ['entity'],
   data: () => {
     return {
-      instanceItems: undefined,
-      instanceKeys: undefined
+      entityItems: undefined,
+      entityKeys: undefined
     }
   },
   async mounted() {
-    this.instanceItems = await this.getAllEntity(this.instance[0])
-    this.instanceKeys = Object.keys(this.instanceItems[0])
+    this.entityItems = await this.getAllEntity(this.entity[0])
+    this.entityKeys = Object.keys(this.entityItems[0])
   },
   methods: {
     ...mapActions(useAdminStore, ['getAllEntity', 'create']),
     goBack() {
       router.go(-1)
     },
+    beautifyEntity(entity) {
+      if (Array.isArray(entity)) {
+        return this.beautifyArray(entity)
+      } else if (typeof entity === 'object') {
+        return this.beautifyObject(entity)
+      } else return [entity]
+    },
     beautifyObject(obj, nested) {
       let res = []
+
       if (Object.values(obj)) {
         for (let [key, value] of Object.entries(obj)) {
           if (Array.isArray(value) && value.length > 1) {
@@ -92,6 +104,7 @@ export default {
           } else res.push(`${key}: ${value}`)
         }
       }
+
       return nested ? res.join(', ') : res
     },
     beautifyArray(array, nested) {

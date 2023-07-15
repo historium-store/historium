@@ -7,7 +7,7 @@ import { useAuthStore } from './auth'
 export const useApiStore = defineStore('api', {
   state: () => ({
     authStore: useAuthStore(),
-    API: import.meta.env.VITE_API_URL
+    API_URL: import.meta.env.VITE_API_URL
   }),
   actions: {
     async responseMiddleware(response) {
@@ -16,7 +16,9 @@ export const useApiStore = defineStore('api', {
         return response.data || true
       else if (
         ['Bad Request'].includes(response.statusText) ||
-        ['login', 'signup', 'restore'].includes(response?.request?.responseURL?.split('/').at(-1))
+        ['login', 'signup', 'restore', 'order'].includes(
+          response?.request?.responseURL?.split('/').at(-1)
+        )
       ) {
         alertStore.showAlert(response.data.message, 'bg-red-500')
       } else if (['Not Found', 'Internal Server Error'].includes(response.statusText)) {
@@ -31,6 +33,9 @@ export const useApiStore = defineStore('api', {
       if (isNeedAuth) {
         headers['Authorization'] = this.authStore.getAuthToken
       }
+      // if (import.meta.env.VITE_NODE_ENV === 'production') {
+      //   headers['API-Key'] = import.meta.env.VITE_API_KEY
+      // }
       return {
         headers
       }
@@ -38,7 +43,9 @@ export const useApiStore = defineStore('api', {
     async post(route, body, query, isNeedAuth) {
       const response = await axios
         .post(
-          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
+          query
+            ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
+            : `${this.API_URL}${route}`,
           body,
           this.getHeader(isNeedAuth)
         )
@@ -49,8 +56,8 @@ export const useApiStore = defineStore('api', {
     },
     async get(route, isNeedAuth, query) {
       const requestUrl = query
-        ? `${this.API}${route}?${new URLSearchParams(query)}`
-        : `${this.API}${route}`
+        ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
+        : `${this.API_URL}${route}`
       // console.log(requestUrl)
 
       const response = await axios.get(requestUrl, this.getHeader(isNeedAuth)).catch((error) => {
@@ -61,7 +68,7 @@ export const useApiStore = defineStore('api', {
     async patch(route, body, query) {
       query = new URLSearchParams(query)
       const response = await axios
-        .patch(`${this.API}${route}?${query}`, body, this.getHeader(true))
+        .patch(`${this.API_URL}${route}?${query}`, body, this.getHeader(true))
         .catch((error) => {
           return this.responseMiddleware(error.response)
         })
@@ -70,7 +77,9 @@ export const useApiStore = defineStore('api', {
     async delete(route, body, query) {
       const response = await axios
         .delete(
-          query ? `${this.API}${route}?${new URLSearchParams(query)}` : `${this.API}${route}`,
+          query
+            ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
+            : `${this.API_URL}${route}`,
           { ...this.getHeader(true), data: body }
         )
         .catch((error) => {

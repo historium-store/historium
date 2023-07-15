@@ -79,15 +79,12 @@ body {
 }
 
 .background {
-  position: relative;
   background-image: url('../assets/background.svg');
-  background-size: cover;
-  /* width: 98vw; */
+  background-repeat: repeat-y;
 }
-  /* background-attachment: fixed; */
-  /* background-position: top; */
-  /* background-size: 100% 100%; */
-  /* background-repeat: repeat-x; */
-  /* background: #031425; */
-  /* background: #fff; */
-  /* min-height: 100vh; */
+/* background-attachment: fixed; */
+/* background-position: top; */
+/* background-size: 100% 100%; */
+/* background-repeat: repeat-x; */
+/* background: #031425; */
+/* min-height: 100vh; */

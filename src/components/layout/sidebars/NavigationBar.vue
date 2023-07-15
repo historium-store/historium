@@ -18,28 +18,43 @@
             />
           </li>
           <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'book-open']"
-              style="color: #ffffff"
-            />
+            <router-link
+              :key="$route.fullPath"
+              :to="{ name: 'AllProducts', params: { type: 'book' } }"
+            >
+              <font-awesome-icon
+                class="w-6"
+                size="lg"
+                :icon="['fas', 'book-open']"
+                style="color: #ffffff"
+              />
+            </router-link>
           </li>
           <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'cloud-arrow-down']"
-              style="color: #ffffff"
-            />
+            <router-link
+              :key="$route.fullPath"
+              :to="{ name: 'AllProducts', params: { type: 'e-book' } }"
+            >
+              <font-awesome-icon
+                class="w-6"
+                size="lg"
+                :icon="['fas', 'cloud-arrow-down']"
+                style="color: #ffffff"
+              />
+            </router-link>
           </li>
           <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'headphones']"
-              style="color: #ffffff"
-            />
+            <router-link
+              :key="$route.fullPath"
+              :to="{ name: 'AllProducts', params: { type: 'audio-book' } }"
+            >
+              <font-awesome-icon
+                class="w-6"
+                size="lg"
+                :icon="['fas', 'headphones']"
+                style="color: #ffffff"
+              />
+            </router-link>
           </li>
           <!-- <li>
             <font-awesome-icon
@@ -50,12 +65,17 @@
             />
           </li> -->
           <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'puzzle-piece']"
-              style="color: #ffffff"
-            />
+            <router-link
+              :key="$route.fullPath"
+              :to="{ name: 'AllProducts', params: { type: 'board-game' } }"
+            >
+              <font-awesome-icon
+                class="w-6"
+                size="lg"
+                :icon="['fas', 'puzzle-piece']"
+                style="color: #ffffff"
+              />
+            </router-link>
           </li>
           <li>
             <font-awesome-icon

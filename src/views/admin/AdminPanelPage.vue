@@ -5,7 +5,7 @@
       <admin-panel-tile
         title="Товари"
         icon="book"
-        :link="{ name: 'instance', params: { instance: ['product'] } }"
+        :link="{ name: 'entity', params: { entity: ['product'] } }"
       />
       <admin-panel-tile title="Категорії" icon="list" link="/admin/section" />
       <hr class="col-span-2 my-4 border-[1.5px] rounded mx-3" />

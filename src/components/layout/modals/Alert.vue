@@ -17,9 +17,6 @@ export default {
   computed: {
     ...mapState(useAlertStore, ['title', 'color'])
   },
-  updated() {
-    console.log('updateAlert')
-  },
   methods: {
     ...mapActions(useAlertStore, ['showAlert'])
   }

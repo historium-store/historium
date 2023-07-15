@@ -31,7 +31,7 @@
         <the-search name="pc" class="max-[550px]:hidden" />
         <div class="flex flex-wrap items-center">
           <div class="flex">
-            <RouterLink :to="isAuthenticated ? '/user/wishlist' : ''" class="bookmark px-2">
+            <RouterLink to="/user/wishlist" class="bookmark px-2">
               <div
                 class="ml-2 top-6 w-5 h-5 sm:w-4 sm:h-4 rounded-full bg-turquoise items-center flex absolute"
               >
@@ -125,7 +125,6 @@ export default {
       } else this.openSidebar('profile')
     },
     async scrollTo(section) {
-      console.log(window.location.pathname)
       if (window.location.pathname != '/') {
         await this.$router.push('/')
       }

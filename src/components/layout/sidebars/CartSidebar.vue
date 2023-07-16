@@ -7,13 +7,10 @@
     "
   >
     <Cart is-sidebar="_" />
-    <!-- <img v-if="isDarkMode" src="../../../assets/cart-bottom-dark.png" /> -->
-    <!-- <img src="../../../assets/cart-bottom.png" /> -->
   </aside>
 </template>
 
 <script>
-// import SidebarItem from './SidebarItem.vue'
 import { mapActions } from 'pinia'
 import { useCartStore } from '../../../stores/cart'
 import { useProductStore } from '../../../stores/product'

@@ -16,7 +16,6 @@
       <div class="flex justify-between my-3">
         <p>{{ totalQuantityLabel }}</p>
         <p>{{ order.totalPrice - order.deliveryPrice }} ₴</p>
-        <!--   -deliveryPrice -->
       </div>
       <hr />
       <div class="flex justify-between my-3">

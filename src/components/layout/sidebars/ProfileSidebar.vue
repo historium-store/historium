@@ -12,6 +12,19 @@
       alt=""
     />
     <div class="px-3 py-4 bg-turquoise">
+      <img class="absolute mt-20 z-20 -ms-[5px]" src="../../../assets/star-3.png" alt="star" />
+      <img class="absolute mt-80 z-20 -ms-[3px]" src="../../../assets/star-2.png" alt="star" />
+      <img class="absolute mt-96 z-20 -ms-[2px]" src="../../../assets/star-1.png" alt="star" />
+      <img
+        class="absolute rotate-90 z-20 -mt-[13px] ms-[30%]"
+        src="../../../assets/star-2.png"
+        alt="star"
+      />
+      <img
+        class="absolute rotate-90 z-20 -mt-[11px] ms-48"
+        src="../../../assets/star-1.png"
+        alt="star"
+      />
       <div class="rounded-t-2xl p-4 space-y-5 flex flex-col">
         <div class="inline-flex mx-auto mt-4">
           <span><h1 class="text-2xl">Профіль</h1></span>
@@ -170,6 +183,8 @@
           </ul>
         </div>
       </div>
+      <img class="absolute z-20 right-0 mr-2" src="../../../assets/star-2.png" alt="star" />
+      <img class="absolute z-20 -mt-52 right-0 mr-2" src="../../../assets/star-2.png" alt="star" />
     </div>
     <img class="max-md:w-full" src="../../../assets/profile-bottom.png" alt="" />
   </aside>

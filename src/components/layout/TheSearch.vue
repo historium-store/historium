@@ -1,5 +1,5 @@
 <template>
-  <div :id="`search-block-${name}`" class="flex-1 flex-col px-6 items-center z-[45]">
+  <div :id="`search-block-${name}`" class="flex-1 flex-col px-6 items-center z-50">
     <div class="flex flex-1 mt-3">
       <input
         v-model.trim="searchInput"
@@ -12,6 +12,7 @@
         @change="searchInputTrigger"
       />
       <span
+        v-if="name === 'pc'"
         class="input-group-text flex items-center whitespace-nowrap rounded px-3 py-1.5 text-center text-base font-normal hover:cursor-pointer"
       >
         <font-awesome-icon

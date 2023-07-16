@@ -80,7 +80,7 @@ body {
 
 .background {
   background-image: url('../assets/background.svg');
-  background-repeat: repeat-y;
+  background-repeat: repeat-y repeat-x;
 }
 /* background-attachment: fixed; */
 /* background-position: top; */

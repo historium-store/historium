@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-3xl text-center font-sans leading-tight tracking-tight md:text-2xl">
+  <h1 class="text-3xl text-center -mt-12 font-rubik leading-tight tracking-tight md:text-2xl">
     Створення {{ entityName }}
   </h1>
   <div>

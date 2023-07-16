@@ -10,6 +10,7 @@ export default {
         whiteblue: '#E1FFFE',
         deepblue: '#031425',
         deepgreen: '#084F4F',
+        darkgreen: '#0A7E7E',
         primary: {
           50: '#ecfdf5',
           100: '#d1fae5',

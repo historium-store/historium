@@ -3,6 +3,24 @@
     <font-awesome-icon class="w-6" :icon="['fas', 'arrow-left']" size="lg" />
     <p class="font-rubik">Назад</p>
   </div>
+  <div class="m-3 p-3 flex items-center justify-between hover:cursor-pointer">
+    <div :class="pagination.offset === 0 ? 'invisible' : ''" @click="prevPart(entity[0])">
+      <font-awesome-icon class="w-6" :icon="['fas', 'arrow-left']" size="lg" />
+      <p class="font-rubik">Prev</p>
+    </div>
+    <div
+      :class="
+        pagination.part + pagination.offset >= pagination.total ||
+        currentEntity.length < pagination.part
+          ? 'invisible'
+          : ''
+      "
+      @click="nextPart(entity[0])"
+    >
+      <font-awesome-icon class="w-6" :icon="['fas', 'arrow-right']" size="lg" />
+      <p class="font-rubik">Next</p>
+    </div>
+  </div>
   <div
     class="flex border-2 space-x-3 p-3 m-5 font-rubik items-center md:w-1/4 hover:cursor-pointer"
     @click="create"
@@ -10,23 +28,23 @@
     <p>Add new {{ entity[0] }}</p>
     <font-awesome-icon class="text-xl text-green-600" :icon="['fas', 'plus']" />
   </div>
-  <div v-if="entityItems" class="m-5 overflow-x-scroll font-rubik text-[12px]">
-    <table class="table-auto w-max border-collapse">
+  <div v-if="currentEntity && entityKeys" class="m-5 overflow-x-scroll font-rubik text-[12px]">
+    <table class="table-auto w-full border-collapse">
       <thead>
         <tr>
-          <th class="border-2 p-3">Edit</th>
-          <th class="border-2 p-3">Remove</th>
+          <th class="border-2 px-3">Edit</th>
+          <th class="border-2 px-3">Remove</th>
           <th v-for="key in entityKeys.slice(1)" :key="key" class="border-2 p-3">
             {{ key }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="entityItem in entityItems" :key="entityItem" class="">
-          <td class="border-2 p-3 text-center hover:cursor-pointer">
+        <tr v-for="entityItem in currentEntity" :key="entityItem" class="">
+          <td class="border-2 p-3 text-center hover:cursor-pointer" @click="edit">
             <font-awesome-icon class="text-lg text-yellow-600" :icon="['fas', 'pencil']" />
           </td>
-          <td class="border-2 p-3 text-center hover:cursor-pointer">
+          <td class="border-2 p-3 text-center hover:cursor-pointer" @click="remove">
             <font-awesome-icon class="text-lg text-red-600" :icon="['fas', 'trash-can']" />
           </td>
           <td v-for="key in entityKeys.slice(1)" :key="key" class="border-2 px-3 py-1">
@@ -35,19 +53,6 @@
                 {{ field }}
               </div>
             </div>
-            <!-- <div v-if="Array.isArray(entityItem[key])">
-              <div v-for="field in beautifyArray(entityItem[key])" :key="field">
-                {{ field }}
-              </div>
-            </div>
-            <div v-else-if="typeof entityItem[key] === 'object'">
-              <div v-for="field in beautifyObject(entityItem[key])" :key="field">
-                {{ field }}
-              </div>
-            </div>
-            <div v-else>
-              {{ entityItem[key] }}
-            </div> -->
           </td>
         </tr>
       </tbody>
@@ -62,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { mapActions, mapWritableState } from 'pinia'
 import router from '../../router'
 
 import AdminModal from '../../components/layout/modals/AdminModal.vue'
@@ -72,16 +77,28 @@ export default {
   props: ['entity'],
   data: () => {
     return {
-      entityItems: undefined,
+      // entityItems: undefined,
       entityKeys: undefined
     }
   },
+  computed: {
+    ...mapWritableState(useAdminStore, ['currentEntity', 'pagination'])
+  },
   async mounted() {
-    this.entityItems = await this.getAllEntity(this.entity[0])
-    this.entityKeys = Object.keys(this.entityItems[0])
+    this.dropPagination()
+    await this.getEntity(this.entity[0])
+    this.entityKeys = Object.keys(this.currentEntity[0])
   },
   methods: {
-    ...mapActions(useAdminStore, ['getAllEntity', 'create']),
+    ...mapActions(useAdminStore, [
+      'getEntity',
+      'create',
+      'edit',
+      'remove',
+      'nextPart',
+      'prevPart',
+      'dropPagination'
+    ]),
     goBack() {
       router.go(-1)
     },

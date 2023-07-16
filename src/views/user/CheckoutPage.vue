@@ -238,6 +238,7 @@ import DeliveryType from '../../components/order/DeliveryType.vue'
 import OrderItems from '../../components/order/OrderItems.vue'
 import { useAlertStore } from '../../stores/alert'
 import { useApiStore } from '../../stores/api'
+import { useAuthStore } from '../../stores/auth'
 import { useCartStore } from '../../stores/cart'
 import { useOrderStore } from '../../stores/order'
 import { useUserStore } from '../../stores/user'
@@ -288,6 +289,7 @@ export default {
     ...mapWritableState(useCartStore, ['cart']),
     ...mapWritableState(useUserStore, { authUser: 'user' }),
     ...mapWritableState(useOrderStore, ['countries', 'cities', 'delivery']),
+    ...mapWritableState(useAuthStore, ['isAuthenticated']),
     buttonLabel() {
       // return `Оплатити ${this.cart.totalPrice + this.delivery?.pickedType?.price} ₴`
       return `Підтвердити замовлення`
@@ -346,11 +348,10 @@ export default {
       this.formData.deliveryInfo.type = this.delivery.pickedType.name
       const payload = {
         contactInfo: this.formData.contactInfo,
-        // receiverInfo: this.formData.contactInfo,
         callback: true,
         deliveryInfo: { ...this.formData.deliveryInfo, address: this.delivery.address },
         paymentType: this.delivery.pickedPaymentType,
-        items: this.cart.items,
+        items: !this.isAuthenticated ? this.cart.items : undefined,
         description: this.formData.description
       }
 
@@ -360,7 +361,6 @@ export default {
         await this.clearCart()
         this.showAlert('Заказ успішний')
         this.isLoading = false
-        console.log(order)
         await this.$router.push({ name: 'submit-order', params: { orderNumber: order.number } })
       }
       this.isLoading = false

@@ -1,6 +1,5 @@
 <template>
   <div class="flex-col md:w-3/4 mx-auto p-12 m-6 mt-0 pt-6">
-    <!-- <div class="flex-col rotate-[10deg] text-turquoise -mt-[410px]"> -->
     <div
       class="xl:ml-24 absolute mt-24 sm:mt-32 md:mt-48 lg-mt-24 xl:mt-52 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[10deg] text-turquoise"
     >

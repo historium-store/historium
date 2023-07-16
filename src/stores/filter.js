@@ -6,9 +6,7 @@ export const useFilterStore = defineStore('filter', {
   state: () => ({
     filters: undefined,
     activeFilters: {},
-    isChecked: {
-      // price: [0, 0]
-    }
+    isChecked: {}
   }),
   actions: {
     ...mapActions(useApiStore, ['get']),
@@ -26,8 +24,7 @@ export const useFilterStore = defineStore('filter', {
       await this.loadProductsResult()
     },
     async loadProductsResult(type = 'book') {
-      const productStore = useProductStore()
-      await productStore.loadProducts(type)
+      await useProductStore().loadProducts(type)
     },
     getFiltersQuery() {
       Object.keys(this.activeFilters).forEach(

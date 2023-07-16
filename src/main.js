@@ -7,9 +7,10 @@ import App from './App.vue'
 import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faFacebook, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
+import { faFacebook, faInstagram, faReadme, faTelegram } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowLeft,
+  faArrowRight,
   faArrowRightFromBracket,
   faBagShopping,
   faBook,
@@ -83,7 +84,9 @@ library.add(
   faTelegram,
   faFacebook,
   faFilter,
-  faClock
+  faClock,
+  faReadme,
+  faArrowRight
 )
 
 const app = createApp(App)

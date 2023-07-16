@@ -2,13 +2,11 @@
   <auth-modal />
   <alert id="alert" />
   <the-header :switch-modal="switchModalState" :open-modal="openModal" />
-  <!-- <Suspense> -->
-    <router-view v-slot="slotProps">
-      <div class="xl:ml-48 min-h-[600px]">
-        <component :is="slotProps.Component" />
-      </div>
-    </router-view>
-  <!-- </Suspense> -->
+  <router-view v-slot="slotProps">
+    <div class="xl:ml-48 min-h-[600px]">
+      <component :is="slotProps.Component" />
+    </div>
+  </router-view>
   <the-footer />
   <main-sidebar />
   <sections-sidebar />

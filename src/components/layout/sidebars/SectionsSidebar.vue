@@ -26,9 +26,9 @@
         </svg>
         <span class="sr-only">Close menu</span>
       </button>
-      <ul class="space-y-2 font-medium mt-6">
+      <ul v-if="currentSection" class="space-y-2 font-medium mt-6">
         <sidebar-item
-          v-if="sections != currentSections"
+          v-if="!currentSection.root"
           icon="arrow-left"
           title="Назад"
           title-style="text-base"
@@ -36,14 +36,14 @@
           @click="back"
         />
         <sidebar-item
-          v-if="sections != currentSections"
+          v-if="!currentSection.root"
           title="Показати всі"
           title-style="text-base"
           class="bg-deepgreen"
           @click="showAll"
         />
         <sidebar-item
-          v-for="section in currentSections"
+          v-for="section in currentSection.sections"
           :key="section.key"
           :title="section.name"
           title-style="text-base"
@@ -62,7 +62,7 @@ import SidebarItem from './SectionSidebarItem.vue'
 export default {
   components: { SidebarItem },
   computed: {
-    ...mapWritableState(useSectionStore, ['sections', 'rootPath', 'currentSections']),
+    ...mapWritableState(useSectionStore, ['sections', 'rootPath', 'currentSection']),
     getStyle() {
       return this.getSidebar('sections').style
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="xl:w-3/4 mx-auto">
+  <div class="2xl:w-3/4 mx-auto">
     <carousel />
     <special-section class="mx-6" name="novelties" title="Новинки" :allow-show-more="true" />
     <special-section

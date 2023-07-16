@@ -51,7 +51,7 @@ const router = createRouter({
 
 const secureRoutes = ['admin']
 const authRoutes = userRoutes.map((route) => route.name)
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore()
   const userStore = useUserStore()
   const sidebarStore = useSidebarStore()
@@ -66,6 +66,5 @@ router.beforeEach(async (to, from) => {
     return { name: 'general' }
   }
 })
-
 
 export default router

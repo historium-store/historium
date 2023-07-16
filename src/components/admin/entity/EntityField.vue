@@ -11,23 +11,31 @@
     /> -->
   <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
   <!-- </Field> -->
-  <div></div>
+  <input
+    :id="name"
+    v-model.trim="entities['product'][name]"
+    :type="type"
+    :name="name"
+    :class="inputStyle"
+    :placeholder="placeholder"
+  />
 </template>
 
 <script>
+import { mapWritableState } from 'pinia'
+import { useAdminStore } from '../../../stores/admin'
 // import { Field } from 'vee-validate'
 
 export default {
-  components: {  },
-  props: ['name', 'model', 'placeholder', 'type'],
-  methods: {
-    inputStyle(meta) {
-      return (
-        'border mt-4 sm:text-lg rounded-2xl block w-full p-3 bg-background bg-opacity-30 ' +
-        (meta.validated ? (meta.valid ? 'border-turquoise' : 'border-red-600') : 'border-white')
-      )
+  components: {},
+  props: ['name', 'placeholder', 'type'],
+  computed: {
+    ...mapWritableState(useAdminStore, ['entities']),
+    inputStyle() {
+      return 'border mt-4 md:text-lg rounded-2xl block w-full p-3 py-1.5 bg-background bg-opacity-30 border-white appearance-none'
     }
-  }
+  },
+  methods: {}
 }
 </script>
 

@@ -1,7 +1,6 @@
 <template>
   <ul class="font-medium flex flex-col w-full">
     <li v-for="item in order ? order?.items : []" :key="item.product._id" class="py-3">
-      <!-- {{ item }} -->
       <div class="flex my-2 md:m-2">
         <img
           class="h-24 rounded-md hover:cursor-pointer border-2"

@@ -4,6 +4,7 @@ import { useAlertStore } from './alert'
 import { useApiStore } from './api'
 import { useCartStore } from './cart'
 import { useModalStore } from './modal'
+import { useProductStore } from './product'
 import { useUserStore } from './user'
 
 export const useAuthStore = defineStore('auth', {
@@ -30,6 +31,7 @@ export const useAuthStore = defineStore('auth', {
     ...mapActions(useUserStore, ['getUser']),
     ...mapActions(useAlertStore, ['showAlert']),
     ...mapActions(useModalStore, ['hideModals']),
+    ...mapActions(useProductStore, ['synchronizeHistory']),
     // Authorization
     async setToken(token) {
       localStorage.setItem('token', token)
@@ -52,6 +54,8 @@ export const useAuthStore = defineStore('auth', {
         await this.synchronizeCarts()
         await this.updateCart()
 
+        await this.synchronizeHistory()
+
         this.hideModals()
         this.showAlert(`Вітаю, ${(await this.getUser()).firstName}!`)
       }
@@ -59,6 +63,7 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+      localStorage.removeItem('history')
       useUserStore().$reset()
       this.$reset()
       await this.clearCart()
@@ -68,19 +73,14 @@ export const useAuthStore = defineStore('auth', {
     // Password restoration
 
     async restorePasswordRequest(payload) {
-      const response = await this.post('password-restore', payload)
-      console.log(response.status)
-      return true
+      return await this.post('password-restore', payload)
     },
     async restorePasswordConfirm(payload) {
-      const response = await this.post('verify-restore', payload)
-      console.log(response.status)
-      return response
+      return await this.post('verify-restore', payload)
     },
     async updatePassword(payload) {
       const { userId, password } = payload
-      await this.patch(`user/${userId}`, { password })
-      return true
+      return await this.patch(`user/${userId}`, { password })
     }
   }
 })

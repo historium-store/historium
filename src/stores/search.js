@@ -3,7 +3,7 @@ import { useApiStore } from './api'
 import { useModalStore } from './modal'
 const overflow = document.createElement('div')
 
-overflow.className = 'bg-gray-900 bg-opacity-70 dark:bg-opacity-80 fixed inset-0 z-40'
+overflow.className = 'bg-gray-900 bg-opacity-70 dark:bg-opacity-80 fixed inset-0 '
 
 export const useSearchStore = defineStore('seacrh', {
   state: () => ({ searchInput: '', results: undefined }),
@@ -11,15 +11,17 @@ export const useSearchStore = defineStore('seacrh', {
     ...mapActions(useApiStore, ['get']),
     ...mapActions(useModalStore, ['showModal']),
     async search(q = this.searchInput) {
-      const data = await this.get('search', null, { q })
-      this.results = data.result
+      if (q.length > 2) {
+        const data = await this.get('search', null, { q })
+        this.results = data.result
+      }
     },
     openSearch() {
       if (!document.body.classList.contains('overflow-hidden')) {
         document.body.classList.add('overflow-hidden')
+        overflow.onclick = this.closeSearch
+        document.body.appendChild(overflow)
       }
-      overflow.onclick = this.closeSearch
-      document.body.appendChild(overflow)
     },
     closeSearch() {
       document.body.classList.remove('overflow-hidden')

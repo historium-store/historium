@@ -4,6 +4,18 @@
       <div class="m-3">
         <img class="h-20 mx-auto" src="../../assets/historium-logo.svg" />
         <hr class="mt-6 border-[1.5px] rounded mx-auto" />
+        <div>
+          <img
+            class="absolute rotate-90 -mt-[15px] ms-1 z-20"
+            src="../../assets/star-2.png"
+            alt="star"
+          />
+          <img
+            class="absolute rotate-90 -mt-[12px] ms-12 z-20"
+            src="../../assets/star-1.png"
+            alt="star"
+          />
+        </div>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 mx-auto my-8">
         <div class="mx-auto">
@@ -29,22 +41,30 @@
             <p class="text-whiteblue text-xl tracking-wider">+38 (093) 534 14 88</p>
           </div>
           <div class="flex items-center justify-center space-x-6 mt-10">
-            <div class="w-8 h-8 rounded-full flex items-center bg-slate-100">
+            <a
+              target="_blank"
+              href="https://t.me/h0sty"
+              class="w-8 h-8 rounded-full flex items-center bg-slate-100"
+            >
               <font-awesome-icon
                 size="xl"
                 class="max-sm:text-xl mx-auto"
                 :icon="['fab', 'telegram']"
                 style="color: #0e6060"
               />
-            </div>
-            <div class="w-8 h-8 rounded-full flex items-center bg-slate-100">
+            </a>
+            <a
+              target="_blank"
+              href="https://instagram.com/molod01"
+              class="w-8 h-8 rounded-full flex items-center bg-slate-100"
+            >
               <font-awesome-icon
                 size="xl"
                 class="max-sm:text-xl mx-auto"
                 :icon="['fab', 'instagram']"
                 style="color: #0e6060"
               />
-            </div>
+            </a>
             <div class="w-8 h-8 rounded-full flex items-center bg-slate-100">
               <font-awesome-icon
                 size="xl"

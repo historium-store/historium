@@ -7,6 +7,10 @@
   >
     <div :class="'w-full mb-auto flex overflow-y-auto ml-10 mt-8 ' + marginTop">
       <div class="border-[3px] rounded-full px-5 py-[65px] mx-auto bg-background">
+        <img class="absolute -ms-7 z-20" src="../../../assets/star-1.png" alt="star" />
+        <img class="absolute mt-24 -ms-7 z-20" src="../../../assets/star-2.png" alt="star" />
+        <img class="absolute mt-52 ms-[37px] z-20" src="../../../assets/star-2.png" alt="star" />
+        <img class="absolute mt-72 -ms-[27px] z-20" src="../../../assets/star-1.png" alt="star" />
         <ul class="space-y-10 [&>li]:mx-auto [&>li]:hover:cursor-pointer">
           <li>
             <font-awesome-icon
@@ -46,7 +50,7 @@
           <li>
             <router-link
               :key="$route.fullPath"
-              :to="{ name: 'AllProducts', params: { type: 'audio-book' } }"
+              :to="{ name: 'AllProducts', params: { type: 'audiobook' } }"
             >
               <font-awesome-icon
                 class="w-6"
@@ -56,14 +60,6 @@
               />
             </router-link>
           </li>
-          <!-- <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'pencil']"
-              style="color: #ffffff"
-            />
-          </li> -->
           <li>
             <router-link
               :key="$route.fullPath"
@@ -85,14 +81,6 @@
               style="color: #ffffff"
             />
           </li>
-          <!-- <li>
-            <font-awesome-icon
-              class="w-6"
-              size="lg"
-              :icon="['fas', 'gift']"
-              style="color: #ffffff"
-            />
-          </li> -->
         </ul>
       </div>
     </div>

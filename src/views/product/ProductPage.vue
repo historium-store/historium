@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-5">
       <div class="flex p-2 col-span-1 lg:col-span-2">
         <div class="flex flex-col mx-auto">
-          <div class="w-3/4 mx-auto lg:w-full">
+          <div class="md:w-3/4 mx-auto lg:w-full">
             <div class="m-auto p-6 pt-0 xl:px-12 2xl:px-24">
               <img class="rounded-2xl shadow-xl" :src="currentImage" />
             </div>
@@ -21,7 +21,7 @@
                 @click="checkout"
               >
                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
-                <span class="ml-2">Купити зараз</span>
+                <span class="ml-2">Купити</span>
               </Button>
             </div>
           </div>
@@ -58,7 +58,7 @@
           </Button>
         </div>
         <div>
-          <div v-if="good.product.type.key === 'book'" class="mt-5">
+          <div v-if="['book', 'e-book', 'audiobook'].includes(good.product.type.key)" class="mt-5">
             <p class="text-gray-400">Формат</p>
             <div class="inline-flex py-2">
               <Button class="px-4 h-8 border bg-turquoise border-turquoise rounded-full">
@@ -67,7 +67,7 @@
               </Button>
             </div>
           </div>
-          <div v-if="good.product.type.key === 'book'">
+          <div v-if="['book', 'e-book', 'audiobook'].includes(good.product.type.key)">
             <p class="text-gray-400">Мова книги</p>
             <div class="inline-flex py-2">
               <Button
@@ -94,10 +94,10 @@
             </span>
           </div>
         </div>
-        <div v-if="good.product.type.key === 'book'">
+        <div v-if="['book', 'e-book', 'audiobook'].includes(good.product.type.key)">
           <p class="font-body text-xl my-5">Характеристики</p>
           <div class="border-2 rounded-2xl p-3 px-6 space-y-5">
-            <div>
+            <div v-if="good.product.type.key === 'book'">
               <p class="text-gray-400">Формат</p>
               <p>{{ good.format }}</p>
             </div>
@@ -110,38 +110,46 @@
                 >{{ author.fullName }}{{ i < good.product?.creators?.length - 1 ? ', ' : '' }}
               </span>
             </div>
-            <div>
+            <div v-if="good.type">
               <p class="text-gray-400">Тип</p>
               <p>{{ good.type }}</p>
             </div>
             <div v-if="isExtendedFeature" class="space-y-5">
-              <div>
+              <div v-if="good.illustrationsType.length">
                 <p class="text-gray-400">Ілюстрації</p>
-                <p>{{ good.illustrationsType[0] }}</p>
+                <p>{{ good.illustrationsType.join(', ') }}</p>
               </div>
-              <div>
+              <div v-if="good.bindingType">
                 <p class="text-gray-400">Палітурка</p>
                 <p>{{ good.bindingType }}</p>
               </div>
-              <div>
+              <div v-if="good.publisher">
                 <p class="text-gray-400">Видавництво</p>
                 <p>{{ good.publisher.name }}</p>
               </div>
-              <div>
+              <div v-if="good.isbns.length">
                 <p class="text-gray-400">ISBN</p>
-                <p>{{ good.isbns[0] }}</p>
+                <p>{{ good.isbns.join(', ') }}</p>
               </div>
-              <div>
+              <div v-if="good.literaturePeriod.length">
+                <p class="text-gray-400">Література за періодами</p>
+                <p>{{ good.literaturePeriod.join(', ') }}</p>
+              </div>
+              <div v-if="good.languages">
                 <p class="text-gray-400">Мова</p>
                 <p>{{ good.languages[0] }}</p>
               </div>
-              <div>
+              <div v-if="good.pages">
                 <p class="text-gray-400">Кількість сторінок</p>
                 <p>{{ good.pages }}</p>
               </div>
-              <div>
+              <div v-if="good.publishedIn">
                 <p class="text-gray-400">Рік видання</p>
                 <p>{{ good.publishedIn }}</p>
+              </div>
+              <div v-if="good.firstPublishedIn">
+                <p class="text-gray-400">Рік першого видання</p>
+                <p>{{ good.firstPublishedIn }}</p>
               </div>
             </div>
             <span class="hover:cursor-pointer text-gray-400" @click="switchFeature">
@@ -169,12 +177,7 @@
             </div>
             <div>
               <p class="text-gray-400">Виробник</p>
-              <span
-                v-for="[i, creator] in Object.entries(good.product.creators)"
-                :key="creator.id"
-                class="font-thin"
-                >{{ creator }}{{ i < good.creators?.length - 1 ? ', ' : '' }}
-              </span>
+              <p>{{ good.product.creators.join(', ') }}</p>
             </div>
             <div>
               <p class="text-gray-400">Тип</p>
@@ -183,13 +186,11 @@
             <div v-if="isExtendedFeature" class="space-y-5">
               <div>
                 <p class="text-gray-400">Вік</p>
-                <span v-for="[i, age] in Object.entries(good.ages)" :key="age" class="font-thin"
-                  >{{ age }}{{ i < good.ages?.length - 1 ? ', ' : '' }}
-                </span>
+                <p>{{ good.ages.join(', ') }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Мова</p>
-                <p>{{ good.languages[0] }}</p>
+                <p>{{ good.languages.join(', ') }}</p>
               </div>
               <div>
                 <p class="text-gray-400">Кількість гравців</p>
@@ -220,11 +221,11 @@
         </div>
       </div>
     </div>
-    <special-section name="history" title="Раніше переглядали" />
   </div>
   <div v-else class="flex">
     <pulse-loader class="mx-auto mt-6" />
   </div>
+  <special-section class="mx-6" name="history" title="Раніше переглядали" />
 </template>
 
 <script>
@@ -287,7 +288,7 @@ export default {
     ...mapActions(useProductStore, ['loadProduct']),
     ...mapActions(useCartStore, ['addItem']),
     typeMiddlewar(type) {
-      if (['e-book', 'audio-book'].includes(type)) return 'book'
+      if (['e-book', 'audiobook'].includes(type)) return 'book'
       return type
     },
     pickImage(event) {

@@ -15,7 +15,7 @@ export const useProductStore = defineStore('product', {
     }
   }),
   actions: {
-    ...mapActions(useApiStore, ['get', 'post']),
+    ...mapActions(useApiStore, ['get', 'post', 'patch']),
     isAllowedType(type) {
       return this.allowedTypes.includes(type)
     },
@@ -32,7 +32,6 @@ export const useProductStore = defineStore('product', {
       await router.push({ name: 'product', params: { id, type } })
     },
     async loadProducts(type = 'product') {
-      console.log('>>> loadProducts')
       if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
@@ -41,7 +40,6 @@ export const useProductStore = defineStore('product', {
       this.products = data.result
     },
     async loadProduct(key, type = 'product') {
-      console.log(`>>> loadProduct ${type}/${key} `)
       if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
       }
@@ -51,6 +49,7 @@ export const useProductStore = defineStore('product', {
     async loadNovelties() {
       const data = await this.get(`product`, false, {
         orderBy: 'createdAt',
+        order: 'desc',
         limit: 12
       })
       this.homeSpecialSections.novelties = data.result
@@ -58,7 +57,7 @@ export const useProductStore = defineStore('product', {
     async loadRecomendations() {
       const data = await this.get(`product`, false, {
         orderBy: 'createdAt',
-        order: 'desc',
+        order: 'asc',
         limit: 12
       })
       this.homeSpecialSections.recomendations = data.result
@@ -85,6 +84,15 @@ export const useProductStore = defineStore('product', {
         }
         history.unshift(await this.getAbstractProductById(id))
         localStorage.setItem('history', JSON.stringify(history))
+      }
+    },
+    async synchronizeHistory() {
+      let userHistory = JSON.parse(localStorage.getItem('history')) || []
+      if (useAuthStore().isAuthenticated && userHistory.length) {
+        this.cart = await this.patch(
+          'user/history',
+          userHistory.map((item) => item._id)
+        )
       }
     }
   }

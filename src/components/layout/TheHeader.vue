@@ -28,7 +28,7 @@
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white" />
           </RouterLink>
         </div>
-        <the-search name="pc" class="max-[550px]:hidden" />
+        <the-search name="pc" class="max-[640px]:hidden" />
         <div class="flex flex-wrap items-center">
           <div class="flex">
             <RouterLink to="/user/wishlist" class="bookmark px-2">
@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-      <the-search name="phone" class="mt-5 min-[550px]:hidden" />
+      <the-search name="phone" class="mt-5 min-[640px]:hidden" />
       <div class="flex justify-center xs:max-sm:hidden">
         <ul class="flex items-center my-3 [&>li]:px-4 [&>li]:hover:cursor-pointer">
           <li>

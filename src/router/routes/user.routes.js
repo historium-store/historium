@@ -23,5 +23,5 @@ export default [
     path: '/user/library',
     name: 'library',
     component: () => import('../../views/user/LibraryPage.vue')
-  },
+  }
 ]

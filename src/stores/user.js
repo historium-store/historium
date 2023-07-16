@@ -3,7 +3,6 @@ import { useAlertStore } from './alert'
 import { useApiStore } from './api'
 import { useAuthStore } from './auth'
 import { useCartStore } from './cart'
-import { useProductStore } from './product'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -34,7 +33,6 @@ export const useUserStore = defineStore('user', {
       alertStore.showAlert('Дані успішно оновлені')
     },
     async pushInWishlist(id) {
-      console.log('pushInWishlist')
       if (this.authStore.isAuthenticated) {
         await this.post('user/wishlist', { product: id }, null, true)
         await this.getUser()
@@ -44,7 +42,6 @@ export const useUserStore = defineStore('user', {
       }
     },
     async pushInWaitlist(id) {
-      console.log('pushInWaitlist')
       if (this.authStore.isAuthenticated) {
         await this.post('user/waitlist', { product: id }, null, true)
         await this.getUser()
@@ -54,14 +51,12 @@ export const useUserStore = defineStore('user', {
       }
     },
     async removeFromWishlist(id) {
-      console.log('removeFromWishlist')
       if (this.authStore.isAuthenticated) {
         await this.delete('user/wishlist', { product: id }, null, true)
         await this.getUser()
       }
     },
     async removeFromWaitlist(id) {
-      console.log('removeFromWaitlist')
       if (this.authStore.isAuthenticated) {
         await this.delete('user/waitlist', { product: id }, null, true)
         await this.getUser()
@@ -71,6 +66,11 @@ export const useUserStore = defineStore('user', {
       this.user = await this.get('user/account', true)
       localStorage.setItem('user', JSON.stringify(this.user))
       return this.user
+    },
+    async getLibrary() {
+      if (this.authStore.isAuthenticated) {
+        return await this.get('user/library', true)
+      }
     }
   }
 })

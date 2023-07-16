@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute rounded-2xl bg-whiteblue mt-1 z-40" :style="{ width: `${searchWidth}px` }">
+  <div class="absolute rounded-2xl bg-whiteblue mt-1 z-[45]" :style="{ width: `${searchWidth}px` }">
     <ul v-if="hasResults">
       <li
         v-for="item in hasMoreResults ? results.slice(0, 5) : results"
@@ -25,9 +25,8 @@
         </div>
         <hr class="border-[1.5px] rounded-full border-lightturquoise mx-2" />
       </li>
-      <div class="px-5 py-1.5">
+      <div v-if="hasMoreResults" class="px-5 py-1.5">
         <Button
-          v-if="hasMoreResults"
           class="w-full py-1.5 border hover:bg-lightturquoise bg-turquoise rounded-full"
           @click="showMoreResults"
         >
@@ -61,9 +60,10 @@ export default {
     }
   },
   mounted() {
-    this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+    const minusWidth = this.name === 'pc' ? 78 : 47
+    this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - minusWidth
     window.addEventListener('resize', () => {
-      this.searchWidth = document.getElementById('search-block-' + this.name).clientWidth - 90
+      this.closeSearch()
     })
   },
 
@@ -72,13 +72,13 @@ export default {
     ...mapActions(useModalStore, ['hideModals']),
     ...mapActions(useSearchStore, ['closeSearch']),
     async viewProduct(key, type) {
-      // this.hideModals()
       this.searchInput = ''
       this.closeSearch()
       await this.showProduct(key, type)
     },
     async showMoreResults() {
       await this.$router.push({ path: '/search', query: { q: this.searchInput } })
+      this.searchInput = ''
       this.closeSearch()
     }
   }

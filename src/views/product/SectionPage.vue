@@ -1,7 +1,18 @@
 <template>
-  <!-- <div v-if="sectionProducts">{{ sectionProducts }}</div> -->
-  <div v-if="isLoaded" class="">
-    <breadcrumb v-if="sections" class="m-2">
+  <div v-if="isLoaded">
+    <div v-if="currentSection?.sections?.length">
+      <div
+        class="grid xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-8 2xl:grid-cols-6 gap-5 mx-auto p-3"
+      >
+        <section-card
+          v-for="section in currentSection.sections"
+          :key="section"
+          :name="section.name"
+          @click="goto(`/section/${sectionId.join('/')}/${section.key}`)"
+        />
+      </div>
+    </div>
+    <breadcrumb v-if="sectionsTree" class="m-6">
       <breadcrumb-item class="hover:cursor-pointer" home @click="goto('/')">
         Головна
       </breadcrumb-item>
@@ -14,18 +25,6 @@
         {{ getSectionByKey(part)?.name }}
       </breadcrumb-item>
     </breadcrumb>
-    <div v-if="currentSections?.sections?.length">
-      <div
-        class="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-6 gap-5 mx-auto p-6"
-      >
-        <section-card
-          v-for="section in currentSections.sections"
-          :key="section"
-          :name="section.name"
-          @click="goto(`/section/${sectionId.join('/')}/${section.key}`)"
-        />
-      </div>
-    </div>
     <product-showcase :products="sectionProducts" :filters="false" />
   </div>
   <div v-else class="flex">
@@ -47,8 +46,12 @@ export default {
     return { isLoaded: false }
   },
   computed: {
-    ...mapWritableState(useSectionStore, ['sections', 'sectionProducts', 'currentSections']),
-    ...mapWritableState(useProductStore, ['products'])
+    ...mapWritableState(useSectionStore, [
+      'sectionsTree',
+      'sectionProducts',
+      'currentSection',
+      'sectionKey'
+    ])
   },
   watch: {
     sectionId: async function () {
@@ -64,17 +67,13 @@ export default {
       'loadSectionProducts',
       'loadSectionNames',
       'getSectionByKey',
-      'getSectionNameByKey'
+      'back'
     ]),
     async loadPage() {
       this.isLoaded = false
-      let sectionKey
       if (this.sectionId.length) {
-        sectionKey = this.sectionId.at(-1)
-      } else sectionKey = this.sectionId
-
-      // await this.loadSectionNames()
-      this.currentSections = this.getSectionByKey(this.sections, sectionKey)
+        this.sectionKey = this.sectionId.at(-1)
+      } else this.sectionKey = this.sectionId
       await this.loadSectionProducts()
       this.isLoaded = true
     },

@@ -4,7 +4,15 @@ const overflow = document.createElement('div')
 
 overflow.className = 'bg-gray-900 bg-opacity-70 dark:bg-opacity-80 fixed inset-0 z-40'
 
-const modals = ['login', 'signup', 'restore', 'search', 'createEntity']
+const modals = [
+  'login',
+  'signup',
+  'restore',
+  'search',
+  'createEntity',
+  'editEntity',
+  'removeEntity'
+]
 
 export const useModalStore = defineStore('modal', {
   state: () => ({

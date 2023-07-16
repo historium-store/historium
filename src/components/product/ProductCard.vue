@@ -15,7 +15,7 @@
         <img
           class="border-[3px] h-[280px] w-[182px] md:h-[200px] md:w-[130px] object-cover rounded-xl"
           :src="good?.image"
-          alt=""
+          alt="book-image"
         />
         <div
           class="-mt-[268px] ml-[12px] md:-mt-[192px] md:ml-[8px] border-[3px] rounded-xl h-[280px] w-[182px] md:h-[200px] md:w-[130px] -z-20"
@@ -45,7 +45,7 @@
               <span>₴</span>
             </div>
             <span
-              v-if="isEBook || isAvailable"
+              v-if="isEBook || isAudioBook || isAvailable"
               :class="
                 'flex items-center transition-colors ease-out duration-200 ms-auto text-lg h-7 rounded-full  ' +
                 cartButtonColor
@@ -122,17 +122,26 @@ export default {
     isEBook() {
       return this.good?.type?.key === 'e-book'
     },
+    isAudioBook() {
+      return this.good?.type?.key === 'audiobook'
+    },
     availability() {
       if (this.isEBook) {
         return 'Електронна'
+      } else if (this.isAudioBook) {
+        return 'Аудіокнига'
       }
       return this.isAvailable ? 'В наявності' : 'Немає в наявності'
     },
     availabilityIcon() {
-      return this.isEBook ? 'cloud-arrow-down' : 'truck'
+      return this.isEBook ? 'cloud-arrow-down' : this.isAudioBook ? 'headphones' : 'truck'
     },
     availabilityColor() {
-      return this.isEBook ? 'text-whiteblue' : this.isAvailable ? 'text-turquoise' : 'text-red-300'
+      return this.isEBook || this.isAudioBook
+        ? 'text-whiteblue'
+        : this.isAvailable
+        ? 'text-turquoise'
+        : 'text-red-300'
     }
   },
   methods: {

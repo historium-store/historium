@@ -32,7 +32,7 @@
         <hr />
         <sidebar-item title="Паперові книги" link="book" icon="book" />
         <sidebar-item title="Електронні книги" link="e-book" icon="cloud-arrow-down" />
-        <sidebar-item title="Аудіокниги" link="audio-book" icon="headphones" />
+        <sidebar-item title="Аудіокниги" link="audiobook" icon="headphones" />
         <sidebar-item
           title="Інше"
           icon="ellipsis"

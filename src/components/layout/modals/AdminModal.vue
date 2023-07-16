@@ -1,7 +1,7 @@
 <template>
   <div
     id="admin-modal"
-    class=" xs:h-screen overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center hidden"
+    class="flex xs:h-screen overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center hidden"
     @click.self="hideModal(currentModal, 'admin-modal')"
   >
     <div
@@ -28,8 +28,10 @@
             </svg>
           </button>
         </div>
+        <create-entity v-if="currentModal === 'createEntity'" />
+        <!-- <create-entity v-if="currentModal === 'editEntity'" /> -->
+        <remove-entity v-else-if="currentModal === 'removeEntity'" />
       </div>
-      <create-entity />
     </div>
   </div>
 </template>
@@ -38,9 +40,10 @@
 import { mapActions, mapState } from 'pinia'
 import { useModalStore } from '../../../stores/modal'
 import CreateEntity from '../../admin/CreateEntity.vue'
+import RemoveEntity from '../../admin/RemoveEntity.vue'
 
 export default {
-  components: { CreateEntity },
+  components: { CreateEntity, RemoveEntity },
   computed: {
     ...mapState(useModalStore, ['currentModal'])
   },

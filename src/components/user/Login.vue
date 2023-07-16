@@ -33,7 +33,7 @@
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->
       </Field>
-      <div class="flex justify-end px-4 mt-1">
+      <div class="flex justify-end px-4 mt-2">
         <p
           class="text-sm font-medium hover:underline hover:cursor-pointer"
           @click="showModal('restore')"
@@ -43,7 +43,7 @@
       </div>
       <button
         type="submit"
-        class="flex border-2 flex-col mx-auto items-center min-w-[180px] text-base focus:outline-none font-medium rounded-3xl px-3 py-2 mb-4 bg-background bg-opacity-60"
+        class="flex border-2 flex-col mx-auto items-center min-w-[180px] text-base focus:outline-none font-medium rounded-3xl px-3 py-2 my-4 bg-background bg-opacity-60"
       >
         Увійти
       </button>

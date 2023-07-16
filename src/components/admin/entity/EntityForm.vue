@@ -1,20 +1,62 @@
 <template>
-  <VeeForm
-    v-slot="slot"
-    :validation-schema="schemaProduct"
-    as="div"
-    class="mt-12 [&>div>input]:pl-5"
-  >
-    <form @submit="slot.handleSubmit($event, createProductSubmit)">
+  <VeeForm v-slot="{ handleSubmit }" as="div" class="font-rubik [&>div>input]:pl-5">
+    <form @submit="handleSubmit($event, createProductSubmit)">
+      <entity-field name="name" placeholder="Введіть назву продукту" type="text" />
+      <select
+        v-model="adminStore.entities.product.creators"
+        multiple
+        :class="inputStyle"
+        name="creators"
+      >
+        <option disabled>Оберіть автора (ів)</option>
+        <option v-for="author in adminStore.authors" :key="author._id" :value="author.fullName">
+          {{ author.fullName }}
+        </option>
+      </select>
+      <select v-model="adminStore.entities.product.type" :class="inputStyle" name="type">
+        <option disabled>Оберіть тип</option>
+        <option
+          v-for="product_type in adminStore.product_types"
+          :key="product_type.key"
+          :value="product_type.key"
+        >
+          {{ product_type.name }}
+        </option>
+      </select>
+      <entity-field name="price" placeholder="Введіть ціну" type="number" />
+      <textarea
+        v-model="adminStore.entities.product.description"
+        :class="inputStyle"
+        name="description"
+        placeholder="Введіть опис"
+      />
       <entity-field
-        :name="name"
-        :model="formData.name"
-        placeholder="Введіть назву продукту"
-        type="text"
-      ></entity-field>
+        v-model="adminStore.entities.product.images"
+        multiple
+        name="images"
+        type="file"
+      />
+      <select v-model="adminStore.entities.product.sections" :class="inputStyle" name="type">
+        <option disabled>Оберіть категорію</option>
+        <option v-for="section in adminStore.sections" :key="section.key" :value="section.key">
+          {{ section.name }}
+        </option>
+      </select>
+      <!-- <entity-field name="requiresDelivery" placeholder="requiresDelivery" type="checkbox" /> -->
+      <div class="flex items-center space-x-2 mt-4 px-3">
+        <input
+          id="requiresDelivery"
+          v-model.trim="adminStore.entities['product'].requiresDelivery"
+          type="checkbox"
+          name="requiresDelivery"
+          class="rounded-2xl pr-2 h-4 text-right bg-transparent border [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          placeholder="requiresDelivery"
+        />
+        <label for="requiresDelivery">З доставкою</label>
+      </div>
       <button
         type="submit"
-        class="flex mt-5 border-2 flex-col mx-auto items-center min-w-[180px] text-base focus:outline-none font-medium rounded-3xl px-3 py-2 mb-4 bg-background bg-opacity-60"
+        class="flex mt-5 border-2 flex-col mx-auto items-center min-w-[180px] text-base focus:outline-none font-medium rounded-3xl px-3 py-2 mb-4 bg-background bg-opacity-60 appearance-none"
       >
         Створити
       </button>
@@ -23,8 +65,10 @@
 </template>
 
 <script>
+import { mapActions, mapStores } from 'pinia'
 import { Form as VeeForm } from 'vee-validate'
 import * as yup from 'yup'
+import { useAdminStore } from '../../../stores/admin'
 import EntityField from './EntityField.vue'
 export default {
   components: { VeeForm, EntityField },
@@ -46,20 +90,28 @@ export default {
     return { schemaProduct }
   },
   data: () => {
-    return {
-      formData: {
-        name: '',
-        creators: [],
-        type: '',
-        price: 0,
-        description: '',
-        images: [],
-        sections: [],
-        requiresDelivery: false
-      }
+    return {}
+  },
+  computed: {
+    // ...mapWritableState(useAdminStore, ['entities']),
+    ...mapStores(useAdminStore),
+    inputStyle() {
+      return 'border mt-4 sm:text-lg rounded-2xl block w-full p-3 py-1.5 bg-background bg-opacity-30 border-white'
     }
   },
-  computed: {}
+  async mounted() {
+    await this.getAuthors()
+    await this.getProductTypes()
+    await this.getSections()
+  },
+  methods: {
+    ...mapActions(useAdminStore, [
+      'createProductSubmit',
+      'getAuthors',
+      'getProductTypes',
+      'getSections'
+    ])
+  }
 }
 </script>
 

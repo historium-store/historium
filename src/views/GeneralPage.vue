@@ -11,8 +11,8 @@
   </div>
 </template>
 <script>
-import Carousel from '../components/layout/sections/Carousel.vue'
-import SpecialSection from '../components/layout/sections/SpecialSection.vue'
+import Carousel from '../components/sections/Carousel.vue'
+import SpecialSection from '../components/sections/SpecialSection.vue'
 export default {
   components: { SpecialSection, Carousel }
 }

@@ -1,32 +1,24 @@
 <template>
   <div v-if="images" class="mx-6 my-12">
     <div class="relative slide">
-      <img class="absolute mt-24 z-20 -ms-[12px]" src="../../../assets/star-4.png" alt="star" />
+      <img class="absolute mt-24 z-20 -ms-[12px]" src="../../assets/star-4.png" alt="star" />
       <img
         class="absolute rotate-90 z-20 -mt-[13px] ms-[30%]"
-        src="../../../assets/star-2.png"
+        src="../../assets/star-2.png"
         alt="star"
       />
       <img
         class="absolute rotate-90 z-20 -mt-[13px] ms-48"
-        src="../../../assets/star-2.png"
+        src="../../assets/star-2.png"
         alt="star"
       />
       <img
         class="absolute rotate-90 z-20 -mt-[11px] ms-[63%]"
-        src="../../../assets/star-1.png"
+        src="../../assets/star-1.png"
         alt="star"
       />
-      <img
-        class="absolute mt-8 -me-[5px] z-20 right-0"
-        src="../../../assets/star-1.png"
-        alt="star"
-      />
-      <img
-        class="absolute mt-28 -me-[7px] z-20 right-0"
-        src="../../../assets/star-3.png"
-        alt="star"
-      />
+      <img class="absolute mt-8 -me-[5px] z-20 right-0" src="../../assets/star-1.png" alt="star" />
+      <img class="absolute mt-28 -me-[7px] z-20 right-0" src="../../assets/star-3.png" alt="star" />
       <div class="carousel-inner relative overflow-hidden rounded-3xl border-[3px]">
         <div
           v-for="(img, i) in images"
@@ -51,17 +43,17 @@
       </div>
       <img
         class="absolute rotate-90 -mt-[16px] ms-[40%]"
-        src="../../../assets/star-2.png"
+        src="../../assets/star-2.png"
         alt="star"
       />
       <img
         class="absolute rotate-90 -mt-[12px] ms-[20%]"
-        src="../../../assets/star-1.png"
+        src="../../assets/star-1.png"
         alt="star"
       />
       <img
         class="absolute rotate-90 -mt-[20px] ms-[60%]"
-        src="../../../assets/star-3.png"
+        src="../../assets/star-3.png"
         alt="star"
       />
     </div>
@@ -70,7 +62,7 @@
 
 <script>
 import { mapActions } from 'pinia'
-import { useApiStore } from '../../../stores/api'
+import { useApiStore } from '../../stores/api'
 export default {
   data() {
     return {

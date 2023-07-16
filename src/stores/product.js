@@ -7,12 +7,7 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     allowedTypes: ['product', 'book', 'board-game', 'e-book'],
     products: undefined,
-    product: undefined,
-    homeSpecialSections: {
-      novelties: undefined,
-      recomendations: undefined,
-      history: undefined
-    }
+    product: undefined
   }),
   actions: {
     ...mapActions(useApiStore, ['get', 'post', 'patch']),
@@ -45,32 +40,6 @@ export const useProductStore = defineStore('product', {
       }
       this.product = await this.get(`${type}/${key}`)
       await this.pushInHistory(this.product?.product?._id)
-    },
-    async loadNovelties() {
-      const data = await this.get(`product`, false, {
-        orderBy: 'createdAt',
-        order: 'desc',
-        limit: 12
-      })
-      this.homeSpecialSections.novelties = data.result
-    },
-    async loadRecomendations() {
-      const data = await this.get(`product`, false, {
-        orderBy: 'createdAt',
-        order: 'asc',
-        limit: 12
-      })
-      this.homeSpecialSections.recomendations = data.result
-    },
-    async loadHistory() {
-      const authStore = useAuthStore()
-      let userHistory
-      if (authStore.isAuthenticated) {
-        userHistory = await this.get(`user/history`, true)
-      } else {
-        userHistory = JSON.parse(localStorage.getItem('history')) || []
-      }
-      this.homeSpecialSections.history = userHistory
     },
     async pushInHistory(id) {
       const authStore = useAuthStore()

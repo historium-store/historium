@@ -36,7 +36,7 @@
 import { Breadcrumb, BreadcrumbItem } from 'flowbite-vue'
 import { mapActions, mapWritableState } from 'pinia'
 import ProductShowcase from '../../components/product/ProductShowcase.vue'
-import SectionCard from '../../components/section/SectionCard.vue'
+import SectionCard from '../../components/sections/SectionCard.vue'
 import { useProductStore } from '../../stores/product'
 import { useSectionStore } from '../../stores/section'
 export default {

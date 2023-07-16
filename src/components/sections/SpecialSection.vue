@@ -1,23 +1,23 @@
 <template>
-  <div :id="name" class="my-12 border-[3px] rounded-3xl">
-    <img class="absolute -mt-4 ms-24" src="../../../assets/star-1.png" alt="star" />
-    <img class="absolute mt-[300px] -ms-[11px]" src="../../../assets/star-3.png" alt="star" />
-    <img class="absolute mt-[20%] -ms-[8px]" src="../../../assets/star-1.png" alt="star" />
-    <img class="absolute rotate-90 -mt-4 ms-[30%]" src="../../../assets/star-2.png" alt="star" />
-    <img class="absolute rotate-90 -mt-4 ms-[50%]" src="../../../assets/star-2.png" alt="star" />
-    <img
-      class="absolute rotate-90 -mt-[13px] ms-[53%]"
-      src="../../../assets/star-1.png"
-      alt="star"
-    />
+  <div
+    v-if="specialSections?.[name]?.length || items?.length"
+    :id="name"
+    class="my-12 border-[3px] rounded-3xl"
+  >
+    <img class="absolute -mt-4 ms-24" src="../../assets/star-1.png" alt="star" />
+    <img class="absolute mt-[300px] -ms-[11px]" src="../../assets/star-3.png" alt="star" />
+    <img class="absolute mt-[20%] -ms-[8px]" src="../../assets/star-1.png" alt="star" />
+    <img class="absolute rotate-90 -mt-4 ms-[30%]" src="../../assets/star-2.png" alt="star" />
+    <img class="absolute rotate-90 -mt-4 ms-[50%]" src="../../assets/star-2.png" alt="star" />
+    <img class="absolute rotate-90 -mt-[13px] ms-[53%]" src="../../assets/star-1.png" alt="star" />
     <img
       class="absolute mt-96 2xl:invisible me-5 z-20 right-0"
-      src="../../../assets/star-1.png"
+      src="../../assets/star-1.png"
       alt="star"
     />
     <img
       class="absolute mt-28 2xl:invisible z-20 me-4 right-0"
-      src="../../../assets/star-3.png"
+      src="../../assets/star-3.png"
       alt="star"
     />
 
@@ -57,7 +57,7 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-2 md:gap-4 mx-auto p-3 md:p-6"
       >
         <product-card
-          v-for="good in homeSpecialSections?.[name]?.slice(0, sliceCount)"
+          v-for="good in specialSections?.[name]?.slice(0, sliceCount)"
           :key="good.key"
           :good="good"
           @click="viewProduct(good.key, good.type.key)"
@@ -77,34 +77,19 @@
       <font-awesome-icon class="px-3" :icon="['fas', 'chevron-down']" />
     </span>
 
-    <img
-      class="absolute rotate-90 -mt-[13px] ms-[40%]"
-      src="../../../assets/star-2.png"
-      alt="star"
-    />
-    <img
-      class="absolute rotate-90 -mt-[11px] ms-[20%]"
-      src="../../../assets/star-1.png"
-      alt="star"
-    />
-    <img
-      class="absolute rotate-90 -mt-[18px] ms-[60%]"
-      src="../../../assets/star-3.png"
-      alt="star"
-    />
+    <img class="absolute rotate-90 -mt-[13px] ms-[40%]" src="../../assets/star-2.png" alt="star" />
+    <img class="absolute rotate-90 -mt-[11px] ms-[20%]" src="../../assets/star-1.png" alt="star" />
+    <img class="absolute rotate-90 -mt-[18px] ms-[60%]" src="../../assets/star-3.png" alt="star" />
 
-    <img
-      class="absolute rotate-90 -mt-[13px] ms-[40%]"
-      src="../../../assets/star-2.png"
-      alt="star"
-    />
+    <img class="absolute rotate-90 -mt-[13px] ms-[40%]" src="../../assets/star-2.png" alt="star" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import { useProductStore } from '../../../stores/product'
-import ProductCard from '../../product/ProductCard.vue'
+import { useProductStore } from '../../stores/product'
+import { useSpecialStore } from '../../stores/special'
+import ProductCard from '../product/ProductCard.vue'
 
 const breakpoints = {
   2: 768,
@@ -124,9 +109,9 @@ export default {
     }
   },
   computed: {
-    ...mapWritableState(useProductStore, ['homeSpecialSections']),
+    ...mapWritableState(useSpecialStore, ['specialSections']),
     sliceCount() {
-      if (this.isExtended) return this.homeSpecialSections[this?.name]?.length
+      if (this.isExtended) return this.specialSections[this?.name]?.length
       for (let [i, v] of Object.entries(breakpoints)) {
         if (this.windowWidth < v) {
           return i
@@ -137,17 +122,17 @@ export default {
   },
   async mounted() {
     this.isLoaded = false
-    const productStore = useProductStore()
+    const specialStore = useSpecialStore()
     if (!this.items) {
       switch (this.name) {
         case 'novelties':
-          await productStore.loadNovelties()
+          await specialStore.loadNovelties()
           break
         case 'recomendations':
-          await productStore.loadRecomendations()
+          await specialStore.loadRecomendations()
           break
         case 'history':
-          await productStore.loadHistory()
+          await specialStore.loadHistory()
           break
       }
     }
@@ -155,11 +140,11 @@ export default {
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth
     })
-    return { productStore }
+    return { specialStore }
   },
 
   methods: {
-    ...mapActions(useProductStore, ['isAvailable', 'viewProduct']),
+    ...mapActions(useProductStore, ['viewProduct']),
     showMore() {
       this.isExtended = true
     }

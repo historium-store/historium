@@ -230,7 +230,7 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
+import SpecialSection from '../../components/sections/SpecialSection.vue'
 import { useAlertStore } from '../../stores/alert'
 import { useCartStore } from '../../stores/cart'
 import { useProductStore } from '../../stores/product'

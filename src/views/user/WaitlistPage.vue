@@ -12,7 +12,7 @@
 
 <script>
 import { mapActions, mapWritableState } from 'pinia'
-import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
+import SpecialSection from '../../components/sections/SpecialSection.vue'
 import { useProductStore } from '../../stores/product'
 import { useUserStore } from '../../stores/user'
 export default {

@@ -11,7 +11,7 @@
 
 <script>
 import { mapActions } from 'pinia'
-import SpecialSection from '../../components/layout/sections/SpecialSection.vue'
+import SpecialSection from '../../components/sections/SpecialSection.vue'
 import { useUserStore } from '../../stores/user'
 export default {
   components: {

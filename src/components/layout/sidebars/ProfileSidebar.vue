@@ -62,9 +62,8 @@
         <hr class="mx-3" />
         <div>
           <ul class="space-y-3 [&>li]:hover:cursor-pointer">
-            <li class="px-3">
+            <li v-if="isAdmin" class="px-3">
               <router-link
-                v-if="isAdmin"
                 :to="{
                   name: 'admin'
                 }"
@@ -80,7 +79,7 @@
                 <p>Адмін панель</p>
               </router-link>
             </li>
-            <hr class="mx-3" />
+            <hr v-if="isAdmin" class="mx-3" />
             <li class="px-3">
               <router-link
                 :to="{

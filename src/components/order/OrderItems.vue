@@ -1,7 +1,7 @@
 <template>
   <ul class="font-medium flex flex-col w-full">
     <li v-for="item in order ? order?.items : []" :key="item.product._id" class="py-3">
-      <div class="flex my-2 md:m-2">
+      <div class="flex my-2 m-1 md:m-2">
         <img
           class="h-24 rounded-md hover:cursor-pointer border-2"
           :src="item.product?.image"
@@ -20,19 +20,19 @@
               :key="creator"
               class="rounded-lg border-1 bg-deepgreen px-2"
             >
-              <p class="text-xs">
+              <p class="text-xs font-thin">
                 {{ creator }}
               </p>
             </div>
           </div>
 
-          <span class="inline-flex items-center mt-auto">
+          <span class="inline-flex items-center mt-auto text-xs md:text-base">
             <p class="">{{ item.product?.price }} ₴</p>
             <span class="mx-2 text-xl">•</span>
             <p>{{ item.product?.type?.name || item.product?.type }}</p>
           </span>
         </div>
-        <div class="ml-auto mb-auto">
+        <div class="ml-auto mb-auto text-xs md:text-base mr-2">
           <span class="inline-flex space-x-2">
             <p>{{ item.quantity }}</p>
             <p>шт.</p>

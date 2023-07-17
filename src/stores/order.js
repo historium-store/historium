@@ -13,7 +13,7 @@ export const useOrderStore = defineStore('order', {
       delivery: {
         types: undefined,
         pickedType: undefined,
-        pickedPaymentType: undefined,
+        pickedPaymentType: 'Оплата карткою On-line',
         address: undefined
       }
     }

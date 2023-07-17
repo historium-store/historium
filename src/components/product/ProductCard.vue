@@ -84,17 +84,18 @@ export default {
     ...mapWritableState(useCartStore, ['cart']),
     ...mapWritableState(useUserStore, ['user']),
     isInWaitlist() {
-      return this.isAuthenticated && this.user?.waitlist.map((item) => item).includes(this.good._id)
+      return (
+        this.isAuthenticated && this.user?.waitlist?.map((item) => item).includes(this.good._id)
+      )
     },
     isInWishlist() {
-      return this.isAuthenticated && this.user?.wishlist.map((item) => item).includes(this.good._id)
+      return (
+        this.isAuthenticated && this.user?.wishlist?.map((item) => item).includes(this.good._id)
+      )
     },
     isInCart() {
       return this.cart.items.map((item) => item.product._id).includes(this.good._id)
     },
-    // cartColor() {
-    //   return this.isInCart ? 'text-white' : 'text-white'
-    // },
     cartButtonColor() {
       return this.isInCart
         ? 'border-2 bg-turquoise'
@@ -103,9 +104,6 @@ export default {
     bookmarkColor() {
       return this.isInWishlist ? 'text-turquoise' : 'text-whiteblue'
     },
-    // waitingColor() {
-    //   return this.isInWaitlist ? 'text-white' : 'text-white'
-    // },
     waitingButtonColor() {
       return this.isInWaitlist
         ? 'border-2 bg-turquoise'
@@ -155,8 +153,10 @@ export default {
       'removeFromWaitlist'
     ]),
     async addToCart() {
-      await this.addItem(this.good._id)
-      this.showAlert('Товар додано у кошик')
+      if (!this.isInCart) {
+        await this.addItem(this.good._id)
+        this.showAlert('Товар додано у кошик')
+      }
     },
     async addToWaitlist() {
       if (!this.isAuthenticated) {

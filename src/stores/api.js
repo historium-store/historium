@@ -26,16 +26,16 @@ export const useApiStore = defineStore('api', {
       }
       return false
     },
-    getHeader(isNeedAuth) {
+    getHeaders(isNeedAuth) {
       let headers = {
         'Access-Control-Allow-Origin': '*'
       }
       if (isNeedAuth) {
         headers['Authorization'] = this.authStore.getAuthToken
       }
-      // if (import.meta.env.VITE_NODE_ENV === 'production') {
-      //   headers['API-Key'] = import.meta.env.VITE_API_KEY
-      // }
+      if (import.meta.env.VITE_NODE_ENV === 'production') {
+        headers['API-Key'] = import.meta.env.VITE_API_KEY
+      }
       return {
         headers
       }
@@ -47,7 +47,7 @@ export const useApiStore = defineStore('api', {
             ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
             : `${this.API_URL}${route}`,
           body,
-          this.getHeader(isNeedAuth)
+          this.getHeaders(isNeedAuth)
         )
         .catch((error) => {
           return this.responseMiddleware(error.response)
@@ -60,7 +60,7 @@ export const useApiStore = defineStore('api', {
           query
             ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
             : `${this.API_URL}${route}`,
-          this.getHeader(isNeedAuth)
+          this.getHeaders(isNeedAuth)
         )
         .catch((error) => {
           return this.responseMiddleware(error.response)
@@ -70,7 +70,7 @@ export const useApiStore = defineStore('api', {
     async patch(route, body, query) {
       query = new URLSearchParams(query)
       const response = await axios
-        .patch(`${this.API_URL}${route}?${query}`, body, this.getHeader(true))
+        .patch(`${this.API_URL}${route}?${query}`, body, this.getHeaders(true))
         .catch((error) => {
           return this.responseMiddleware(error.response)
         })
@@ -82,7 +82,7 @@ export const useApiStore = defineStore('api', {
           query
             ? `${this.API_URL}${route}?${new URLSearchParams(query)}`
             : `${this.API_URL}${route}`,
-          { ...this.getHeader(true), data: body }
+          { ...this.getHeaders(true), data: body }
         )
         .catch((error) => {
           return this.responseMiddleware(error.response)
@@ -91,3 +91,4 @@ export const useApiStore = defineStore('api', {
     }
   }
 })
+

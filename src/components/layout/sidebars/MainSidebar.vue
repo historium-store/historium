@@ -30,9 +30,10 @@
         <sidebar-item title="Категорії книг" icon="list" @click="openSidebar('sections')" />
         <sidebar-item title="Кошик" icon="cart-shopping" @click="openSidebar('cart')" />
         <hr />
-        <sidebar-item title="Паперові книги" link="book" icon="book" />
-        <sidebar-item title="Електронні книги" link="e-book" icon="cloud-arrow-down" />
-        <sidebar-item title="Аудіокниги" link="audiobook" icon="headphones" />
+        <sidebar-item title="Книги" link="book" icon="book" />
+        <sidebar-item title="Настільні ігри" link="board-game" icon="puzzle-piece" />
+        <sidebar-item title="Електронні книги" link="book" icon="cloud-arrow-down" />
+        <sidebar-item title="Аудіокниги" link="book" icon="headphones" />
         <sidebar-item
           title="Інше"
           icon="ellipsis"

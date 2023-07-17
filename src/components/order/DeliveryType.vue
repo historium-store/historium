@@ -7,7 +7,7 @@
       <div class="w-1/12">
         <input
           :checked="type === delivery.pickedType"
-          class="w-5 h-5 hover:cursor-pointer"
+          class="relative float-left mr-[5px] mt-[0.15rem] h-[18px] w-[18px] appearance-none rounded-full border-[0.125rem] border-solid border-whiteblue outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] checked:border-turquoise hover:bg-lightturquoise checked:bg-turquoise checked:before:opacity-[0.16] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-whiteblue checked:focus:after:bg-transparent"
           type="radio"
           name="deliveryType"
           :value="type.key"

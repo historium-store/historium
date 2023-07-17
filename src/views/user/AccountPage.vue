@@ -2,81 +2,6 @@
   <div class="w-11/12 mx-auto my-3 font-rubik">
     <p class="text-center text-xl">Налаштування</p>
     <div class="grid grid-cols-1 lg:grid-cols-2">
-      <div v-if="false" class="col-span-1 m-3 xl:m-5">
-        <p class="text-lg m-3">Інформація</p>
-        <VeeForm v-slot="{ handleSubmit }" as="div" :validation-schema="schema">
-          <form @submit="handleSubmit($event, orderSubmit)">
-            <div class="bg-turquoise rounded-3xl p-5 space-y-5">
-              <Field
-                v-slot="{ meta, handleChange, value }"
-                v-model.trim="formData.user.firstName"
-                name="firstName"
-              >
-                <input
-                  id="firstName"
-                  :value="value"
-                  type="text"
-                  name="firstName"
-                  :class="inputStyle(meta)"
-                  placeholder="Введіть ваше ім'я"
-                  @input="handleChange"
-                />
-              </Field>
-              <Field
-                v-slot="{ meta, handleChange, value }"
-                v-model.trim="formData.user.lastName"
-                name="lastName"
-              >
-                <input
-                  id="lastName"
-                  :value="value"
-                  type="text"
-                  name="lastName"
-                  :class="inputStyle(meta)"
-                  placeholder="Введіть ваше прізвище"
-                  @input="handleChange"
-                />
-              </Field>
-              <Field
-                v-slot="{ meta, handleChange, value }"
-                v-model.trim="formData.user.phoneNumber"
-                name="phoneNumber"
-              >
-                <input
-                  id="phoneNumber"
-                  :value="value"
-                  type="text"
-                  name="phoneNumber"
-                  :class="inputStyle(meta)"
-                  placeholder="Введіть ваш номер телефону"
-                  @input="handleChange"
-                />
-              </Field>
-              <Field
-                v-slot="{ meta, handleChange, value }"
-                v-model.trim="formData.user.email"
-                name="email"
-              >
-                <input
-                  id="email"
-                  :value="value"
-                  type="text"
-                  name="email"
-                  :class="inputStyle(meta)"
-                  placeholder="Введіть вашу пошту"
-                  @input="handleChange"
-                />
-              </Field>
-              <button
-                type="submit"
-                class="flex w-full border-2 flex-col mx-auto items-center min-w-[200px] text-white focus:outline-none focus:ring-slate-950 font-medium rounded-3xl px-3 py-2.5 bg-background bg-opacity-30"
-              >
-                submit
-              </button>
-            </div>
-          </form>
-        </VeeForm>
-      </div>
       <div class="col-span-1 text-whiteblue m-3 xl:m-5">
         <p class="text-lg m-3">Інформація</p>
         <div class="bg-turquoise rounded-3xl p-5 space-y-5">
@@ -387,7 +312,9 @@
           <div v-else class="w-full flex justify-between items-center">
             <div>
               <p class="text-xs opacity-70">Дата народження</p>
-              <p>{{ new Date(user.birthDate).toLocaleDateString() || 'Не вказано' }}</p>
+              <p>
+                {{ user.birthDate ? new Date(user.birthDate).toLocaleDateString() : 'Не вказано' }}
+              </p>
             </div>
             <div>
               <p class="text-xs hover:cursor-pointer" @click="switchChangeMode('birthDate')">

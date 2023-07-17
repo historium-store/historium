@@ -52,8 +52,13 @@
           </div>
         </div>
         <div class="space-x-2">
-          <Button class="px-4 h-8 border border-turquoise rounded-full"> Читати фрагмент </Button>
-          <Button class="w-8 h-8 py-0.5 border bg-turquoise border-turquoise rounded-full">
+          <Button class="px-4 h-8 border border-turquoise rounded-full" @click="componentInDevelop">
+            Читати фрагмент
+          </Button>
+          <Button
+            class="w-8 h-8 py-0.5 border bg-turquoise border-turquoise rounded-full"
+            @click="componentInDevelop"
+          >
             <font-awesome-icon :icon="['fas', 'bookmark']" />
           </Button>
         </div>
@@ -103,10 +108,7 @@
             </div>
             <div>
               <p class="text-gray-400">Автор</p>
-              <span
-                v-for="[i, author] in Object.entries(good.authors)"
-                :key="author.id"
-                class="font-thin"
+              <span v-for="[i, author] in Object.entries(good.authors)" :key="author.id"
                 >{{ author.fullName }}{{ i < good.product?.creators?.length - 1 ? ', ' : '' }}
               </span>
             </div>
@@ -213,7 +215,7 @@
             </span>
           </div>
         </div>
-        <div>
+        <div @click="componentInDevelop">
           <p class="text-xl font-body my-5">Рецензії</p>
           <Button class="px-4 w-full py-0.5 border bg-turquoise border-turquoise rounded-full">
             Написати рецензію
@@ -311,6 +313,9 @@ export default {
     },
     switchFeature() {
       this.isExtendedFeature = !this.isExtendedFeature
+    },
+    componentInDevelop() {
+      useAlertStore().showAlert('Елемент в розробці')
     }
   }
 }

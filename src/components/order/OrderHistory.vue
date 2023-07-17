@@ -3,7 +3,7 @@
     v-if="filterKey === 'all' || filterKey === order.status.key"
     :class="'rounded-3xl my-4 p-1 md:p-3 font-rubik bg-turquoise ' + orderHistoryStyle"
   >
-    <div class="flex justify-between p-3">
+    <div class="text-xs md:text-base flex justify-between p-3">
       <p>№ {{ order.number }}</p>
       <p>{{ orderDate }}</p>
       <p>{{ order.status.name }}</p>
@@ -12,7 +12,7 @@
     <div>
       <order-items :order="order" />
     </div>
-    <div v-if="isExtended" class="p-3">
+    <div v-if="isExtended" class="p-3 text-xs md:text-base">
       <div class="flex justify-between my-3">
         <p>{{ totalQuantityLabel }}</p>
         <p>{{ order.totalPrice - order.deliveryPrice }} ₴</p>
@@ -53,7 +53,7 @@
         <p>Всього:</p>
         <p>{{ order.totalPrice }} ₴</p>
       </div>
-      <div class="inline-flex items-center space-x-2 p-3">
+      <div v-if="!isExtended" class="inline-flex items-center space-x-2 p-3">
         <p class="text-xs">Детальніше</p>
         <font-awesome-icon
           class="text-xl w-1/12"

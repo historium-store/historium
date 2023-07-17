@@ -24,8 +24,10 @@ export const useSearchStore = defineStore('seacrh', {
       }
     },
     closeSearch() {
-      document.body.classList.remove('overflow-hidden')
-      document.body.removeChild(overflow)
+      if (document.body.classList.contains('overflow-hidden')) {
+        document.body.classList.remove('overflow-hidden')
+        document.body.removeChild(overflow)
+      }
       this.searchInput = ''
     }
   },

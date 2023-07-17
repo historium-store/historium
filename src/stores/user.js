@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
       return `${this.user?.firstName} ${this.user?.lastName}`
     },
     wishlistItemsQuantity() {
-      return this.user?.wishlist.length || 0
+      return this.user?.wishlist?.length || 0
     },
     isAdmin() {
       return this.user?.role === 'admin'

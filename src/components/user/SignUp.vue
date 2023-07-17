@@ -40,7 +40,7 @@
           type="text"
           name="phoneNumber"
           :class="inputStyle(meta)"
-          placeholder="Введіть ваше номер телефону"
+          placeholder="Введіть ваш номер телефону"
           @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->

@@ -29,6 +29,7 @@ export const useProductStore = defineStore('product', {
     async loadProducts(type = 'product') {
       if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
+        return
       }
       const filterStore = useFilterStore()
       const data = await this.get(type, false, filterStore.getFiltersQuery())
@@ -37,6 +38,7 @@ export const useProductStore = defineStore('product', {
     async loadProduct(key, type = 'product') {
       if (!this.isAllowedType(type)) {
         await router.push({ name: 'NotFound' })
+        return
       }
       this.product = await this.get(`${type}/${key}`)
       await this.pushInHistory(this.product?.product?._id)
@@ -56,8 +58,8 @@ export const useProductStore = defineStore('product', {
       }
     },
     async synchronizeHistory() {
-      let userHistory = JSON.parse(localStorage.getItem('history')) || []
-      if (useAuthStore().isAuthenticated && userHistory.length) {
+      let userHistory = JSON.parse(localStorage.getItem('history'))
+      if (useAuthStore().isAuthenticated && userHistory?.length) {
         this.cart = await this.patch(
           'user/history',
           userHistory.map((item) => item._id)

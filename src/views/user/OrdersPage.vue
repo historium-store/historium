@@ -2,18 +2,19 @@
   <div class="p-3 md:w-4/5 mx-auto my-6">
     <p class="text-center text-2xl">Мої замовлення</p>
     <div v-if="orders.length && statuses.length">
-      <div class="inline-flex mt-6">
-        <div :class="filterStyle + isActiveFilter('all')" @click="pickFilter('all')">Всі</div>
-        <div
-          v-for="status in statuses"
-          :key="status"
-          :class="filterStyle + isActiveFilter(status.key)"
-          @click="pickFilter(status.key)"
-        >
-          {{ status.name }}
+      <div class="overflow-x-scroll sm:overflow-visible">
+        <div class="inline-flex mt-6">
+          <div :class="filterStyle + isActiveFilter('all')" @click="pickFilter('all')">Всі</div>
+          <div
+            v-for="status in statuses"
+            :key="status"
+            :class="filterStyle + isActiveFilter(status.key)"
+            @click="pickFilter(status.key)"
+          >
+            {{ status.name }}
+          </div>
         </div>
       </div>
-
       <div v-for="order in orders" :key="order._id" class="">
         <order-history :filter-key="activeFilter" :order="order" />
       </div>

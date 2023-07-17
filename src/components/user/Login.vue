@@ -16,7 +16,7 @@
           type="text"
           name="login"
           :class="inputStyle(meta)"
-          placeholder="Введіть номер або email"
+          placeholder="Введіть email"
           @input="handleChange"
         />
         <!-- <p v-if="meta.errors" class="text-sm ps-3 mt-1">{{ meta.errors[0] }}</p> -->

@@ -37,7 +37,7 @@
           <li>
             <router-link
               :key="$route.fullPath"
-              :to="{ name: 'AllProducts', params: { type: 'e-book' } }"
+              :to="{ name: 'AllProducts', params: { type: 'book' } }"
             >
               <font-awesome-icon
                 class="w-6"
@@ -50,7 +50,7 @@
           <li>
             <router-link
               :key="$route.fullPath"
-              :to="{ name: 'AllProducts', params: { type: 'audiobook' } }"
+              :to="{ name: 'AllProducts', params: { type: 'book' } }"
             >
               <font-awesome-icon
                 class="w-6"

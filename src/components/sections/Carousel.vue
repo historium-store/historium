@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
-      images: [],
+      images: undefined,
       active: 0,
       timerCountdown: 6000,
       interval: null

@@ -107,6 +107,7 @@ export default {
         await this.restorePasswordRequest({
           login: this.login
         })
+        this.showModal('login')
 
         this.currentStep++
       } else if (this.currentStep === RestoreSteps.restoreConfirm) {

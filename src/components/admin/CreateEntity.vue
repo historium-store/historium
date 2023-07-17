@@ -1,6 +1,6 @@
 <template>
   <h1 class="text-3xl text-center -mt-12 font-rubik leading-tight tracking-tight md:text-2xl">
-    Створення {{ entityName }}
+    {{ entityName }}
   </h1>
   <div>
     <div v-if="entityName === 'product'">

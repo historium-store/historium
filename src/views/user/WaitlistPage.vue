@@ -1,7 +1,7 @@
 <template>
   <p class="text-center text-2xl my-6">Список очікування</p>
   <div v-if="waitlistItems.length">
-    <special-section class="mx-6" name="waitlist" title="В очікувванні" :items="waitlistItems" />
+    <special-section class="mx-6" name="waitlist" title="В очікуванні" :items="waitlistItems" />
   </div>
   <div v-else class="p-3 md:w-4/5 mx-auto my-6">
     <div class="flex bg-whiteblue rounded-2xl mt-6 bg-opacity-10 h-32 items-center">

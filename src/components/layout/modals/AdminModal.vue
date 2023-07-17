@@ -29,7 +29,7 @@
           </button>
         </div>
         <create-entity v-if="currentModal === 'createEntity'" />
-        <!-- <create-entity v-if="currentModal === 'editEntity'" /> -->
+        <create-entity v-if="currentModal === 'editEntity'" />
         <remove-entity v-else-if="currentModal === 'removeEntity'" />
       </div>
     </div>
